@@ -1,0 +1,36 @@
+$loading-indicator-margin: 40px auto !default;
+$loading-indicator-size: 40px !default;
+$loading-indicator-color: $background-color !default;
+$loading-indicator-background: rgba($background-color, .8) !default;
+
+
+@mixin loading-indicator {
+  cursor: progress;
+
+  &::before,
+  &::after {
+    animation: loadingIndicator 2s infinite ease-in-out;
+    background: $loading-indicator-color;
+    border-radius: $loading-indicator-size / 2;
+    content: '';
+    height: $loading-indicator-size;
+    left: 50%;
+    margin-left: $loading-indicator-size / -2;
+    margin-top: $loading-indicator-size / -2;
+    opacity: .6;
+    position: absolute;
+    top: 50%;
+    width: $loading-indicator-size;
+    z-index: 1;
+  }
+
+
+  &::after {
+    animation-delay: -1s;
+  }
+}
+
+@keyframes loadingIndicator {
+  0%, 100% { transform: scale(0); }
+  50% { transform: scale(1); }
+}

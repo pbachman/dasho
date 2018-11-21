@@ -1,0 +1,15 @@
+.grid-item-twitter-userdata {
+  height: grid-unit(2);
+  width: grid-unit(2);
+}
+
+.grid-item-twitter-profileimage {
+  border-radius: 50%;
+}
+
+.grid-item-twitter-header {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-shadow: 0 0 2px #fff, 0 0 7px #fff;
+}

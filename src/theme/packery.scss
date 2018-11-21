@@ -1,0 +1,108 @@
+$grid-bg-active: #000;
+$grid-column-unit: 100px;
+$grid-column-gutter: 30px;
+$grid-outline: 3px dashed lighten($grid-bg-active, 90%);
+
+
+.grid {
+  &::after {
+    clear: both;
+    content: '';
+    display: block;
+  }
+}
+
+.grid,
+.grid-item {
+  // Hide grid without style
+  opacity: 0;
+  transition: opacity .4s ease;
+
+  &[style] {
+    opacity: 1;
+  }
+
+  &.fade-out {
+    opacity: 0;
+    transition-duration: .2s;
+  }
+}
+
+.grid-item {
+  float: left;
+  max-width: 100%;
+  position: relative;
+
+
+  &::before {
+    background: $grid-bg-active;
+    bottom: 0;
+    content: '';
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: opacity .3s ease;
+    z-index: 0;
+  }
+
+  &.is-dragging,
+  &.is-positioning-post-drag {
+    z-index: 2;
+
+    &::before {
+      opacity: .05;
+      z-index: 1;
+    }
+  }
+
+  &.item-loading {
+    @include loading-indicator;
+  }
+
+  &.grid-item {
+    margin: 0;
+  }
+
+  .grid-item-close {
+    background-color: $background-color;
+    border-color: transparent;
+    box-shadow: none;
+    color: map-get($colors, 'dark');
+    font-size: 14px;
+    height: 30px;
+    min-width: 30px;
+    opacity: .1;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: opacity .5s ease;
+    z-index: 10;
+  }
+
+  .grid-item-close-transparent {
+    background-color: transparent;
+    color: $background-color;
+  }
+
+  &:hover .grid-item-close {
+    opacity: .4;
+
+    &:hover,
+    &:focus {
+      opacity: .8;
+    }
+  }
+}
+
+.grid-item-value {
+  font-size: 1.2em;
+}
+
+.packery-drop-placeholder {
+  outline: $grid-outline;
+  outline-offset: -6px;
+  transition: transform .2s;
+}

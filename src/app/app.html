@@ -1,0 +1,36 @@
+<ion-menu [hidden]="!menuEnable" side="right" [content]="content">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>
+        <ion-icon name="person" item-left></ion-icon> {{currentUser}}
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item>
+        <ion-icon name="globe" item-left></ion-icon>
+        <ion-label>{{'general.language' | translate}}</ion-label>
+        <ion-select name="language" [(ngModel)]="languageProvider.currentLanguage" (ionChange)="changeLanguage()"
+          okText="{{'general.ok' | translate}}" cancelText="{{'general.cancel' | translate}}">
+          <ion-option value="de">Deutsch</ion-option>
+          <ion-option value="en">English</ion-option>
+        </ion-select>
+      </ion-item>
+      <button ion-item (click)="showChangePasswortPrompt()">
+        <ion-icon name="key" item-left></ion-icon>
+        {{'menu.changePassword' | translate}}
+      </button>
+      <button ion-item (click)="inviteFriendPrompt()">
+        <ion-icon name="person-add" item-left></ion-icon>
+        {{'menu.inviteFriend' | translate}}
+      </button>
+      <button ion-item (click)="logout()">
+        <ion-icon name="log-out" item-left></ion-icon>
+        {{'menu.logout' | translate}}
+      </button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

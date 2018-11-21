@@ -1,0 +1,11 @@
+.item-input {
+  &.ng-touched {
+    &.ng-invalid:not(.input-has-focus) {
+      background: adjust-color(map-get($colors, danger), $saturation: -20%, $lightness: 35%);
+    }
+
+    &.ng-valid:not(.input-has-focus) {
+      background: adjust-color(map-get($colors, secondary), $saturation: -20%, $lightness: 40%);
+    }
+  }
+}

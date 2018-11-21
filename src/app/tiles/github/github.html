@@ -1,0 +1,22 @@
+<ion-card class="grid-item grid-item-github" [attr.data-id]="tile.id">
+  <ion-card-header><ion-icon name="logo-github" item-left></ion-icon> {{'tiles.github.header' | translate}}</ion-card-header>
+  <button aria-label="close" class="grid-item-close" (click)="onClose()"><ion-icon name="close"></ion-icon></button>
+  <ion-card-content *ngIf="data">
+    <ion-row>
+      <ion-col width-10><ion-icon name="bookmarks"></ion-icon></ion-col>
+      <ion-col class="grid-item-value">{{data.repository}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-10><ion-icon name="person"></ion-icon></ion-col>
+      <ion-col class="grid-item-value">{{data.user}}</ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-10><ion-icon name="eye"></ion-icon></ion-col>
+      <ion-col class="grid-item-value">{{data.watchers}}</ion-col>
+      <ion-col width-10><ion-icon name="star"></ion-icon></ion-col>
+      <ion-col class="grid-item-value">{{data.stars}}</ion-col>
+      <ion-col width-10><ion-icon name="git-branch"></ion-icon></ion-col>
+      <ion-col class="grid-item-value">{{data.forks}}</ion-col>
+    </ion-row>
+  </ion-card-content>
+</ion-card>

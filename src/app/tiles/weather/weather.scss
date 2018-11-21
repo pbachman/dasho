@@ -1,0 +1,23 @@
+.grid-item-weather {
+  height: grid-unit(2);
+  width: grid-unit(2);
+}
+
+.grid-item-weather-today-location {
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 1;
+  text-align: center;
+}
+
+.grid-item-weather-today-temp {
+  font-size: 60px;
+  font-weight: 300;
+  text-align: center;
+}
+
+.grid-item-weather-today-icon {
+  height: auto;
+  max-width: 100%;
+  width: 100%;
+}

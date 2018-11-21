@@ -1,0 +1,12 @@
+<ion-card class="grid-item grid-item-currency" [attr.data-id]="tile.id">
+  <ion-card-header><ion-icon name="usd" item-left></ion-icon> {{ 'tiles.currency.header' | translate }} 1 {{currency}}</ion-card-header>
+  <button aria-label="close" class="grid-item-close" (click)="onClose()"><ion-icon name="close"></ion-icon></button>
+  <div *ngIf="data">
+    <!-- <chart class="grid-item-currency-chart" [options]="options">
+      <series>
+          <point (mouseOver)="setNewReference($event)"></point>
+      </series>
+    </chart> -->
+    <!-- <highcharts-chart class="grid-item-currency-chart" [options]="options"></highcharts-chart> -->
+  </div>
+</ion-card>

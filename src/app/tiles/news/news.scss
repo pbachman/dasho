@@ -1,0 +1,116 @@
+.grid-item-news {
+  height: grid-unit(3);
+  overflow: hidden;
+  width: grid-unit(3);
+
+  > .content {
+    background: none;
+  }
+
+  .card-header {
+    background: #fff;
+
+    + .grid-item-news-text {
+      margin-top: 0;
+    }
+  }
+
+  // force style
+  &.grid-item-news .scroll-content {
+    ion-app & {
+      padding: 0;
+    }
+  }
+}
+
+.grid-item-news-text {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #fff;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+  margin-left: 0;
+  margin-right: 0;
+  min-height: 150px;
+  position: relative;
+  width: 100%;
+}
+
+
+.grid-item-news-title {
+  color: #fff;
+  font-size: 1.1em;
+  font-weight: 300;
+  padding: 15px;
+  position: relative;
+  text-decoration: none;
+  text-shadow: 1px 1px 1px rgba(#000, .8);
+  z-index: 1;
+
+  &::after {
+    background: #000;
+    bottom: 0;
+    content: '';
+    left: 0;
+    opacity: .7;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: opacity .2s ease;
+    z-index: -1;
+  }
+
+  &:hover {
+    .enable-hover & {
+      opacity: 1;
+    }
+
+    &::after {
+      opacity: .9;
+    }
+  }
+}
+
+.grid-item-news-date {
+  $size: .5em;
+  align-self: flex-end;
+  font-size: .8em;
+  margin-top: 5px;
+  position: relative;
+  z-index: 1;
+
+  span {
+    background: map-get($colors, 'primary');
+    box-shadow: 7px 4px 5px rgba(#000, .5);
+    display: block;
+    padding: 5px 10px;
+    position: relative;
+    z-index: 1;
+  }
+
+  &::before,
+  &::after {
+    bottom: -$size;
+    content: '';
+    display: block;
+    position: absolute;
+  }
+
+  &::before {
+    border: 1em solid darken(map-get($colors, 'primary'), 5%);
+    border-left-color: transparent;
+    border-right-width: 1em;
+    box-shadow: 1px 1px 1px rgba(#000, .5);
+    left: -1.5em;
+    z-index: -1;
+  }
+
+  &::after {
+    border-color: darken(map-get($colors, 'primary'), 10%) transparent transparent;
+    border-style: solid;
+    border-width: $size 0 0 $size;
+    left: 0;
+  }
+}

@@ -1,0 +1,69 @@
+// http://ionicframework.com/docs/v2/theming/
+
+
+// Global CSS
+// --------------------------------------------------
+// Put CSS rules here that you want to apply globally.
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+//
+// App Shared Sass variables belong in app.variables.scss.
+//
+
+
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Condensed|Ubuntu:300,300i,400,400i,500,500i,700,700i');
+
+body > ion-app {
+  &::after,
+  &::before {
+    content: '';
+    opacity: 0;
+    transition: opacity 1s ease 1s;
+  }
+}
+
+.ion-page {
+  background: url('../assets/imgs/bg-01.jpg');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.body-loading > ion-app {
+  @include loading-indicator;
+
+  .add-service {
+    display: none;
+  }
+}
+
+
+[middle] {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+}
+
+.font-light {
+  font-weight: 300;
+}
+
+.logo-toolbar {
+  height: 30px;
+  position: absolute;
+  top: 5px;
+  width: 38px;
+
+  .md & {
+    top: -2px;
+  }
+}
+
+.logo-text {
+  font-weight: 300;
+  padding-left: 50px;
+}

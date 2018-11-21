@@ -1,0 +1,81 @@
+{
+  "general": {
+    "language": "Sprache",
+    "email": "E-Mail",
+    "emailAddress": "E-Mail Adresse",
+    "password": "Passwort",
+    "emailExample": "mail@example.com",
+    "cancel": "Abbrechen",
+    "ok": "OK"
+  },
+  "menu": {
+    "title": "Menu",
+    "logout": "Abmelden",
+    "changePassword": "Passwort wechseln",
+    "inviteFriend": "Freund einladen"
+  },
+  "login": {
+    "toolbar": "Einloggen",
+    "title": "Bitte gib deine Login-Daten ein.",
+    "send": "Einloggen",
+    "failed": "Das Login ist fehlgeschlagen.",
+    "mailerror": "Bitte gib eine korrekte E-Mail Adresse ein."
+  },
+  "changeLanguage": {
+    "title": "Sprache wechseln"
+  },
+  "errorAlert": {
+    "title": "Es ist ein Fehler aufgetreten",
+    "subTitle": "Ups. Da ist was falsch gelaufen. Halb so schlimm. Am besten lädst du einfach das Fenster nochmals neu.",
+    "reload": "Fenster neu laden"
+  },
+  "invite": {
+    "title": "Freunde einladen",
+    "send": "Einladen",
+    "message": "Hier kannst du Freunde einladen. Gib einfach die E-Mail Adresse von deinem Buddy ein. Frauen sind natürlich auch willkommen, wir finden nur das ewige Gendern doof.",
+    "alertTitle": "Einladung versendet",
+    "alertSubTitle": "Wir haben eine Einladung an die von dir angegebene Adresse (%email%) verschickt."
+  },
+  "forgetPassword": {
+    "button": "Ich habe mein Passwort vergessen",
+    "title": "Passwort vergessen?",
+    "message": "Bitte gib deine E-Mail Adresse ein, damit wir dir ein neues Passwort zusenden können.",
+    "send": "Zurücksetzen",
+    "alertTitle": "E-Mail wurde versendet",
+    "alertSubTitle": "Schau in deinem Postfach nach, du hast Post von uns! Falls nicht, hast du evtl. die E-Mail Adresse falsch geschrieben oder aber gar keinen Account bei uns."
+  },
+  "changePassword": {
+    "title": "Passwort ändern",
+    "passwordOld": "Altes Passwort",
+    "password": "Neues Passwort",
+    "passwordConfirm": "Neues Passwort wiederholen",
+    "message": "Du kannst dein Passwort hier ändern. Dafür wird allerdings dein altes Passwort benötigt.",
+    "change": "Ändern",
+    "alertTitle": "Passwort geändert",
+    "alertSubTitle": "Dein Passwort wurde erfolgreich geändert."
+  },
+  "tiles": {
+    "pagespeed": {
+      "header": "Seitengeschwindigkeit",
+      "desktopSpeed": "Geschwindigkeit Desktopcomputer",
+      "mobileSpeed": "Geschwindigkeit Mobilegeräte",
+      "mobileUsability": "Benutzerfreundlichkeit Mobilegeräte"
+    },
+    "news": {
+      "header": "Nachrichten von {{source}}"
+    },
+    "currency": {
+      "header": "Referenzwährung:"
+    },
+    "github": {
+      "header": "Repositorydaten von Github"
+    },
+    "twitter": {
+      "followers": "Follower",
+      "following": "Folgt"
+    },
+    "weather": {
+      "header": "Wetter"
+    }
+  }
+}
