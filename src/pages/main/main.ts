@@ -7,6 +7,7 @@ import { NavController, FabContainer, AlertController } from 'ionic-angular';
 import { Events } from 'ionic-angular';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LoginPage } from '../login/login';
+import { ClockSingleton } from '../../providers/clockSingleton';
 
 declare const Packery: any;
 declare const Draggabilly: any;
@@ -26,6 +27,7 @@ export class MainPage {
   private currentUser: string;
   private dataobject: Object;
   private error: string;
+  private clockSingleton = ClockSingleton.getInstance();
 
   /**
    * Create the main page
@@ -56,7 +58,16 @@ export class MainPage {
         this.settings = settings;
 
         // get all Settings Data for the current User
-        this.dashboardService.getData(username, this.settings).subscribe((data) => {
+        this.dashboardService.getData(username, this.settings).subscribe((response) => {
+          console.log('graphql:', response.data.settings);
+
+          // Save time offset
+          if (response.data.settings && response.data.settings.clock && response.data.settings.clock.totalSeconds) {
+            this.clockSingleton.setOffset(response.data.settings.clock.totalSeconds);
+          }
+
+          this.events.publish('data:ready', response.data.settings);
+
           if (!this.isGridInitialized) {
             this.initGrid();
           }
