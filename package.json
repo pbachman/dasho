@@ -48,6 +48,7 @@
     "express-graphql": "^0.7.1",
     "graphql": "^14.0.0",
     "graphql-tag": "^2.0.0",
+    "highcharts": "^6.2.0",
     "highcharts-angular": "^2.3.1",
     "ionic-angular": "3.9.2",
     "ionicons": "^4.4.6",
