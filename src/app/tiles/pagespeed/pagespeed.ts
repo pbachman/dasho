@@ -3,6 +3,7 @@ import { Events } from 'ionic-angular';
 import { Setting } from '../../../shared/setting';
 import { LanguageProvider } from '../../../providers/language';
 import { TileBaseComponent } from '../../../shared/shared.tile';
+import * as Highcharts from 'highcharts';
 
 @Component({
   selector: 'grid-pagespeed',
@@ -17,6 +18,7 @@ export class Pagespeed extends TileBaseComponent {
   @Output() notify: EventEmitter<Object> = new EventEmitter<Object>();
   data: { desktop: { speed: number }, mobile: { speed: number, usability: number } };
   options: any;
+  Highcharts = Highcharts;
 
   /**
    * Create the pagespeed tile
@@ -31,8 +33,6 @@ export class Pagespeed extends TileBaseComponent {
     this.events.subscribe('data:ready', data => {
       if (data) {
         this.data = data.googleapi;
-      } else {
-        console.log('Google Data is empty!')
       }
       this.setOptions();
     });

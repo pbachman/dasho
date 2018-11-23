@@ -2,7 +2,8 @@
   <ion-card-header><ion-icon name="speedometer" item-left></ion-icon> {{'tiles.pagespeed.header' | translate}}</ion-card-header>
   <button aria-label="close" class="grid-item-close" (click)="onClose()"><ion-icon name="close"></ion-icon></button>
   <div *ngIf="data">
-    <!-- <highcharts-chart class="grid-item-pagespeed-chart" [options]="options"></highcharts-chart> -->
+    <!-- TODO -->
+    <!-- <highcharts-chart class="grid-item-pagespeed-chart" [Highcharts]="Highcharts" [options]="options"></highcharts-chart> -->
     <ion-card-content class="grid-item-pagespeed-content">
       <strong>{{data.url}}</strong>
       <ion-row>

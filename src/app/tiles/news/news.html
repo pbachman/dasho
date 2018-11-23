@@ -2,9 +2,9 @@
   <button aria-label="close" class="grid-item-close" (click)="onClose()"><ion-icon name="close"></ion-icon></button>
   <ion-content *ngIf="data">
     <ion-card-header><ion-icon name="paper" item-left></ion-icon> {{ 'tiles.news.header' | translate:data }}</ion-card-header>
-    <ion-card *ngFor="let news of data.articles;" class="grid-item-news-text" [ngStyle]="{backgroundImage: 'url(' + news.image + ')'}">
-      <a href="{{news.url}}" target="_blank" class="grid-item-news-title">{{news.title}}</a>
-      <div class="grid-item-news-date"><span>{{news.publishedAt | amTimeAgo}}</span></div>
+    <ion-card *ngFor="let news of data.articles" class="grid-item-news-text" [ngStyle]="{backgroundImage: 'url(' + news.image + ')'}">
+      <a href="{{news.url}}" target="_blank" class="grid-item-news-title">{{ news.title }}</a>
+      <div class="grid-item-news-date"><span>{{ news.publishedAt | amTimeAgo }}</span></div>
     </ion-card>
   </ion-content>
 </div>

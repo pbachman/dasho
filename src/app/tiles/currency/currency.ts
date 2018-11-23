@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Events } from 'ionic-angular';
 import { Setting } from '../../../shared/setting';
 import { TileBaseComponent } from '../../../shared/shared.tile';
+import * as Highcharts from 'highcharts';
 
 @Component({
   selector: 'grid-currency',
@@ -16,6 +17,7 @@ export class Currency extends TileBaseComponent {
   @Output() notify: EventEmitter<Object> = new EventEmitter<Object>();
 
   options: any;
+  Highcharts = Highcharts;
   data: Object;
   currency: string;
 

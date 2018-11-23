@@ -3,6 +3,7 @@ import { Events } from 'ionic-angular';
 import { Setting } from '../../../shared/setting';
 import { ClockSingleton } from '../../../providers/clockSingleton';
 import { TileBaseComponent } from '../../../shared/shared.tile';
+import * as Highcharts from 'highcharts';
 
 @Component({
   selector: 'grid-clock',
@@ -15,6 +16,7 @@ import { TileBaseComponent } from '../../../shared/shared.tile';
 export class Clock extends TileBaseComponent {
   @Input('tile') tile: Setting;
   @Output() notify: EventEmitter<Object> = new EventEmitter<Object>();
+  Highcharts = Highcharts;
   options: any | boolean = false;
   private interval: any;
   private clockSingleton = ClockSingleton.getInstance();
