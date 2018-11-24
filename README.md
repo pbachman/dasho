@@ -8,6 +8,13 @@ Simple and customizable Dashboard, made with Ionic, angular5, Node.JS and GraphQ
 
 - Node >= 10.0
 
+### Library List
+
+* [Draggabilly](https://draggabilly.desandro.com)
+* [Highcharts](https://github.com/highcharts/highcharts)
+* [Moment.js](https://momentjs.com)
+* [Packery](https://packery.metafizzy.co)
+
 ### Installing
 
 ```
