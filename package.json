@@ -8,7 +8,8 @@
     "start": "ionic-app-scripts serve",
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
-    "lint": "ionic-app-scripts lint"
+    "lint": "ionic-app-scripts lint",
+    "test": "mocha -R spec server/server.test.spec.js"
   },
   "dependencies": {
     "@angular/animations": "5.2.11",
@@ -67,6 +68,7 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "3.2.0",
+    "supertest": "^3.3.0",
     "typescript": "~2.6.2"
   },
   "description": "dasho project"

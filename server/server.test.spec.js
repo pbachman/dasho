@@ -11,10 +11,10 @@ describe('Dash0 backend/middleware', function () {
   let token;
 
   // TODO
-  // get all Unittests work with oauthServer.authorise().
-  //before(function () {
-  //  server = require('./index');
-  //});
+  // fix all Unittests with oauthServer.authorise().
+  before(function () {
+    server = require('./index');
+  });
 
   afterEach(function () {
     server.close();
