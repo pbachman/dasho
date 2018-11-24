@@ -1,6 +1,6 @@
 # Dasho
 
-Simple and customizable Dashboard, made with Ionic, GraphQL and angular5 (former CAS_FEE@HSR Diploma Project 2016).
+Simple and customizable Dashboard, made with Ionic, angular5, Node.JS and GraphQL (former CAS_FEE@HSR Diploma thesis 2016).
 
 ## Getting Started
 
@@ -32,6 +32,15 @@ Backend
 node server
 ```
 
+## Features (Tiles)
+
+* Clock
+* Currency (from **[Fixer](https://fixer.io)**)
+* Google Pagespeed
+* News (from **[NewsApi](https://newsapi.org)**)
+* Twitter
+* Weather (from **[OpenWeatherMap](https://openweathermap.org)**)
+
 ## Running the tests
 
 ```
@@ -45,7 +54,7 @@ npm test
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the **[MIT license](http://opensource.org/licenses/mit-license.php)**.
 
 ## Acknowledgments
 
