@@ -55,6 +55,7 @@
     "alertSubTitle": "Dein Passwort wurde erfolgreich geändert."
   },
   "tiles": {
+    "noContent": "No Content available! Please check your Settings!",
     "pagespeed": {
       "header": "Seitengeschwindigkeit",
       "desktopSpeed": "Geschwindigkeit Desktopcomputer",

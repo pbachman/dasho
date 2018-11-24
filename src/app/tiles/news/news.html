@@ -7,4 +7,5 @@
       <div class="grid-item-news-date"><span>{{ news.publishedAt | amTimeAgo }}</span></div>
     </ion-card>
   </ion-content>
+  <ion-content *ngIf="!data">{{'tiles.noContent' | translate}}</ion-content>
 </div>

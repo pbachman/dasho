@@ -21,4 +21,5 @@
       <ion-col class="grid-item-value">{{data.tweets}}</ion-col>
     </ion-row>
   </ion-card-content>
+  <ion-card-content *ngIf="!data">{{'tiles.noContent' | translate}}</ion-card-content>
 </ion-card>

@@ -8,4 +8,5 @@
   <div *ngIf="data">
     <highcharts-chart [Highcharts]="Highcharts" [options]="options" class="grid-item-currency-chart" *ngIf="options"></highcharts-chart>
   </div>
+  <div *ngIf="!data">{{'tiles.noContent' | translate}}</div>
 </ion-card>
