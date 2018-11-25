@@ -28,11 +28,13 @@ export class News extends TileBaseComponent {
       if (data) {
         // Sort News (Newest on top)
         let news = data.news;
-        news.articles.sort((a, b) => {
-          let dateB = new Date(b.publishedAt).getTime();
-          let dateA = new Date(a.publishedAt).getTime();
-          return dateB - dateA;
-        });
+        if (news.articles) {
+          news.articles.sort((a, b) => {
+            let dateB = new Date(b.publishedAt).getTime();
+            let dateA = new Date(a.publishedAt).getTime();
+            return dateB - dateA;
+          });
+        }
         this.data = news;
       }
     });
