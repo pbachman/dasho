@@ -5,8 +5,8 @@
   <button aria-label="close" class="grid-item-close" (click)="onClose()">
     <ion-icon name="close"></ion-icon>
   </button>
-  <div *ngIf="data">
+  <div *ngIf="data && data.currency">
     <highcharts-chart [Highcharts]="Highcharts" [options]="options" class="grid-item-currency-chart" *ngIf="options"></highcharts-chart>
   </div>
-  <div *ngIf="!data">{{'tiles.noContent' | translate}}</div>
+  <ion-card-content *ngIf="!data || !data.currency">{{ 'tiles.noContent' | translate }}</ion-card-content>
 </ion-card>

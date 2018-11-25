@@ -1,25 +1,47 @@
 <ion-card class="grid-item grid-item-twitter-userdata" [attr.data-id]="tile.id">
-  <ion-card-header *ngIf="data" class="grid-item-twitter-header" [ngStyle]="{backgroundImage: 'url(' + data.backgroundimage + ')'}"><ion-icon name="logo-twitter" item-left></ion-icon> Twitter</ion-card-header>
-  <button aria-label="close" class="grid-item-close" (click)="onClose()"><ion-icon name="close"></ion-icon></button>
-  <ion-card-content *ngIf="data">
-    <ion-row>
-      <ion-col width-20><img class="grid-item-twitter-profileimage" [src]="data.profileimage" alt="{{data.user}}"></ion-col>
-      <ion-col class="grid-item-value">{{data.user}}</ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col width-50><ion-icon name="people" item-left></ion-icon> {{'tiles.twitter.followers' | translate}}</ion-col>
-      <ion-col class="grid-item-value">{{data.followers}}</ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col width-50><ion-icon name="people" item-left></ion-icon> {{'tiles.twitter.following' | translate}}</ion-col>
-      <ion-col class="grid-item-value">{{data.following}}</ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col width-10><ion-icon name="thumbs-up"></ion-icon></ion-col>
-      <ion-col class="grid-item-value">{{data.likes}}</ion-col>
-      <ion-col width-10><ion-icon name="create"></ion-icon></ion-col>
-      <ion-col class="grid-item-value">{{data.tweets}}</ion-col>
-    </ion-row>
-  </ion-card-content>
-  <ion-card-content *ngIf="!data">{{'tiles.noContent' | translate}}</ion-card-content>
+  <div *ngIf="data">
+    <ion-card-header class="grid-item-twitter-header" [ngStyle]="{backgroundImage: 'url(' + data.backgroundimage + ')'}">
+      <ion-icon name="logo-twitter" item-left></ion-icon> Twitter
+    </ion-card-header>
+    <button aria-label="close" class="grid-item-close" (click)="onClose()">
+      <ion-icon name="close"></ion-icon>
+    </button>
+    <ion-card-content>
+      <ion-row>
+        <ion-col width-20><img class="grid-item-twitter-profileimage" [src]="data.profileimage" alt="{{data.user}}"></ion-col>
+        <ion-col class="grid-item-value">{{data.user}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-50>
+          <ion-icon name="people" item-left></ion-icon> {{'tiles.twitter.followers' | translate}}
+        </ion-col>
+        <ion-col class="grid-item-value">{{data.followers}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-50>
+          <ion-icon name="people" item-left></ion-icon> {{'tiles.twitter.following' | translate}}
+        </ion-col>
+        <ion-col class="grid-item-value">{{data.following}}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col width-10>
+          <ion-icon name="thumbs-up"></ion-icon>
+        </ion-col>
+        <ion-col class="grid-item-value">{{data.likes}}</ion-col>
+        <ion-col width-10>
+          <ion-icon name="create"></ion-icon>
+        </ion-col>
+        <ion-col class="grid-item-value">{{data.tweets}}</ion-col>
+      </ion-row>
+    </ion-card-content>
+  </div>
+  <div *ngIf="!data">
+    <ion-card-header class="grid-item-twitter-header">
+      <ion-icon name="logo-twitter" item-left></ion-icon> Twitter
+    </ion-card-header>
+    <button aria-label="close" class="grid-item-close" (click)="onClose()">
+      <ion-icon name="close"></ion-icon>
+    </button>
+    <ion-card-content>{{'tiles.noContent' | translate}}</ion-card-content>
+  </div>
 </ion-card>

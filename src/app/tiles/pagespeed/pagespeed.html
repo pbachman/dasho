@@ -1,18 +1,30 @@
 <ion-card class="grid-item grid-item-pagespeed" [attr.data-id]="tile.id">
-  <ion-card-header><ion-icon name="speedometer" item-left></ion-icon> {{'tiles.pagespeed.header' | translate}}</ion-card-header>
-  <button aria-label="close" class="grid-item-close" (click)="onClose()"><ion-icon name="close"></ion-icon></button>
+  <ion-card-header>
+    <ion-icon name="speedometer" item-left></ion-icon> Google {{'tiles.pagespeed.header' | translate}}
+  </ion-card-header>
+  <button aria-label="close" class="grid-item-close" (click)="onClose()">
+    <ion-icon name="close"></ion-icon>
+  </button>
   <div *ngIf="data">
     <!-- TODO -->
     <!-- <highcharts-chart class="grid-item-pagespeed-chart" [Highcharts]="Highcharts" [options]="options"></highcharts-chart> -->
     <ion-card-content class="grid-item-pagespeed-content">
       <strong>{{data.url}}</strong>
       <ion-row>
-        <ion-col width-10><ion-icon name="desktop"></ion-icon></ion-col>
+        <ion-col width-10>
+          <ion-icon name="desktop"></ion-icon>
+        </ion-col>
         <ion-col class="grid-item-value">{{data.desktop.speed}}</ion-col>
-        <ion-col width-10><ion-icon name="phone-portrait"></ion-icon></ion-col>
+        <ion-col width-10>
+          <ion-icon name="phone-portrait"></ion-icon>
+        </ion-col>
         <ion-col class="grid-item-value">{{data.mobile.speed}} | {{data.mobile.usability}}</ion-col>
       </ion-row>
     </ion-card-content>
   </div>
-  <div *ngIf="!data">{{'tiles.noContent' | translate}}</div>
+  <div *ngIf="!data">
+    <ion-card-content>
+      {{'tiles.noContent' | translate}}
+    </ion-card-content>
+  </div>
 </ion-card>

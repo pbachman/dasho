@@ -1,11 +1,23 @@
-<div class="grid-item grid-item-news" [attr.data-id]="tile.id">
-  <button aria-label="close" class="grid-item-close" (click)="onClose()"><ion-icon name="close"></ion-icon></button>
-  <ion-content *ngIf="data">
-    <ion-card-header><ion-icon name="paper" item-left></ion-icon> {{ 'tiles.news.header' | translate:data }}</ion-card-header>
+<div class="grid-item grid-item-news" [attr.data-id]="tile.id" *ngIf="data && data.news">
+  <button aria-label="close" class="grid-item-close" (click)="onClose()">
+    <ion-icon name="close"></ion-icon>
+  </button>
+  <ion-content>
+    <ion-card-header>
+      <ion-icon name="paper" item-left></ion-icon> {{ 'tiles.news.header' | translate:data }}
+    </ion-card-header>
     <ion-card *ngFor="let news of data.articles" class="grid-item-news-text" [ngStyle]="{backgroundImage: 'url(' + news.image + ')'}">
       <a href="{{news.url}}" target="_blank" class="grid-item-news-title">{{ news.title }}</a>
       <div class="grid-item-news-date"><span>{{ news.publishedAt | amTimeAgo }}</span></div>
     </ion-card>
   </ion-content>
-  <ion-content *ngIf="!data">{{'tiles.noContent' | translate}}</ion-content>
 </div>
+<ion-card class="grid-item grid-item-currency" [attr.data-id]="tile.id" *ngIf="!data || !data.news">
+  <ion-card-header>
+    <ion-icon name="paper" item-left></ion-icon> News
+  </ion-card-header>
+  <button aria-label="close" class="grid-item-close" (click)="onClose()">
+    <ion-icon name="close"></ion-icon>
+  </button>
+  <ion-card-content>{{ 'tiles.noContent' | translate }}</ion-card-content>
+</ion-card>
