@@ -3,7 +3,12 @@ import { Events } from 'ionic-angular';
 import { Setting } from '../../../shared/setting';
 import { LanguageProvider } from '../../../providers/language';
 import { TileBaseComponent } from '../../../shared/shared.tile';
-import * as Highcharts from 'highcharts';
+import * as ChartModuleMore from 'highcharts/highcharts-more.js';
+import HCSoldGauge from 'highcharts/modules/solid-gauge';
+import Highcharts from 'highcharts'
+
+ChartModuleMore(Highcharts);
+HCSoldGauge(Highcharts);
 
 @Component({
   selector: 'grid-pagespeed',
@@ -17,7 +22,7 @@ export class Pagespeed extends TileBaseComponent {
   @Input('tile') tile: Setting;
   @Output() notify: EventEmitter<Object> = new EventEmitter<Object>();
   data: { desktop: { speed: number }, mobile: { speed: number, usability: number } };
-  options: any;
+  options: object;
   Highcharts = Highcharts;
 
   /**
