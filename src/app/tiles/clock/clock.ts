@@ -1,9 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Events } from 'ionic-angular';
 import { Setting } from '../../../shared/setting';
-import { ClockSingleton } from '../../../providers/clockSingleton';
 import { TileBaseComponent } from '../../../shared/shared.tile';
 import * as Highcharts from 'highcharts';
+import moment from 'moment';
 
 @Component({
   selector: 'grid-clock',
@@ -19,7 +19,6 @@ export class Clock extends TileBaseComponent {
   Highcharts = Highcharts;
   options: any | boolean = false;
   private interval: any;
-  private clockSingleton = ClockSingleton.getInstance();
 
   /**
    * Create the clock tile
@@ -36,34 +35,16 @@ export class Clock extends TileBaseComponent {
   }
 
   /**
-   *  @typedef Angles
-   *  @type {Object}
-   *  @property {number} hours The angle for the hour clockhand.
-   *  @property {number} minutes he angle for the minute clockhand.
-   *  @property {number} seconds he angle for the second clockhand.
-   */
-
-  /**
-   * Get the angles for the clock. The time is taken from the clockSingleton
-   * @return {Angles} The object with the angles for hours, minutes and seconds for the clock.
-   */
-  private getAngles() {
-    const time = this.clockSingleton.getTime();
-
-    return {
-      hours: time.hour + time.minute / 60,
-      minutes: time.minute * 12 / 60 + time.second * 12 / 3600,
-      seconds: time.second * 12 / 60
-    };
-  }
-
-  /**
    * Clear the interval and set the options for the highchart clock
    */
   private onReady(): void {
     clearInterval(this.interval);
 
-    let now = this.getAngles();
+    let now = {
+      hours: moment().hours() + moment().minutes() / 60,
+      minutes: moment().minutes() * 12 / 60 + moment().seconds() * 12 / 3600,
+      seconds: moment().seconds() * 12 / 60
+    }
 
     this.options = {
       credits: {
@@ -163,29 +144,24 @@ export class Clock extends TileBaseComponent {
         }
       }]
     };
-
   }
 
   /**
-   * Initate the interval who make the clock move.
+   * A callback function for the created chart / makes the clock move.
    */
-  public moveClock(event): void {
-    let chart = event.context;
+  public moveClock(chart : Highcharts): void {
     this.interval = setInterval(() => {
-
-      let now = this.getAngles();
-
       if (chart.axes) { // not destroyed
         let hour = chart.get('hour');
         let minute = chart.get('minute');
         let second = chart.get('second');
 
         // run animation unless we're wrapping around from 59 to 0
-        let animation = now.seconds === 0 ? false : { easing: 'easeOutBounce' };
+        let animation = moment().seconds() === 0 ? false : { easing: 'easeOutBounce' };
 
-        hour.update(now.hours, true, animation);
-        minute.update(now.minutes, true, animation);
-        second.update(now.seconds, true, animation);
+        hour.update(moment().hours() + moment().minutes() / 60, true, animation);
+        minute.update(moment().minutes() * 12 / 60 + moment().seconds() * 12 / 3600, true, animation);
+        second.update(moment().seconds() * 12 / 60, true, animation);
       }
     }, 1000);
   }
@@ -209,5 +185,4 @@ export class Clock extends TileBaseComponent {
       }
     })
   }
-
 }

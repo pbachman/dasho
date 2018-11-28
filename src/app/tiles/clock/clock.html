@@ -1,5 +1,4 @@
 <div class="grid-item grid-item-clock" [attr.data-id]="tile.id">
   <button aria-label="close" class="grid-item-close grid-item-close-transparent" (click)="onClose()"><ion-icon name="close"></ion-icon></button>
-   <!-- TODO -->
-  <!-- <highcharts-chart [Highcharts]="Highcharts" [options]="options" *ngIf="options"></highcharts-chart> -->
+  <highcharts-chart [Highcharts]="Highcharts" [options]="options" [callbackFunction]="moveClock" *ngIf="options"></highcharts-chart>
 </div>
