@@ -8,15 +8,16 @@ let server = (function () {
   /**
    * Initialize the packages we need
    */
-  let express = require('express');
-  let app = express();
-  let graphqlHTTP = require('express-graphql');
-  let schema = require('../api/schema');
-  let bodyParser = require('body-parser');
-  let cors = require('cors');
-  let router = require('./server.route');
-  let oauthServer = require('./server.oauth');
-  let config = require('../config.json');
+  const express = require('express');
+  const app = express();
+  const graphqlHTTP = require('express-graphql');
+  const schema = require('../api/schema');
+  const bodyParser = require('body-parser');
+  const cors = require('cors');
+  const router = require('./server.route');
+  const oauthServer = require('./server.oauth');
+  const config = require('../config.json');
+  const helmet = require('helmet');
 
   /** Use Body Parser */
   app.use(bodyParser.urlencoded({ extended: false }))
@@ -30,7 +31,7 @@ let server = (function () {
     next();
   });
 
-  let port = process.env.PORT || 61016;
+  const port = process.env.PORT || 61016;
 
   /** Using oAuth */
   app.use(oauthServer.errorHandler());
@@ -44,6 +45,9 @@ let server = (function () {
     schema: schema,
     graphiql: true
   }));
+
+  /** Use Helmet to secure REST API */
+  app.use(helmet());
 
   return {
     start: () => {
