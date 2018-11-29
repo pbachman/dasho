@@ -88,7 +88,6 @@ const settingsType = new graphql.GraphQLObjectType({
       type: schemaloader.getSchemaByName(4), //twitterApiServiceDataType,
       resolve: (root, args, context) => {
         let user = context.body.user;
-
         return settingsloader.getTileConfig(user, 'twitter')
           .then(function (tileConfig) {
             if (tileConfig) {
@@ -114,7 +113,6 @@ const settingsType = new graphql.GraphQLObjectType({
                   if (response.errors) {
                     throw new Error(response.errors[0].message);
                   } else {
-                    console.log(tileConfig.baseUrl + querystring);
                     return fetch.get(tileConfig.baseUrl, tileConfig.querystring, requestBody);
                   }
                 }, function (error) {
