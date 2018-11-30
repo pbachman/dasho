@@ -5,7 +5,6 @@
  * @author Philipp Bachmann, Jon Uhlmann
  */
 module.exports = (function () {
-  let passwordHash = require('password-hash');
   const googleApiServiceDataType = require('../api/schema-googleapi');
   const githubApiServiceDataType = require('../api/schema-github');
   const clockDataType = require('../api/schema-clock');

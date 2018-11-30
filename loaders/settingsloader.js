@@ -5,17 +5,19 @@
  * @author Philipp Bachmann, Jon Uhlmann
  */
 module.exports = (function () {
-  let passwordHash = require('password-hash');
-  let schemaloader = require('./schemaloader');
+  const passwordHash = require('password-hash');
+  const schemaloader = require('./schemaloader');
 
   // Create NeDb Datastore
   let Datastore = require('nedb'),
     db = {};
+
+  // Initialize Datastores
   db.users = new Datastore({ filename: 'api/data/users.db', autoload: true }),
     db.configs = new Datastore({ filename: 'api/data/configs.db', autoload: true }),
-    db.tiles = new Datastore({ filename: 'api/data/tiles.db', autoload: true });
-  db.clients = new Datastore({ filename: 'api/data/clients.db', autoload: true });
-  db.tokens = new Datastore({ filename: 'api/data/tokens.db', autoload: true });
+    db.tiles = new Datastore({ filename: 'api/data/tiles.db', autoload: true }),
+    db.clients = new Datastore({ filename: 'api/data/clients.db', autoload: true }),
+    db.tokens = new Datastore({ filename: 'api/data/tokens.db', autoload: true });
 
   /**
    * Initialize SettingsLoader, creates if not exists all datastores.
@@ -40,7 +42,7 @@ module.exports = (function () {
         // insert Tiles
         db.tiles.insert([
           { tileid: 1, name: 'googleapi', baseUrl: 'https://www.googleapis.com/pagespeedonline/v2/runPagespeed', apikey: '', apisecret: '' },
-          { tileid: 2, name: 'github', baseUrl: 'https://api.github.com', apikey: '0a01416559cc95dc055d', apikey: '', apisecret: '' },
+          { tileid: 2, name: 'github', baseUrl: 'https://api.github.com', apikey: '0a01416559cc95dc055d', apisecret: '' },
           { tileid: 3, name: 'openweather', baseUrl: 'http://api.openweathermap.org/data/2.5/weather', apikey: '', apisecret: '' },
           { tileid: 4, name: 'twitter', baseUrl: 'https://api.twitter.com', apikey: '', apisecret: '' },
           { tileid: 5, name: 'fixer', baseUrl: 'http://data.fixer.io/api/latest', apikey: '', apisecret: '' },
