@@ -47,7 +47,7 @@ let server = (function () {
 	app.use(compression())
 
 	/** static files */
-  const pathApp = path.join(__dirname, '/../dist');
+  const pathApp = path.join(__dirname, 'www');
   app.use(express.static(pathApp));
 
 	app.set('views', pathApp);
