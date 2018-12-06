@@ -1,6 +1,10 @@
 <ion-card class="grid-item grid-item-weather" [attr.data-id]="tile.id">
-  <ion-card-header><ion-icon name="partly-sunny" item-left></ion-icon> {{'tiles.weather.header' | translate}}</ion-card-header>
-  <button aria-label="close" class="grid-item-close" (click)="onClose()"><ion-icon name="close"></ion-icon></button>
+  <ion-card-header>
+    <ion-icon name="partly-sunny" item-left></ion-icon> {{'tiles.weather.header' | translate}}
+  </ion-card-header>
+  <button aria-label="close" class="grid-item-close" (click)="onClose()">
+    <ion-icon name="close"></ion-icon>
+  </button>
   <ion-card-content *ngIf="data && data.today.icon">
     <div class="grid-item-weather-today-location">{{data.location}}</div>
     <ion-row>

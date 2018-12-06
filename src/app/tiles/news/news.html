@@ -1,8 +1,8 @@
-<div class="grid-item grid-item-news" [attr.data-id]="tile.id" *ngIf="data && data.articles">
+<div class="grid-item grid-item-news" [attr.data-id]="tile.id">
   <button aria-label="close" class="grid-item-close" (click)="onClose()">
     <ion-icon name="close"></ion-icon>
   </button>
-  <ion-content>
+  <ion-content *ngIf="data && data.articles">
     <ion-card-header>
       <ion-icon name="paper" item-left></ion-icon> {{ 'tiles.news.header' | translate:data }}
     </ion-card-header>
