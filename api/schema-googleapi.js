@@ -5,8 +5,8 @@
  * @author Philipp Bachmann, Jon Uhlmann
  */
 
-let graphql = require('graphql');
-let fetch = require('./apifetch');
+const graphql = require('graphql');
+const fetch = require('./apifetch');
 
 function fetchData(user) {
   let settingsloader = require('../loaders/settingsloader');

@@ -5,7 +5,8 @@
  * @author Philipp Bachmann, Jon Uhlmann
  */
 
-let graphql = require('graphql');
+const graphql = require('graphql');
+
 let FixerApiServiceDataType = new graphql.GraphQLObjectType({
   name: 'Fixer',
   fields: () => ({

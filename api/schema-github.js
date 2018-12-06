@@ -5,7 +5,8 @@
  * @author Philipp Bachmann, Jon Uhlmann
  */
 
-let graphql = require('graphql');
+const graphql = require('graphql');
+
 let GithubApiServiceDataType = new graphql.GraphQLObjectType({
   name: 'Github',
   fields: () => ({

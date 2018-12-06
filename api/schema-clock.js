@@ -5,8 +5,8 @@
  * @author Philipp Bachmann, Jon Uhlmann
  */
 
-let graphql = require('graphql');
-let moment = require('moment');
+const graphql = require('graphql');
+const moment = require('moment');
 
 let ClockDataType = new graphql.GraphQLObjectType({
   name: 'Clock',

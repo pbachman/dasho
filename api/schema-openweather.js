@@ -5,8 +5,7 @@
  * @author Philipp Bachmann, Jon Uhlmann
  */
 
-let graphql = require('graphql');
-let fetch = require('./apifetch');
+const graphql = require('graphql');
 
 let OpenWeatherDayApiServiceDataType = new graphql.GraphQLObjectType({
   name: 'Day',

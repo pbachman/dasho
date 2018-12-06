@@ -5,10 +5,9 @@
  * @author Philipp Bachmann, Jon Uhlmann
  */
 
-let graphql = require('graphql');
-let fetch = require('./apifetch');
-let btoa = require('btoa');
-let deferred = require('deferred');
+const graphql = require('graphql');
+const fetch = require('./apifetch');
+const btoa = require('btoa');
 
 const settingsloader = require('../loaders/settingsloader');
 const schemaloader = require('../loaders/schemaloader');
