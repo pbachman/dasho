@@ -5,7 +5,6 @@
   "homepage": "http://ionicframework.com/",
   "private": true,
   "scripts": {
-    "start": "npm run build && node server",
     "clean": "ionic-app-scripts clean",
     "build": "ionic-app-scripts build",
     "lint": "ionic-app-scripts lint",
@@ -24,8 +23,8 @@
     "@ionic-native/core": "~4.15.0",
     "@ionic-native/splash-screen": "~4.15.0",
     "@ionic-native/status-bar": "~4.15.0",
-    "@ionic/storage": "2.2.0",
     "@ionic/app-scripts": "^3.2.1",
+    "@ionic/storage": "2.2.0",
     "@types/body-parser": "^1.17.0",
     "@types/btoa": "^1.2.0",
     "@types/cors": "^2.8.4",
@@ -69,13 +68,17 @@
     "path": "^0.12.7",
     "rxjs": "^5.5.11",
     "sw-toolbox": "3.6.0",
+    "typescript": "~2.6.2",
     "zone.js": "0.8.26"
   },
   "devDependencies": {
     "eslint": "^5.9.0",
     "eslint-plugin-node": "^8.0.0",
-    "supertest": "^3.3.0",
-    "typescript": "~2.6.2"
+    "supertest": "^3.3.0"
   },
-  "description": "dasho project"
+  "description": "dasho project",
+  "engines": {
+    "node": "10.2.1",
+    "npm": "6.4.1"
+  }
 }
