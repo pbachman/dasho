@@ -3,9 +3,47 @@
     "no-duplicate-variable": true,
     "no-unused-variable": [
       true
-    ]
+    ],
+    "no-redundant-jsdoc": false,
+    "object-literal-key-quotes": false,
+    "object-literal-shorthand": false,
+    "banana-in-box": false,
+    "contextual-life-cycle": false,
+    "decorator-not-allowed": false,
+    "binary-expression-operand-order": false,
+    "pipe-impure": false,
+    "templates-no-negated-async": false,
+    "trackBy-function": false,
+    "i18n": false,
+    "prefer-for-of": false,
+    "no-attribute-parameter-decorator": false,
+    "no-forward-ref": false,
+    "no-input-rename": false,
+    "no-life-cycle-call": false,
+    "no-output-named-after-standard-event": false,
+    "no-output-on-prefix": false,
+    "no-output-rename": false,
+    "no-queries-parameter": false,
+    "no-template-call-expression": false,
+    "no-unused-css": false,
+    "prefer-inline-decorator": false,
+    "prefer-output-readonly": false,
+    "use-life-cycle-interface": false,
+    "use-pipe-decorator": false,
+    "use-pipe-transform-interface": false,
+    "use-view-encapsulation": false,
+    "angular-whitespace": false,
+    "component-class-suffix": false,
+    "component-selector": false,
+    "directive-class-suffix": false,
+    "directive-selector": false,
+    "import-destructuring-spacing": false,
+    "use-host-property-decorator": false,
+    "use-input-property-decorator": false,
+    "use-output-property-decorator": false
   },
   "rulesDirectory": [
     "node_modules/tslint-eslint-rules/dist/rules"
-  ]
+  ],
+  "extends": ["angular-tslint-rules"]
 }
