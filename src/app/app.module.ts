@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicApp, IonicModule } from 'ionic-angular';
-import { TranslateLoader, TranslateStaticLoader, TranslateModule } from 'ng2-translate/ng2-translate';
+import { TranslateLoader, TranslateModule, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
 import { MomentModule } from 'angular2-moment';
 import { DashoApp } from './app.component';
 import { LoginPage } from '../pages/login/login';
@@ -26,7 +26,7 @@ import { HighchartsChartModule } from 'highcharts-angular';
 /**
  * Set the paths for the tranlsations
  */
-export function createTranslateLoader(http: Http) {
+export function createTranslateLoader(http: Http): TranslateStaticLoader {
   return new TranslateStaticLoader(http, './assets/i18n', '.json');
 }
 

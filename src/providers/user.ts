@@ -26,8 +26,10 @@ export class UserProvider {
    * @param  {string}  value The string to test
    * @return {boolean}       Return true if the value is NOT an email address
    */
-  static isMailInvalid(value: string): boolean {
-    let emailRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+  isMailInvalid(value: string): boolean {
+    // tslint:disable-next-line:max-line-length
+    const emailRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+
     return !emailRegex.test(value);
   }
 
@@ -37,17 +39,18 @@ export class UserProvider {
    * @param  {string}  token
    * @return {Promise}
    */
-  public login(username: string, token: string): Observable<void> {
-    return from(this.storage.set(this.HAS_LOGGED_IN, true).then(() => {
-      this.setsUserdata(username, token);
-      this.events.publish('user:login', username);
-    }));
+  login(username: string, token: string): Observable<void> {
+    return from(this.storage.set(this.HAS_LOGGED_IN, true)
+      .then(() => {
+        this.setsUserdata(username, token);
+        this.events.publish('user:login', username);
+      }));
   }
 
   /**
    * Removes all storage information and publish the `user:logout` event
    */
-  public logout(): void {
+  logout(): void {
     this.storage.remove(this.HAS_LOGGED_IN);
     this.storage.remove('username');
     this.storage.remove('token');
@@ -59,7 +62,7 @@ export class UserProvider {
    * @param {string} username
    * @param {string} token
    */
-  public setsUserdata(username: string, token: string): void {
+  setsUserdata(username: string, token: string): void {
     this.storage.set('username', username);
     this.storage.set('token', token);
   }
@@ -68,30 +71,32 @@ export class UserProvider {
    * Get the access token from the storage
    * @return {Promise}
    */
-  public getAccessToken(): Observable<string> {
-    return from(this.storage.get('token').then(value => {
-      console.log('token ' + value);
-      return value;
-    }));
+  getAccessToken(): Observable<string> {
+    return from(this.storage.get('token')
+      .then(value => {
+        return value;
+      }));
   }
 
   /**
-  * Get the username from the storage
-  * @return {Promise}
+   * Get the username from the storage
+   * @return {Promise}
    */
-  public getUsername(): Observable<string> {
-    return from(this.storage.get('username').then(value => {
-      return value;
-    }));
+  getUsername(): Observable<string> {
+    return from(this.storage.get('username')
+      .then(value => {
+        return value;
+      }));
   }
 
   /**
-  * Get variable if the user has logged in
-  * @return {Promise}
+   * Get variable if the user has logged in
+   * @return {Promise}
    */
-  public hasLoggedIn(): Observable<boolean> {
-    return from(this.storage.get(this.HAS_LOGGED_IN).then(value => {
-      return value === true;
-    }));
+  hasLoggedIn(): Observable<boolean> {
+    return from(this.storage.get(this.HAS_LOGGED_IN)
+      .then(value => {
+        return value === true;
+      }));
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Events } from 'ionic-angular';
 import { Setting } from '../../../shared/setting';
 import { TileBaseComponent } from '../../../shared/shared.tile';
@@ -25,9 +25,8 @@ export class Github extends TileBaseComponent  {
     super();
 
     this.events.subscribe('data:ready', data => {
-      if (data) {
+      if (data)
         this.data = data.github;
-      }
     });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Events } from 'ionic-angular';
 import { Setting } from '../../../shared/setting';
 import { TileBaseComponent } from '../../../shared/shared.tile';
@@ -35,23 +35,56 @@ export class Clock extends TileBaseComponent {
   }
 
   /**
+   * A callback function for the created chart / makes the clock move.
+   * @param {Highcharts} chart The current Chart
+   * @returns {void}
+   */
+  moveClock(chart: Highcharts): void {
+    this.interval = setInterval(() => {
+      if (chart.axes) { // not destroyed
+        const hour = chart.get('hour');
+        const minute = chart.get('minute');
+        const second = chart.get('second');
+
+        // run animation unless we're wrapping around from 59 to 0
+        const animation = moment()
+          .seconds() === 0 ? false : { easing: 'easeOutBounce' };
+
+        hour.update(moment()
+          .hours() + moment()
+            .minutes() / 60, true, animation);
+        minute.update(moment()
+          .minutes() * 12 / 60 + moment()
+            .seconds() * 12 / 3600, true, animation);
+        second.update(moment()
+          .seconds() * 12 / 60, true, animation);
+      }
+    }, 1000);
+  }
+
+  /**
    * Clear the interval and set the options for the highchart clock
    */
-  private onReady(): void {
+  onReady(): void {
     clearInterval(this.interval);
 
-    let now = {
-      hours: moment().hours() + moment().minutes() / 60,
-      minutes: moment().minutes() * 12 / 60 + moment().seconds() * 12 / 3600,
-      seconds: moment().seconds() * 12 / 60
-    }
+    const now = {
+      hours: moment()
+        .hours() + moment()
+          .minutes() / 60,
+      minutes: moment()
+        .minutes() * 12 / 60 + moment()
+          .seconds() * 12 / 3600,
+      seconds: moment()
+        .seconds() * 12 / 60
+    };
 
     this.options = {
       credits: {
         enabled: false
       },
       title: {
-        text: null
+        text: undefined
       },
       chart: {
         type: 'gauge',
@@ -77,7 +110,7 @@ export class Clock extends TileBaseComponent {
               [0.5, 'rgba(255, 255, 255, 0.2)'],
               [0.5, 'rgba(200, 200, 200, 0.2)']
             ]
-          } : null
+          } : undefined
         }]
       },
       yAxis: {
@@ -147,42 +180,22 @@ export class Clock extends TileBaseComponent {
   }
 
   /**
-   * A callback function for the created chart / makes the clock move.
-   */
-  public moveClock(chart : Highcharts): void {
-    this.interval = setInterval(() => {
-      if (chart.axes) { // not destroyed
-        let hour = chart.get('hour');
-        let minute = chart.get('minute');
-        let second = chart.get('second');
-
-        // run animation unless we're wrapping around from 59 to 0
-        let animation = moment().seconds() === 0 ? false : { easing: 'easeOutBounce' };
-
-        hour.update(moment().hours() + moment().minutes() / 60, true, animation);
-        minute.update(moment().minutes() * 12 / 60 + moment().seconds() * 12 / 3600, true, animation);
-        second.update(moment().seconds() * 12 / 60, true, animation);
-      }
-    }, 1000);
-  }
-
-  /**
    * Animation timing function specifies the speed curve of the animation from the clockhand.
    */
-  private setMathBounce(): void {
+  setMathBounce(): void {
     Object.defineProperty(Math, 'easeOutBounce', {
-      value: function (pos) {
-        if ((pos) < (1 / 2.75)) {
+      value: (pos: number) => {
+        if ((pos) < (1 / 2.75))
           return (7.5625 * pos * pos);
-        }
-        if (pos < (2 / 2.75)) {
+
+        if (pos < (2 / 2.75))
           return (7.5625 * (pos -= (1.5 / 2.75)) * pos + 0.75);
-        }
-        if (pos < (2.5 / 2.75)) {
+
+        if (pos < (2.5 / 2.75))
           return (7.5625 * (pos -= (2.25 / 2.75)) * pos + 0.9375);
-        }
+
         return (7.5625 * (pos -= (2.625 / 2.75)) * pos + 0.984375);
       }
-    })
+    });
   }
 }

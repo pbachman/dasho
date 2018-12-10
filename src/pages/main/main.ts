@@ -2,9 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { DashboardService } from './main.service';
 import { Setting } from '../../shared/setting';
 import { UserProvider } from '../../providers/user';
-import { NavController, FabContainer, AlertController } from 'ionic-angular';
-
-import { Events } from 'ionic-angular';
+import { AlertController, Events, FabContainer, NavController } from 'ionic-angular';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LoginPage } from '../login/login';
 
@@ -20,12 +18,12 @@ declare const Draggabilly: any;
  */
 export class MainPage {
   @ViewChild('addServiceFab') addServiceFab: FabContainer;
-  public pckry: any;
-  public settings: Setting[];
-  private isGridInitialized: boolean;
-  private currentUser: string;
-  private dataobject: Object;
-  private error: string;
+  pckry: any;
+  settings: Array<Setting>;
+  isGridInitialized: boolean;
+  currentUser: string;
+  dataobject: Object;
+  error: string;
 
   /**
    * Create the main page
@@ -49,55 +47,52 @@ export class MainPage {
    * Get the username and the settings from the services
    */
   ngOnInit(): void {
-    this.userData.getUsername().subscribe((username) => {
-      this.currentUser = username;
-      // get all Settings for the current User
-      this.dashboardService.getSettings(username).subscribe((settings) => {
-        this.settings = settings;
+    this.userData.getUsername()
+      .subscribe((username: string) => {
+        this.currentUser = username;
+        // get all Settings for the current User
+        this.dashboardService.getSettings(username)
+          .subscribe((settings: any) => {
+            this.settings = settings;
 
-        // get all Settings Data for the current User
-        this.dashboardService.getData(username, this.settings).subscribe((response) => {
-          console.log('graphql:', response.data.settings);
+            // get all Settings Data for the current User
+            this.dashboardService.getData(username, this.settings)
+              .subscribe((response: any) => {
+                this.events.publish('data:ready', response.data.settings);
 
-          this.events.publish('data:ready', response.data.settings);
-
-          if (!this.isGridInitialized) {
-            this.initGrid();
-          }
-        }, (error: HttpErrorResponse) => {
-          if (error.status === 0) {
-            this.error = 'No Connection to the Backend!';
-          } else {
-            this.error = error.message;
-          }
-        });
-      }, (error: HttpErrorResponse) => {
-        if (error.status === 0) {
-          this.error = 'No Connection to the Backend!';
-        } else {
-          this.error = error.message;
-          this.userData.logout();
-        }
-
-        let alert = this.alertCtrl.create({
-          title: 'Error!',
-          message: this.error,
-          enableBackdropDismiss: false,
-          buttons: [
-            {
-              text: 'OK',
-              handler: data => {
-                alert.present();
-                this.navCtrl.push(LoginPage);
-                document.body.classList.remove('body-loading');
-                return true;
-              }
+                if (!this.isGridInitialized)
+                  this.initGrid();
+              }, (error: HttpErrorResponse) => {
+                (error.status === 0) ? this.error = 'No Connection to the Backend!' : this.error = error.message;
+              });
+          }, (error: HttpErrorResponse) => {
+            if (error.status === 0)
+              this.error = 'No Connection to the Backend!';
+            else {
+              this.error = error.message;
+              this.userData.logout();
             }
-          ]
-        });
-        alert.present();
+
+            const alert = this.alertCtrl.create({
+              title: 'Error!',
+              message: this.error,
+              enableBackdropDismiss: false,
+              buttons: [
+                {
+                  text: 'OK',
+                  handler: data => {
+                    alert.present();
+                    this.navCtrl.push(LoginPage);
+                    document.body.classList.remove('body-loading');
+
+                    return true;
+                  }
+                }
+              ]
+            });
+            alert.present();
+          });
       });
-    });
   }
 
   /**
@@ -108,43 +103,21 @@ export class MainPage {
   }
 
   /**
-   * Initalize the grid and register the drag events
-   */
-  private initGrid(): void {
-    document.body.classList.remove('body-loading');
-
-    let elem = document.getElementById('packery');
-    this.pckry = new Packery(elem, {
-      itemSelector: '.grid-item',
-      gutter: 30,
-      columnWidth: 100
-    });
-
-    this.isGridInitialized = true;
-
-    this.pckry.on('dragItemPositioned', this.dragItemPositioned.bind(this));
-    this.pckry.getItemElements().forEach((itemElem, i) => {
-      let draggie = new Draggabilly(itemElem);
-      this.pckry.bindDraggabillyEvents(draggie);
-    });
-  }
-
-  /**
    * Callback if a tile get positioned
    * @param {Object} draggedItem The item who has been dragged
    */
-  public dragItemPositioned(draggedItem): void {
+  dragItemPositioned(draggedItem): void {
     const ITEMS = draggedItem.layout.items;
-    console.log('dragItemPositioned');
+
     for (let index = 0; index < ITEMS.length; index++) {
       const ELEMENT = ITEMS[index].element;
       const ID = ELEMENT.getAttribute('data-id');
-      let setting = this.settings.filter(setting => setting.id === ID)[0];
+      const setting = this.settings.filter(s => s.id === ID)[0];
       setting.position = index;
       this.dashboardService.saveSetting(this.currentUser, setting);
     }
+
     setTimeout(() => {
-      // Repair Layout
       this.pckry.layout();
     }, 450);
   }
@@ -160,16 +133,15 @@ export class MainPage {
    * Close and hide a tile
    * @param {EventData} eventData The needed identifiers for the tiles
    */
-  public hideTile(eventData: { tile: number, id: number }): void {
-    let setting = this.settings.filter(setting => setting.tile === eventData.tile)[0];
+  hideTile(eventData: { tile: number, id: number }): void {
+    const setting = this.settings.filter(s => s.tile === eventData.tile)[0];
     if (setting) {
-      let element = document.querySelector('[data-id="' + setting.id + '"]');
+      const element = document.querySelector(`[data-id="${setting.id}"]`);
       this.addServiceFab.close();
       this.pckry.remove(element);
       this.pckry.layout();
 
       setTimeout(() => {
-        // Give the item the time to animate
         setting.visible = false;
         this.dashboardService.saveSetting(this.currentUser, setting);
       }, 500);
@@ -180,24 +152,22 @@ export class MainPage {
    * Show the tile
    * @param {number} tileid
    */
-  public showTile(tileid: number): void {
-    let setting = this.settings.filter(setting => setting.tile === tileid)[0];
+  showTile(tileid: number): void {
+    const setting = this.settings.filter(s => s.tile === tileid)[0];
     if (setting) {
       setting.visible = true;
       setting.position = this.pckry.layoutItems.length;
       this.dashboardService.saveSetting(this.currentUser, setting);
 
       setTimeout(() => {
-        // Give the interface the needed time…
-        let element = document.querySelector('[data-id="' + setting.id + '"]');
+        const element = document.querySelector(`[data-id="${setting.id}"]`);
         if (element) {
-          let draggie = new Draggabilly(element);
+          const draggie = new Draggabilly(element);
           this.pckry.appended(element);
           this.pckry.bindDraggabillyEvents(draggie);
           this.events.publish('data:ready', this.dataobject);
           this.pckry.layout();
         } else {
-          // Fallback...
           this.pckry.element.classList.add('fade-out');
           setTimeout(() => {
             this.pckry.destroy();
@@ -208,4 +178,28 @@ export class MainPage {
       }, 50);
     }
   }
+
+  /**
+   * Initalize the grid and register the drag events
+   */
+  private initGrid(): void {
+    document.body.classList.remove('body-loading');
+
+    const elem = document.getElementById('packery');
+    this.pckry = new Packery(elem, {
+      itemSelector: '.grid-item',
+      gutter: 30,
+      columnWidth: 100
+    });
+
+    this.isGridInitialized = true;
+
+    this.pckry.on('dragItemPositioned', this.dragItemPositioned.bind(this));
+    this.pckry.getItemElements()
+      .forEach((itemElem, i) => {
+        const draggie = new Draggabilly(itemElem);
+        this.pckry.bindDraggabillyEvents(draggie);
+      });
+  }
+
 }

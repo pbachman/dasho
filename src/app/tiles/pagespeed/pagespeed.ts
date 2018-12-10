@@ -1,11 +1,11 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Events } from 'ionic-angular';
 import { Setting } from '../../../shared/setting';
 import { LanguageProvider } from '../../../providers/language';
 import { TileBaseComponent } from '../../../shared/shared.tile';
 import * as ChartModuleMore from 'highcharts/highcharts-more.js';
 import HCSoldGauge from 'highcharts/modules/solid-gauge';
-import Highcharts from 'highcharts'
+import Highcharts from 'highcharts';
 
 ChartModuleMore(Highcharts);
 HCSoldGauge(Highcharts);
@@ -36,9 +36,8 @@ export class Pagespeed extends TileBaseComponent {
     super();
 
     this.events.subscribe('data:ready', data => {
-      if (data) {
+      if (data)
         this.data = data.googleapi;
-      }
       this.setOptions();
     });
 
@@ -52,20 +51,19 @@ export class Pagespeed extends TileBaseComponent {
   /**
    * Set options for the highchart
    */
-  private setOptions(): void {
-    if (this.data) {
+  setOptions(): void {
+    if (this.data)
       this.options = this.pageSpeedValues({
         speedDesktop: this.data.desktop.speed,
         speedMobile: this.data.mobile.speed,
-        usabilityMobile: this.data.mobile.usability,
+        usabilityMobile: this.data.mobile.usability
       });
-    } else {
+    else
       this.options = this.pageSpeedValues({
         speedDesktop: 0,
         speedMobile: 0,
         usabilityMobile: 0
       });
-    }
   }
 
   /**
@@ -75,12 +73,12 @@ export class Pagespeed extends TileBaseComponent {
    * @param  {number} usabilityMobile The value for the desktop usability
    * @return {Object} Represents the options for the highchart
    */
-  private pageSpeedValues({ speedDesktop, speedMobile, usabilityMobile }) {
+  pageSpeedValues({ speedDesktop, speedMobile, usabilityMobile }): any {
     const i18n = this.languageProvider.getLanguageStrings().tiles.pagespeed;
 
     return {
       title: {
-        text: null
+        text: undefined
       },
       credits: {
         enabled: false
@@ -100,7 +98,7 @@ export class Pagespeed extends TileBaseComponent {
         shadow: false,
         useHTML: true,
         pointFormat: '<div class="grid-item-pagespeed-tooltip"><div style="color:{point.color};">{point.y}%</div>{series.name}</div>',
-        positioner: function (labelWidth) {
+        positioner: (labelWidth: number) => {
           return {
             x: 115 - labelWidth / 2,
             y: 73
@@ -141,7 +139,7 @@ export class Pagespeed extends TileBaseComponent {
         min: 0,
         max: 100,
         lineWidth: 0,
-        tickPositions: [],
+        tickPositions: []
       },
       plotOptions: {
         solidgauge: {

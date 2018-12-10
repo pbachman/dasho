@@ -11,34 +11,35 @@ import 'rxjs/add/operator/mergeMap';
  */
 @Injectable()
 export class DashboardService {
+  private apiUrl = `${BASE_URI}api`;
+  private graphqlUrl = `${BASE_URI}graphql`;
 
   /**
    * Create the dashboard service
-   * @param  {Http}     privatehttp
-   * @param  {UserData} privateuserData
+   * @constructor
+   * @param {Http}     privatehttp
+   * @param {UserData} privateuserData
    */
   constructor(
     private http: HttpClient,
     private userData: UserProvider) { }
-
-  private apiUrl = BASE_URI + 'api';
-  private graphqlUrl = BASE_URI + 'graphql';
 
   /**
    * Get the settings from the passed user
    * @param  {string}  username
    * @return {Promise}
    */
-  getSettings(username: string): Observable<Setting[]> {
+  getSettings(username: string): Observable<Array<Setting>> {
     return this.userData.getAccessToken()
-      .mergeMap((token) => {
+      .mergeMap((token: string) => {
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
           })
         };
-        return this.http.get<Setting[]>(`${this.apiUrl}/settings/${username}`, httpOptions);
+
+        return this.http.get<Array<Setting>>(`${this.apiUrl}/settings/${username}`, httpOptions);
       });
   }
 
@@ -48,9 +49,9 @@ export class DashboardService {
    * @param  {Object}  settings
    * @return {Promise}
    */
-  getData(username: string, settings: Setting[]): Observable<any> {
+  getData(username: string, settings: Array<Setting>): Observable<any> {
     return this.userData.getAccessToken()
-      .mergeMap((token) => {
+      .mergeMap((token: string) => {
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
@@ -59,15 +60,13 @@ export class DashboardService {
         };
 
         let query = `{settings(user:"${username}") {`;
-        for (var settingIndex = 0; settingIndex < settings.length; settingIndex++) {
-          let settingItem = settings[settingIndex];
-          if (settingItem) {
-            if (settingItem.schemas !== undefined && settingItem.schemas !== null) {
-              query += ' ' + settingItem.schemas;
-            }
-          }
+        for (let settingIndex = 0; settingIndex < settings.length; settingIndex++) {
+          const settingItem = settings[settingIndex];
+          if (settingItem)
+            if (settingItem.schemas !== undefined && settingItem.schemas !== null)
+              query += ` ${settingItem.schemas}`;
         }
-        query += '}}'
+        query += '}}';
 
         const BODY = JSON.stringify({
           query: query,
@@ -86,7 +85,7 @@ export class DashboardService {
    */
   saveSetting(username: string, setting: Setting): Observable<boolean> {
     return this.userData.getAccessToken()
-      .mergeMap((token) => {
+      .mergeMap((token: string) => {
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
@@ -112,7 +111,7 @@ export class DashboardService {
    */
   changePassword(username: string, password: string, newpassword: string, newpasswordconfirm: string): Observable<boolean> {
     return this.userData.getAccessToken()
-      .mergeMap((token) => {
+      .mergeMap((token: string) => {
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
@@ -139,7 +138,7 @@ export class DashboardService {
    */
   inviteFriends(username: string, friend: string): Observable<boolean> {
     return this.userData.getAccessToken()
-      .mergeMap((token) => {
+      .mergeMap((token: string) => {
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',

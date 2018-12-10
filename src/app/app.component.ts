@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Events, NavController, AlertController, MenuController } from 'ionic-angular';
+import { AlertController, Events, MenuController, NavController } from 'ionic-angular';
 import { LoginPage } from '../pages/login/login';
 import { MainPage } from '../pages/main/main';
 import { UserProvider } from '../providers/user';
@@ -14,9 +14,9 @@ import { DashboardService } from '../pages/main/main.service';
  * Represent the dasho app
  */
 export class DashoApp {
-  @ViewChild('content') nav: NavController
+  @ViewChild('content') nav: NavController;
   rootPage: Object = LoginPage;
-  menuEnable: boolean = false;
+  menuEnable: boolean;
   currentUser: string;
 
   /**
@@ -36,18 +36,21 @@ export class DashoApp {
     private menuCtrl: MenuController,
     private dashboardService: DashboardService
   ) {
+    this.menuEnable = false;
 
     // decide which menu items should be hidden by current login status stored in local storage
-    this.userData.hasLoggedIn().subscribe((hasLoggedIn: boolean) => {
-      this.enableMenu(hasLoggedIn === true);
+    this.userData.hasLoggedIn()
+      .subscribe((hasLoggedIn: boolean) => {
+        this.enableMenu(hasLoggedIn === true);
 
-      if (hasLoggedIn) {
-        this.nav.push(MainPage);
-        this.userData.getUsername().subscribe((username: string) => {
-          this.currentUser = username;
-        });
-      }
-    });
+        if (hasLoggedIn) {
+          this.nav.push(MainPage);
+          this.userData.getUsername()
+            .subscribe((username: string) => {
+              this.currentUser = username;
+            });
+        }
+      });
 
     languageProvider.initialLanguage();
     this.listenToLoginEvents();
@@ -56,7 +59,7 @@ export class DashoApp {
   /**
    * Log the user out and go back to the login page
    */
-  public logout(): void {
+  logout(): void {
     this.menuCtrl.close();
     this.userData.logout();
     this.nav.pop();
@@ -66,8 +69,8 @@ export class DashoApp {
   /**
    * Publish the change language event
    */
-  public changeLanguage(): void {
-    let data = {
+  changeLanguage(): void {
+    const data = {
       key: this.languageProvider.currentLanguage
     };
     this.events.publish('user:language', data);
@@ -76,9 +79,9 @@ export class DashoApp {
   /**
    * Shows the dialog to change the password
    */
-  public showChangePasswortPrompt(): void {
-    let i18n = this.languageProvider.getLanguageStrings();
-    let prompt = this.alertCtrl.create({
+  showChangePasswortPrompt(): void {
+    const i18n = this.languageProvider.getLanguageStrings();
+    const prompt = this.alertCtrl.create({
       title: i18n.changePassword.title,
       message: i18n.changePassword.message,
       inputs: [
@@ -104,21 +107,23 @@ export class DashoApp {
         {
           text: i18n.changePassword.change,
           handler: data => {
-            if (!data.passwordOld || !data.password || data.password != data.passwordConfirm) {
+            if (!data.passwordOld || !data.password || data.password !== data.passwordConfirm)
               return false;
-            }
 
-            this.dashboardService.changePassword(this.currentUser, data.passwordOld, data.password, data.passwordConfirm).subscribe(() => {
-              let alert = this.alertCtrl.create({
-                title: i18n.changePassword.alertTitle,
-                subTitle: i18n.changePassword.alertSubTitle,
-                buttons: ['OK']
+            this.dashboardService.changePassword(this.currentUser, data.passwordOld, data.password, data.passwordConfirm)
+              .subscribe(() => {
+                const alert = this.alertCtrl.create({
+                  title: i18n.changePassword.alertTitle,
+                  subTitle: i18n.changePassword.alertSubTitle,
+                  buttons: ['OK']
+                });
+                alert.present();
+
+                return true;
+              }, (error: string) => {
+
+                return false;
               });
-              alert.present();
-              return true;
-            }, (error) => {
-              return false;
-            })
           }
         }
       ]
@@ -129,9 +134,9 @@ export class DashoApp {
   /**
    * Shows the dialog to invite a friend
    */
-  public inviteFriendPrompt(): void {
-    let i18n = this.languageProvider.getLanguageStrings();
-    let prompt = this.alertCtrl.create({
+  inviteFriendPrompt(): void {
+    const i18n = this.languageProvider.getLanguageStrings();
+    const prompt = this.alertCtrl.create({
       title: i18n.invite.title,
       message: i18n.invite.message,
       inputs: [
@@ -149,21 +154,23 @@ export class DashoApp {
         {
           text: i18n.invite.send,
           handler: data => {
-            if (UserProvider.isMailInvalid(data.email)) {
+            if (this.userData.isMailInvalid(data.email))
               return false;
-            }
 
-            this.dashboardService.inviteFriends(this.currentUser, data.email).subscribe(() => {
-              let alert = this.alertCtrl.create({
-                title: i18n.invite.alertTitle,
-                subTitle: i18n.invite.alertSubTitle.replace('%email%', data.email),
-                buttons: ['OK']
+            this.dashboardService.inviteFriends(this.currentUser, data.email)
+              .subscribe(() => {
+                const alert = this.alertCtrl.create({
+                  title: i18n.invite.alertTitle,
+                  subTitle: i18n.invite.alertSubTitle.replace('%email%', data.email),
+                  buttons: ['OK']
+                });
+                alert.present();
+
+                return true;
+              }, (error: string) => {
+
+                return false;
               });
-              alert.present();
-              return true;
-            }, (error) => {
-              return false;
-            })
           }
         }
       ]

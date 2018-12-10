@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Events } from 'ionic-angular';
 import { Setting } from '../../../shared/setting';
 import { TileBaseComponent } from '../../../shared/shared.tile';
@@ -41,7 +41,7 @@ export class Currency extends TileBaseComponent {
   /**
    * Set the options for the highchart
    */
-  private setOptions(): void {
+  setOptions(): void {
     this.options = {
       chart: {
         type: 'column',
@@ -58,7 +58,7 @@ export class Currency extends TileBaseComponent {
         enabled: false
       },
       title: {
-        text: null
+        text: undefined
       },
       xAxis: {
         type: 'category',
@@ -101,13 +101,12 @@ export class Currency extends TileBaseComponent {
    * Generate the array for the highchart from the service data
    * @return {Array} Values from the service, formated for the highchart.
    */
-  private generateDataForSeries(): any {
-    let array = [];
-    for (let key in this.data) {
-      if (key != 'currency') {
+  generateDataForSeries(): any {
+    const array = [];
+    for (const key in this.data)
+      if (key !== 'currency')
         array.push([key, this.data[key]]);
-      }
-    }
+
     return array;
   }
 
@@ -116,7 +115,7 @@ export class Currency extends TileBaseComponent {
    * @param  {number} value The value to round
    * @return {number} The rounded value
    */
-  static round(value: number): number {
+  round(value: number): number {
     return Math.round(value * 10000) / 10000;
   }
 
@@ -124,15 +123,13 @@ export class Currency extends TileBaseComponent {
    * Event handling from a point. Sets a new reference currency
    * @param  {Object} event Object passed from highchart
    */
-  public setNewReference(event): void {
-    let point = event.context;
-    let value = point.y;
+  setNewReference(event): void {
+    const point = event.context;
+    const value = point.y;
 
-    for (let key in this.data) {
-      if (key != 'currency') {
-        this.data[key] = Currency.round(this.data[key] / value);
-      }
-    }
+    for (const key in this.data)
+      if (key !== 'currency')
+        this.data[key] = this.round(this.data[key] / value);
     point.series.setData(this.generateDataForSeries());
 
     this.currency = point.name;

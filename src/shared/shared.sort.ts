@@ -9,20 +9,18 @@ import { Setting } from './setting';
  */
 export class ArraySort implements PipeTransform {
 
-  transform(array: Setting[], args: any): Setting[] {
-    if (array) {
+  transform(array: Array<Setting>, args: any): Array<Setting> {
+    if (array)
       return array.sort((a, b) => {
-        if (a.position > b.position) {
+        if (a.position > b.position)
           return 1;
-        }
-        if (a.position < b.position) {
+
+        if (a.position < b.position)
           return -1;
-        }
-        // a must be equal to b
+
         return 0;
       });
-    } {
-      return null;
-    }
+
+    return undefined;
   }
 }
