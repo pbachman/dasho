@@ -43,7 +43,7 @@ export class LanguageProvider {
 
     this.getLanguage()
       .then(value => {
-        if (value.match(/en|de/) && choosenLanguage !== value)
+        if (value && value.match(/en|de/) && choosenLanguage !== value)
           this.setLanguage(value);
       });
     this.setLanguage(choosenLanguage);
