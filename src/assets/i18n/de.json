@@ -41,6 +41,8 @@
     "title": "Passwort vergessen?",
     "message": "Bitte gib deine E-Mail Adresse ein, damit wir dir ein neues Passwort zusenden können.",
     "send": "Zurücksetzen",
+    "alertInvalidTitle": "E-Mail ist ungültig!",
+    "alertInvalid": "Ungültige E-mail!",
     "alertTitle": "E-Mail wurde versendet",
     "alertSubTitle": "Schau in deinem Postfach nach, du hast Post von uns! Falls nicht, hast du evtl. die E-Mail Adresse falsch geschrieben oder aber gar keinen Account bei uns."
   },

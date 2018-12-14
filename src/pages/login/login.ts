@@ -5,6 +5,7 @@ import { UserProvider } from '../../providers/user';
 import { LoginService } from './login.service';
 
 import { MainPage } from '../main/main';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'page-login',
@@ -64,7 +65,7 @@ export class LoginPage {
   onEMailBlur(ngModel): void {
     const isInvalid = this.userData.isMailInvalid(ngModel.model);
     if (isInvalid)
-      ngModel.control.setErrors({ invalidMail : isInvalid });
+      ngModel.control.setErrors({ invalidMail: isInvalid });
     this.formErrors.username = isInvalid;
   }
 
@@ -75,7 +76,7 @@ export class LoginPage {
   loginForm(form): void {
     const email = form.form.controls.email;
     if (this.userData.isMailInvalid(email.value))
-      email.setErrors({ noMail : true });
+      email.setErrors({ noMail: true });
 
     if (form.valid) {
       this.isLoginIn = true;
@@ -83,10 +84,10 @@ export class LoginPage {
         .subscribe((response: any) => {
           const token = response.access_token;
           (token) ? this.userData.login(this.user.username, token)
-          .subscribe(() => {
-            this.navCtrl.push(MainPage);
-            this.showError = false;
-          }) : this.showErrorDialog(form.form.controls);
+            .subscribe(() => {
+              this.navCtrl.push(MainPage);
+              this.showError = false;
+            }) : this.showErrorDialog(form.form.controls);
           this.isLoginIn = false;
         }, err => {
           this.showErrorDialog(form.form.controls);
@@ -118,8 +119,16 @@ export class LoginPage {
         {
           text: i18n.forgetPassword.send,
           handler: data => {
-            if (this.userData.isMailInvalid(data.email))
+            if (this.userData.isMailInvalid(data.email)) {
+              const alert = this.alertCtrl.create({
+                title: i18n.forgetPassword.alertInvalidTitle,
+                subTitle: i18n.forgetPassword.alertInvalid,
+                buttons: ['OK']
+              });
+              alert.present();
+
               return false;
+            }
 
             this.loginService.forgetPassword(data.email)
               .subscribe(() => {
@@ -131,7 +140,13 @@ export class LoginPage {
                 alert.present();
 
                 return true;
-              }, (error: string) => {
+              }, (error: HttpErrorResponse) => {
+                const alert = this.alertCtrl.create({
+                  title: 'Error',
+                  subTitle: error.error.text ? error.error.text : error.error,
+                  buttons: ['OK']
+                });
+                alert.present();
 
                 return false;
               });

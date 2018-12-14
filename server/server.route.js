@@ -150,30 +150,38 @@ let serverRoutes = (function () {
    */
   router.post('/pwdreset', (req, res) => {
     if (req.body.username !== undefined) {
-      settingsloader.getUserByName(req.body.username).then(function (user) {
-        if (user !== undefined && user !== null) {
-          let password = generateRandomPassword();
-          settingsloader.setsPassword(user.email, password).then(function (check) {
-            if (check) {
-              sendMailer.sendMail(user.email, 'DashO', `<b>Hello ${user.email}!</b> Your new Password is ${password}`, function (error, info) {
-                if (error) {
-                  res.status(400);
-                  return res.send(error.message);
-                } else {
-                  res.status(200);
-                  return res.send();
-                }
-              });
-            }
-          }).catch(err => {
-            res.status(400);
-            return res.send(err);
-          });
-        } else {
-          res.status(200);
-          return res.send();
-        }
-      });
+      if (req.body.username !== 'hi@dasho.co') {
+        settingsloader.getUserByName(req.body.username).then(function (user) {
+          if (user !== undefined && user !== null) {
+            let password = generateRandomPassword();
+            settingsloader.setsPassword(user.email, password).then(function (check) {
+              if (check) {
+                sendMailer.sendMail(user.email, 'DashO', `<b>Hello ${user.email}!</b> Your new Password is ${password}`, function (error, info) {
+                  if (error) {
+                    res.status(400);
+                    return res.send(error.message);
+                  } else {
+                    res.status(200);
+                    return res.send();
+                  }
+                });
+              }
+            }).catch(err => {
+              res.status(400);
+              return res.send(err);
+            });
+          } else {
+            res.status(200);
+            return res.send();
+          }
+        }).catch(err => {
+          res.status(400);
+          return res.send(err);
+        });
+      } else {
+        res.status(200);
+        return res.send('Is not allowed to reset this E-mail address!');
+      }
     } else {
       res.status(400);
       return res.send('Required fields missing!');

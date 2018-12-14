@@ -41,6 +41,8 @@
     "title": "Forgot your password?",
     "message": "Please give us your email address. We will send you a new one.",
     "send": "Reset password",
+    "alertInvalidTitle": "E-Mail is invalid!",
+    "alertInvalid": "Invalid E-mail address!",
     "alertTitle": "Email sent",
     "alertSubTitle": "Look in your mailbox, you have mail from us! If not, you have perhaps misspelled the email address or you have no account at all."
   },
