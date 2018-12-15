@@ -149,7 +149,7 @@ module.exports = (function () {
         if (user) {
           return resolve(user);
         }
-        return reject('User not found!');
+        return resolve(null);
       });
     });
   }
