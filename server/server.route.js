@@ -48,6 +48,9 @@ let serverRoutes = (function () {
           res.status(401);
           return res.send('Login failed!');
         }
+      }, function (err) {
+        res.status(401);
+        return res.send(err);
       });
     } else {
       res.status(400);
@@ -68,10 +71,10 @@ let serverRoutes = (function () {
     } else {
       // are you allowed to invite new users ?
       settingsloader.getUserByName(req.body.username).then(function (user) {
-        if (user !== undefined && user !== null) {
+        if (user !== undefined && user !== null && user.caninvite) {
           settingsloader.getUserByName(req.body.friend).then(function (user) {
             // does the user already exists?
-            if (user !== undefined && user !== null) {
+            if (user !== null) {
               res.status(400);
               return res.send('User already exists!');
             } else {
@@ -79,10 +82,10 @@ let serverRoutes = (function () {
               let newuser = { email: req.body.friend, password: passwordHash.generate(password), caninvite: false };
 
               settingsloader.addUser(newuser).then(function (user) {
-                sendMailer.sendMail(req.body.friend, 'Welcome to DashO ✔', `<b>Hello User!</b> Welcome to <a href="http://dasho.co">dashO.co</a>. Your Password is ${password}`, function (error, info) {
+                sendMailer.sendMail(req.body.friend, 'Welcome to Dasho ✔', `<b>Hello User!</b> Welcome to <a href="http://dasho.co">dashO.co</a>. Your Password is ${password}`, function (error, info) {
                   if (error) {
                     res.status(400);
-                    return res.send(error.message);
+                    return res.send(`Couldn't send Invitation Mail ${error}`);
                   } else {
                     res.status(200);
                     return res.send();
@@ -93,6 +96,9 @@ let serverRoutes = (function () {
                 return res.send(err);
               });
             }
+          }).catch(err => {
+            res.status(400);
+            return res.send(err);
           });
         } else {
           res.status(400);

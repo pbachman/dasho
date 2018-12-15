@@ -5,6 +5,7 @@ import { MainPage } from '../pages/main/main';
 import { UserProvider } from '../providers/user';
 import { LanguageProvider } from '../providers/language';
 import { DashboardService } from '../pages/main/main.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   templateUrl: 'app.html'
@@ -154,8 +155,16 @@ export class DashoApp {
         {
           text: i18n.invite.send,
           handler: data => {
-            if (this.userData.isMailInvalid(data.email))
+            if (this.userData.isMailInvalid(data.email)) {
+              const alert = this.alertCtrl.create({
+                title: i18n.forgetPassword.alertInvalidTitle,
+                subTitle: i18n.forgetPassword.alertInvalid,
+                buttons: ['OK']
+              });
+              alert.present();
+
               return false;
+            }
 
             this.dashboardService.inviteFriends(this.currentUser, data.email)
               .subscribe(() => {
@@ -167,7 +176,14 @@ export class DashoApp {
                 alert.present();
 
                 return true;
-              }, (error: string) => {
+              }, (error: HttpErrorResponse) => {
+                const alert = this.alertCtrl.create({
+                  title: 'Error!',
+                  message: error.error,
+                  enableBackdropDismiss: false,
+                  buttons: ['OK']
+                });
+                alert.present();
 
                 return false;
               });
