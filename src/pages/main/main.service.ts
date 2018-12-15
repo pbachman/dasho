@@ -60,13 +60,16 @@ export class DashboardService {
         };
 
         let query = `{settings(user:"${username}") {`;
-        for (let settingIndex = 0; settingIndex < settings.length; settingIndex++) {
-          const settingItem = settings[settingIndex];
-          if (settingItem)
-            if (settingItem.schemas !== undefined && settingItem.schemas !== null)
-              query += ` ${settingItem.schemas}`;
-        }
-        query += '}}';
+        if (settings.length > 0) {
+          for (let settingIndex = 0; settingIndex < settings.length; settingIndex++) {
+            const settingItem = settings[settingIndex];
+            if (settingItem)
+              if (settingItem.schemas !== undefined && settingItem.schemas !== null)
+                query += ` ${settingItem.schemas}`;
+          }
+          query += '}}';
+        } else
+          query += 'clock { datetime totalSeconds } }}';
 
         const BODY = JSON.stringify({
           query: query,
