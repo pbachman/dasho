@@ -5,7 +5,7 @@
  * @author Philipp Bachmann, Jon Uhlmann
  */
 let serverMailer = (function () {
-  let nodemailer = require('nodemailer');
+  const nodemailer = require('nodemailer');
 
   /**
  * Sends a Mail
@@ -16,14 +16,24 @@ let serverMailer = (function () {
  * @param {object} callback callback
    */
   function sendMail(sendto, subject, text, callback) {
-    let smptConfig = require('../config.json');
+    const config = require('../config.json');
+
+    const smtpConfig = {
+      host: config.host,
+      port: config.port,
+      secure: false, // upgrade later with STARTTLS
+      auth: {
+        user: config.username,
+        pass: config.pwd
+      }
+    }
 
     // create reusable transporter object using the default SMTP transport
-    let transporter = nodemailer.createTransport(`smtp://${smptConfig.username}:${smptConfig.pwd}@${smptConfig.host}`);
+    const transporter = nodemailer.createTransport(smtpConfig);
 
     // Mail Options
-    let mailOptions = {
-      from: smptConfig.from,
+    const mailOptions = {
+      from: config.from,
       to: sendto,
       subject: subject,
       html: text
