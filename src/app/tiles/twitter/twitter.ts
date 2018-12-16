@@ -4,7 +4,7 @@ import { Setting } from '../../../shared/setting';
 import { TileBaseComponent } from '../../../shared/shared.tile';
 
 @Component({
-  selector: 'grid-twitter-userdata',
+  selector: 'grid-twitter',
   templateUrl: 'twitter.html'
 })
 
