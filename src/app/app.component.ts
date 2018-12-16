@@ -19,6 +19,7 @@ export class DashoApp {
   rootPage: Object = LoginPage;
   menuEnable: boolean;
   currentUser: string;
+  settings: any;
 
   /**
    * Create the dasho app
@@ -192,6 +193,23 @@ export class DashoApp {
       ]
     });
     prompt.present();
+  }
+
+  /**
+   * Shows the Settings dialog
+   */
+  configureTiles(): void {
+    this.dashboardService.getSettings(this.currentUser)
+      .subscribe((settings: any) => {
+        this.settings = settings;
+
+        const alert = this.alertCtrl.create({
+          title: 'Settings',
+          subTitle: 'Settings',
+          buttons: ['OK']
+        });
+        alert.present();
+      });
   }
 
   /**

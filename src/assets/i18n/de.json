@@ -12,7 +12,8 @@
     "title": "Menu",
     "logout": "Abmelden",
     "changePassword": "Passwort wechseln",
-    "inviteFriend": "Freund einladen"
+    "inviteFriend": "Freund einladen",
+    "configureTiles": "Einstellungen"
   },
   "login": {
     "toolbar": "Einloggen",

@@ -12,7 +12,8 @@
     "title": "Menu",
     "logout": "Log out",
     "changePassword": "Change Password",
-    "inviteFriend": "Invite friend"
+    "inviteFriend": "Invite friend",
+    "configureTiles": "Settings"
   },
   "login": {
     "toolbar": "Login",
