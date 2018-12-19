@@ -5,12 +5,12 @@
  * @author Philipp Bachmann, Jon Uhlmann
  */
 let serverRoutes = (function () {
-  let express = require('express');
-  let settingsloader = require('../loaders/settingsloader');
-  let router = express.Router();
-  let passwordHash = require('password-hash');
-  let sendMailer = require('./server.mailer');
-  let oauthServer = require('./server.oauth');
+  const express = require('express');
+  const settingsloader = require('../loaders/settingsloader');
+  const router = express.Router();
+  const passwordHash = require('password-hash');
+  const sendMailer = require('./server.mailer');
+  const oauthServer = require('./server.oauth');
 
   /**
  * Generates a new Password
@@ -19,7 +19,7 @@ let serverRoutes = (function () {
    */
   function generateRandomPassword() {
     let text = "";
-    let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
     for (let passwordIndex = 0; passwordIndex < 8; passwordIndex++)
       text += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -36,7 +36,7 @@ let serverRoutes = (function () {
     if (req.body.username !== undefined && req.body.password !== undefined) {
       settingsloader.getUserByName(req.body.username).then(function (user) {
         if (user !== undefined && user !== null) {
-          let checkPassword = passwordHash.verify(req.body.password, user.password);
+          const checkPassword = passwordHash.verify(req.body.password, user.password);
           if (checkPassword) {
             res.status(200);
             return res.send();
@@ -48,8 +48,8 @@ let serverRoutes = (function () {
           res.status(401);
           return res.send('Login failed!');
         }
-      }, function (err) {
-        res.status(401);
+      }).catch(err => {
+        res.status(400);
         return res.send(err);
       });
     } else {
@@ -78,8 +78,8 @@ let serverRoutes = (function () {
               res.status(400);
               return res.send('User already exists!');
             } else {
-              let password = generateRandomPassword();
-              let newuser = { email: req.body.friend, password: passwordHash.generate(password), caninvite: false };
+              const password = generateRandomPassword();
+              const newuser = { email: req.body.friend, password: passwordHash.generate(password), caninvite: false };
 
               settingsloader.addUser(newuser).then(function (user) {
                 sendMailer.sendMail(req.body.friend, 'Welcome to Dasho ✔', `<b>Hello User!</b> Welcome to <a href="http://dasho.co">dashO.co</a>. Your Password is ${password}`, function (error, info) {
@@ -90,6 +90,9 @@ let serverRoutes = (function () {
                     res.status(200);
                     return res.send();
                   }
+                }).catch(err => {
+                  res.status(400);
+                  return res.send(err);
                 });
               }).catch(err => {
                 res.status(400);
@@ -120,7 +123,7 @@ let serverRoutes = (function () {
       settingsloader.getUserByName(req.body.username).then(function (user) {
         if (user !== undefined && user !== null) {
           if (req.body.newpassword === req.body.newpasswordconfirm) {
-            let checkPassword = passwordHash.verify(req.body.password, user.password);
+            const checkPassword = passwordHash.verify(req.body.password, user.password);
             if (checkPassword) {
               settingsloader.setsPassword(user, req.body.newpassword).then(function (user) {
                 res.status(200);
@@ -141,6 +144,9 @@ let serverRoutes = (function () {
           res.status(400);
           return res.send('Unknown User!');
         }
+      }).catch(err => {
+        res.status(400);
+        return res.send(err);
       });
     } else {
       res.status(400);
@@ -159,7 +165,7 @@ let serverRoutes = (function () {
       if (req.body.username !== 'hi@dasho.co') {
         settingsloader.getUserByName(req.body.username).then(function (user) {
           if (user !== undefined && user !== null) {
-            let password = generateRandomPassword();
+            const password = generateRandomPassword();
             settingsloader.setsPassword(user.email, password).then(function (check) {
               if (check) {
                 sendMailer.sendMail(user.email, 'DashO', `<b>Hello ${user.email}!</b> Your new Password is ${password}`, function (error, info) {
@@ -206,6 +212,9 @@ let serverRoutes = (function () {
       settingsloader.saveSetting(setting).then(function (user) {
         res.status(200);
         return res.send();
+      }).catch(err => {
+        res.status(400);
+        return res.send(err);
       });
     } else {
       res.status(400);
@@ -235,6 +244,9 @@ let serverRoutes = (function () {
           res.status(400);
           return res.send('Unknown User!');
         }
+      }).catch(err => {
+        res.status(400);
+        return res.send(err);
       });
     } else {
       res.status(400);
