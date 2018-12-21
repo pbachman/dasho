@@ -121,14 +121,12 @@ export class Clock extends TileBaseComponent {
         max: 12,
         lineWidth: 0,
         showFirstLabel: false,
-
         minorTickInterval: 'auto',
         minorTickWidth: 1,
         minorTickLength: 5,
         minorTickPosition: 'inside',
         minorGridLineWidth: 0,
         minorTickColor: '#666',
-
         tickInterval: 1,
         tickWidth: 2,
         tickPosition: 'inside',
