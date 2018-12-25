@@ -17,7 +17,7 @@ const settingsType = new graphql.GraphQLObjectType({
   description: 'Settings Type for DashO',
   fields: () => ({
     googleapi: {
-      type: schemaloader.getSchemaByName(1), //googleApiServiceDataType,
+      type: schemaloader.getSchemaByName('googleapi'),
       args: {
         user: {
           type: graphql.GraphQLString
@@ -42,7 +42,7 @@ const settingsType = new graphql.GraphQLObjectType({
       }
     },
     github: {
-      type: schemaloader.getSchemaByName(2), //githubApiServiceDataType,
+      type: schemaloader.getSchemaByName('github'),
       resolve: (source, args, context, info) => {
         let user = context.body.user;
 
@@ -64,7 +64,7 @@ const settingsType = new graphql.GraphQLObjectType({
       }
     },
     openweather: {
-      type: schemaloader.getSchemaByName(3), //openWeatherApiServiceDataType,
+      type: schemaloader.getSchemaByName('openweather'),
       resolve: (root, args, context) => {
         let user = context.body.user;
 
@@ -84,7 +84,7 @@ const settingsType = new graphql.GraphQLObjectType({
       }
     },
     twitter: {
-      type: schemaloader.getSchemaByName(4), //twitterApiServiceDataType,
+      type: schemaloader.getSchemaByName('twitter'),
       resolve: (root, args, context) => {
         let user = context.body.user;
         return settingsloader.getTileConfig(user, 'twitter')
@@ -127,7 +127,7 @@ const settingsType = new graphql.GraphQLObjectType({
       }
     },
     fixer: {
-      type: schemaloader.getSchemaByName(5), //fixerApiServiceDataType,
+      type: schemaloader.getSchemaByName('fixer'),
       resolve: (root, args, context) => {
         let user = context.body.user;
 
@@ -146,7 +146,7 @@ const settingsType = new graphql.GraphQLObjectType({
       }
     },
     news: {
-      type: schemaloader.getSchemaByName(6), //newsApiServiceDataType,
+      type: schemaloader.getSchemaByName('news'),
       resolve: (root, args, context) => {
         let user = context.body.user;
 
@@ -165,7 +165,7 @@ const settingsType = new graphql.GraphQLObjectType({
       }
     },
     clock: {
-      type: schemaloader.getSchemaByName(7), //clockDataType,
+      type: schemaloader.getSchemaByName('clock'),
       resolve: clock => clock
     }
   })

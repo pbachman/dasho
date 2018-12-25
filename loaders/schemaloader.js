@@ -21,45 +21,45 @@ module.exports = (function () {
    */
   function getSchemaByName(schemaname) {
     switch (schemaname) {
-      case 1: // 'googleapi':
+      case 'googleapi':
         return googleApiServiceDataType;
-      case 2: // 'github':
+      case 'github':
         return githubApiServiceDataType;
-      case 3: // 'openweather':
+      case 'openweather':
         return openWeatherApiServiceDataType;
-      case 4: // 'twitter':
+      case 'twitter':
         return twitterApiServiceDataType;
-      case 5: // 'fixer':
+      case 'fixer':
         return fixerApiServiceDataType;
-      case 6: // 'news':
+      case 'news':
         return newsApiServiceDataType;
-      case 7: // 'clock':
+      case 'clock':
         return clockDataType;
     }
     return null;
   }
 
   /**
-   * Gets a Schema Query by TileId.
+   * Gets a Schema Query by Tile.
    * @function
-   * @param {int} tileid Tile Id
+   * @param {string} tile Tile
    * @return {string} Query
    */
-  function getSchemaQueryByTileId(tileid) {
-    switch (tileid) {
-      case 1: // 'googleapi':
+  function getSchemaQueryByTile(tile) {
+    switch (tile) {
+      case 'googleapi':
         return `googleapi { url, desktop { speed }, mobile { speed usability } }`;
-      case 2: // 'github':
+      case 'github':
         return `github { watchers forks stars user repository }`;
-      case 3: // 'openweather':
+      case 'openweather':
         return `openweather { location unit latitude longitude, today { temp, icon } }`;
-      case 4: // 'twitter':
+      case 'twitter':
         return `twitter { user followers following tweets likes backgroundimage profileimage }`;
-      case 5: // 'fixer':
+      case 'fixer':
         return `fixer { currency CHF USD EUR GBP }`;
-      case 6: // 'news':
+      case 'news':
         return `news { source, articles { title image publishedAt url }}`;
-      case 7: // 'clock':
+      case 'clock':
         return `clock { datetime totalSeconds }`;
     }
     return null;
@@ -67,6 +67,6 @@ module.exports = (function () {
 
   return {
     getSchemaByName: getSchemaByName,
-    getSchemaQueryByTileId: getSchemaQueryByTileId
+    getSchemaQueryByTile: getSchemaQueryByTile
   };
 })();

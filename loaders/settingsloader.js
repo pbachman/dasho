@@ -26,55 +26,52 @@ module.exports = (function () {
   function init() {
     // Clients OAuth Configuration
     db.clients.count({}, function (err, count) {
-      // Insert Clients, if not exists.
+      // Insert Client, if not exists.
       if (count == 0) {
-        // insert Tiles
         db.clients.insert([
           { clientId: 'dasho', clientSecret: '$ecret', redirectUris: [''] }
         ]);
       }
     });
 
-    // Tiles Configuration
+    // Tiles
     db.tiles.count({}, function (err, count) {
       // Insert Tiles, if not exists.
       if (count == 0) {
-        // insert Tiles
         db.tiles.insert([
-          { tileid: 1, name: 'googleapi', baseUrl: 'https://www.googleapis.com/pagespeedonline/v2/runPagespeed', apikey: '', apisecret: '' },
-          { tileid: 2, name: 'github', baseUrl: 'https://api.github.com', apikey: '0a01416559cc95dc055d', apisecret: '' },
-          { tileid: 3, name: 'openweather', baseUrl: 'http://api.openweathermap.org/data/2.5/weather', apikey: '', apisecret: '' },
-          { tileid: 4, name: 'twitter', baseUrl: 'https://api.twitter.com', apikey: '', apisecret: '' },
-          { tileid: 5, name: 'fixer', baseUrl: 'http://data.fixer.io/api/latest', apikey: '', apisecret: '' },
-          { tileid: 6, name: 'news', baseUrl: 'https://newsapi.org/v1/articles', apikey: '', apisecret: '' },
-          { tileid: 7, name: 'clock', baseUrl: '', apikey: '', apisecret: '' }
+          { _id: "ZkNW1xMuVq7B1rn5", name: 'googleapi', baseUrl: 'https://www.googleapis.com/pagespeedonline/v2/runPagespeed', apikey: '', apisecret: '' },
+          { _id: "8vJH0MaIin7KDpUY", name: 'github', baseUrl: 'https://api.github.com', apikey: '0a01416559cc95dc055d', apisecret: '' },
+          { _id: "mB2wXblzppRSnewm", name: 'openweather', baseUrl: 'http://api.openweathermap.org/data/2.5/weather', apikey: '', apisecret: '' },
+          { _id: "JyVSFAw0ygrFphVp", name: 'twitter', baseUrl: 'https://api.twitter.com', apikey: '', apisecret: '' },
+          { _id: "tuAPdN68QwtG4Aha", name: 'fixer', baseUrl: 'http://data.fixer.io/api/latest', apikey: '', apisecret: '' },
+          { _id: "d3THA4b9mkxhqVQ3", name: 'news', baseUrl: 'https://newsapi.org/v1/articles', apikey: '', apisecret: '' },
+          { _id: "88MjFRnZnNrVYKsI", name: 'clock', baseUrl: '', apikey: '', apisecret: '' }
         ]);
       }
     });
 
-    // Standard Configuration
+    // Tiles Configuration
     db.configs.count({}, function (err, count) {
       // Insert Configurations, if not exists.
       if (count == 0) {
-        // insert Configurations
         db.configs.insert([
-          { userid: 1, tileid: 1, position: 0, visible: true, querystring: '?url=http://www.phil.ch&strategy=${strategy}' },
-          { userid: 1, tileid: 2, position: 1, visible: true, querystring: '/repos/pbachman/CrossText?client_id=${apikey}&client_secret=${apisecret}' },
-          { userid: 1, tileid: 3, position: 2, visible: true, querystring: '?q=Zug,CHE&appid=${apiKey}&units=metric' },
-          { userid: 1, tileid: 4, position: 3, visible: true, querystring: '/1.1/users/lookup.json?screen_name=pbachman_ch' },
-          { userid: 1, tileid: 5, position: 4, visible: true, querystring: '?access_key=${apiKey}&format=1&base=EUR' },
-          { userid: 1, tileid: 6, position: 5, visible: true, querystring: '?source=metro&apiKey=${apiKey}' },
-          { userid: 1, tileid: 7, position: 6, visible: true, querystring: '' }
+          { userid: "6kO2i9Wt2ElAjvdl", tileid: "ZkNW1xMuVq7B1rn5", position: 0, visible: true, querystring: '?url=http://www.phil.ch&strategy=${strategy}' },
+          { userid: "6kO2i9Wt2ElAjvdl", tileid: "8vJH0MaIin7KDpUY", position: 1, visible: true, querystring: '/repos/pbachman/dasho?client_id=${apikey}&client_secret=${apisecret}' },
+          { userid: "6kO2i9Wt2ElAjvdl", tileid: "mB2wXblzppRSnewm", position: 2, visible: true, querystring: '?q=Zug,CHE&appid=${apiKey}&units=metric' },
+          { userid: "6kO2i9Wt2ElAjvdl", tileid: "JyVSFAw0ygrFphVp", position: 3, visible: true, querystring: '/1.1/users/lookup.json?screen_name=pbachman_ch' },
+          { userid: "6kO2i9Wt2ElAjvdl", tileid: "tuAPdN68QwtG4Aha", position: 4, visible: true, querystring: '?access_key=${apiKey}&format=1&base=EUR' },
+          { userid: "6kO2i9Wt2ElAjvdl", tileid: "d3THA4b9mkxhqVQ3", position: 5, visible: true, querystring: '?source=metro&apiKey=${apiKey}' },
+          { userid: "6kO2i9Wt2ElAjvdl", tileid: "88MjFRnZnNrVYKsI", position: 6, visible: true, querystring: '' }
         ]);
       }
     });
 
-    // Insert Standard Users
+    // Users
     db.users.count({}, function (err, count) {
-      // Insert Users, if not exists.
+      // Insert Standard User, if not exists.
       if (count == 0) {
         db.users.insert([
-          { userid: 1, email: 'hi@dasho.co', password: passwordHash.generate('test1234'), caninvite: true }]
+          { _id: "6kO2i9Wt2ElAjvdl", email: 'hi@dasho.co', password: passwordHash.generate('test1234'), caninvite: true }]
         );
       }
     });
@@ -216,7 +213,7 @@ module.exports = (function () {
    */
   function getSettings(user) {
     return new Promise((resolve, reject) => {
-      db.configs.find({ userid: user.userid }, function (err, configs) {
+      db.configs.find({ userid: user._id }, {}, (err, configs) => {
         if (err) {
           return reject(err);
         } else {
@@ -224,20 +221,29 @@ module.exports = (function () {
 
           if (configs) {
             // extends the current config with the graphql query.
-            configs.forEach(function (configItem) {
-              let userConfig = {
-                id: configItem._id,
-                tile: configItem.tileid,
-                position: configItem.position,
-                schemas: schemaloader.getSchemaQueryByTileId(configItem.tileid),
-                visible: configItem.visible,
-              };
+            var promises = [];
+            configs.forEach((configItem) => {
+              promises.push(
+                getTileById(configItem.tileid).then((tile) => {
+                  const userConfig = {
+                    id: configItem._id,
+                    tile: tile.name,
+                    position: configItem.position,
+                    schemas: schemaloader.getSchemaQueryByTile(tile.name),
+                    visible: configItem.visible,
+                  };
+                  userconfigs.push(userConfig);
+                })
+              );
+            });
 
-              userconfigs.push(userConfig);
-            })
-            return resolve(userconfigs);
+            return Promise.all(promises).then(() => {
+              console.log(userconfigs.length);
+              resolve(userconfigs)
+            }, function (error) {
+              reject(`No Configs not set! ${error}`);
+            });
           }
-          return reject('No Configs not set!');
         }
       });
     });
@@ -299,6 +305,23 @@ module.exports = (function () {
   }
 
   /**
+   * Gets a Tile by Id.
+   * @function
+   * @return {promise} promise
+   */
+  function getTileById(id) {
+    return new Promise((resolve, reject) => {
+      db.tiles.findOne({ _id: id }, function (err, tile) {
+        if (err) {
+          return reject(err);
+        } else {
+          return resolve(tile);
+        }
+      });
+    });
+  }
+
+  /**
    * Gets a TileConfig.
    * @function
    * @param {string} user
@@ -313,7 +336,7 @@ module.exports = (function () {
         } else {
           return getUserByName(user).then(function (user) {
             if (user && tile) {
-              db.configs.findOne({ tileid: tile.tileid, userid: user.userid }, function (err, config) {
+              db.configs.findOne({ tileid: tile._id, userid: user._id }, function (err, config) {
                 if (err) {
                   return reject(err);
                 } else {
@@ -343,6 +366,7 @@ module.exports = (function () {
     addUser: addUser,
     addTiles: addTiles,
     getTiles: getTiles,
+    getTileById: getTileById,
     getClients: getClients,
     verifyLogin: verifyLogin,
     getAccessToken: getAccessToken,

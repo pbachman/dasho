@@ -2,13 +2,13 @@
   <div id="packery" class="grid">
     <div *ngFor="let setting of (settings | sort:{value: null});">
       <div [ngSwitch]="setting.tile" [hidden]="!setting.visible">
-        <grid-google *ngSwitchCase="1" [tile]="setting" (notify)="hideTile($event)"></grid-pagespeed>
-        <grid-github *ngSwitchCase="2" [tile]="setting" (notify)="hideTile($event)"></grid-github>
-        <grid-weather *ngSwitchCase="3" [tile]="setting" (notify)="hideTile($event)"></grid-weather>
-        <grid-twitter *ngSwitchCase="4" [tile]="setting" (notify)="hideTile($event)"></grid-twitter>
-        <grid-currency *ngSwitchCase="5" [tile]="setting" (notify)="hideTile($event)"></grid-currency>
-        <grid-news *ngSwitchCase="6" [tile]="setting" (notify)="hideTile($event)"></grid-news>
-        <grid-clock *ngSwitchCase="7" [tile]="setting" (notify)="hideTile($event)"></grid-clock>
+        <grid-google *ngSwitchCase="'googleapi'" [tile]="setting" (notify)="hideTile($event)"></grid-google>
+        <grid-github *ngSwitchCase="'github'" [tile]="setting" (notify)="hideTile($event)"></grid-github>
+        <grid-weather *ngSwitchCase="'openweather'" [tile]="setting" (notify)="hideTile($event)"></grid-weather>
+        <grid-twitter *ngSwitchCase="'twitter'" [tile]="setting" (notify)="hideTile($event)"></grid-twitter>
+        <grid-currency *ngSwitchCase="'currency'" [tile]="setting" (notify)="hideTile($event)"></grid-currency>
+        <grid-news *ngSwitchCase="'news'" [tile]="setting" (notify)="hideTile($event)"></grid-news>
+        <grid-clock *ngSwitchCase="'clock'" [tile]="setting" (notify)="hideTile($event)"></grid-clock>
       </div>
     </div>
   </div>
@@ -26,14 +26,14 @@
     <ion-fab-list side="top">
       <span *ngFor="let setting of settings;">
         <button ion-fab (click)="showTile(setting.tile)" [ngSwitch]="setting.tile" *ngIf="!setting.visible">
-          <ion-icon name="speedometer" *ngSwitchCase="1"></ion-icon>
-          <ion-icon name="logo-github" *ngSwitchCase="2"></ion-icon>
-          <ion-icon name="partly-sunny" *ngSwitchCase="3"></ion-icon>
-          <ion-icon name="logo-twitter" *ngSwitchCase="4"></ion-icon>
-          <ion-icon name="logo-usd" *ngSwitchCase="5"></ion-icon>
-          <ion-icon name="paper" *ngSwitchCase="6"></ion-icon>
-          <ion-icon name="clock" *ngSwitchCase="7"></ion-icon>
-          <ion-icon *ngSwitchDefault>x</ion-icon>
+          <ion-icon name="speedometer" *ngSwitchCase="'googleapi'"></ion-icon>
+          <ion-icon name="logo-github" *ngSwitchCase="'github'"></ion-icon>
+          <ion-icon name="partly-sunny" *ngSwitchCase="'openweather'"></ion-icon>
+          <ion-icon name="logo-twitter" *ngSwitchCase="'twitter'"></ion-icon>
+          <ion-icon name="logo-usd" *ngSwitchCase="'currency'"></ion-icon>
+          <ion-icon name="paper" *ngSwitchCase="'news'"></ion-icon>
+          <ion-icon name="clock" *ngSwitchCase="'clock'"></ion-icon>
+          <ion-icon *ngSwitchDefault>Unknown Tile!</ion-icon>
         </button>
       </span>
     </ion-fab-list>
