@@ -1,8 +1,8 @@
 <ion-content padding class="main-bg">
   <div id="packery" class="grid">
     <div *ngFor="let setting of (settings | sort:{value: null});">
-      <div [ngSwitch]="setting.tile" *ngIf="setting.visible">
-        <grid-pagespeed *ngSwitchCase="1" [tile]="setting" (notify)="hideTile($event)"></grid-pagespeed>
+      <div [ngSwitch]="setting.tile" [hidden]="!setting.visible">
+        <grid-google *ngSwitchCase="1" [tile]="setting" (notify)="hideTile($event)"></grid-pagespeed>
         <grid-github *ngSwitchCase="2" [tile]="setting" (notify)="hideTile($event)"></grid-github>
         <grid-weather *ngSwitchCase="3" [tile]="setting" (notify)="hideTile($event)"></grid-weather>
         <grid-twitter *ngSwitchCase="4" [tile]="setting" (notify)="hideTile($event)"></grid-twitter>

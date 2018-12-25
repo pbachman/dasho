@@ -11,14 +11,14 @@ ChartModuleMore(Highcharts);
 HCSoldGauge(Highcharts);
 
 @Component({
-  selector: 'grid-pagespeed',
-  templateUrl: 'pagespeed.html'
+  selector: 'grid-google',
+  templateUrl: 'google.html'
 })
 
 /**
  * Represents a Google tile.
  */
-export class Pagespeed extends TileBaseComponent {
+export class Google extends TileBaseComponent {
   @Input('tile') tile: Setting;
   @Output() notify: EventEmitter<Object> = new EventEmitter<Object>();
   data: { desktop: { speed: number }, mobile: { speed: number, usability: number } };
@@ -97,7 +97,7 @@ export class Pagespeed extends TileBaseComponent {
         backgroundColor: 'none',
         shadow: false,
         useHTML: true,
-        pointFormat: '<div class="grid-item-pagespeed-tooltip"><div style="color:{point.color};">{point.y}%</div>{series.name}</div>',
+        pointFormat: '<div class="grid-item-google-tooltip"><div style="color:{point.color};">{point.y}%</div>{series.name}</div>',
         positioner: (labelWidth: number) => {
           return {
             x: 115 - labelWidth / 2,
