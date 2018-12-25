@@ -27,7 +27,7 @@ export class News extends TileBaseComponent {
     this.events.subscribe('data:ready', data => {
       if (data) {
         const news = data.news;
-        if (news.articles)
+        if (news && news.articles)
           news.articles.sort((a, b) => {
             const dateB = new Date(b.publishedAt).getTime();
             const dateA = new Date(a.publishedAt).getTime();
