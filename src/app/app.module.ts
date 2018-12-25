@@ -14,7 +14,7 @@ import { Clock } from './tiles/clock/clock';
 import { Currency } from './tiles/currency/currency';
 import { Github } from './tiles/github/github';
 import { News } from './tiles/news/news';
-import { Pagespeed } from './tiles/pagespeed/pagespeed';
+import { Google } from './tiles/google/google';
 import { Twitter } from './tiles/twitter/twitter';
 import { Weather } from './tiles/weather/weather';
 import { ArraySort } from '../shared/shared.sort';
@@ -39,7 +39,7 @@ export function createTranslateLoader(http: Http): TranslateStaticLoader {
     Currency,
     Github,
     News,
-    Pagespeed,
+    Google,
     Twitter,
     Weather,
     ArraySort
