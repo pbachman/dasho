@@ -213,7 +213,7 @@ module.exports = (function () {
    */
   function getSettings(user) {
     return new Promise((resolve, reject) => {
-      db.configs.find({ userid: user._id }, {}, (err, configs) => {
+      db.configs.find({ userid: user._id }).sort({ position: 1 }).exec((err, configs) => {
         if (err) {
           return reject(err);
         } else {
