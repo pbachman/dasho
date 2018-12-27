@@ -176,11 +176,11 @@ module.exports = (function () {
    */
   function addUser(user) {
     return new Promise((resolve, reject) => {
-      db.users.insert(user, function (err, newDocs) {
+      db.users.insert(user, function (err, user) {
         if (err) {
           return reject(err);
         } else {
-          return resolve(true);
+          return resolve(user);
         }
       });
     });
