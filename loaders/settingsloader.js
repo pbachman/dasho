@@ -267,22 +267,24 @@ module.exports = (function () {
   }
 
   /**
-   * Adds Tiles.
+   * Assign Tile to User.
    * @function
    * @param {string} email
-   * @param {string} tileid
-   * @param {string} position
+   * @param {string} tile
    * @return {promise} promise
    */
-  function addTiles(email, tileid, position) {
+  function assignTile(userid, tile) {
     return new Promise((resolve, reject) => {
-      db.users.findOne({ email: email }, function (err, user) {
+      db.tiles.findOne({ name: tile }, (err, tile) => {
         if (err) {
           return reject(err);
-        } else {
-          db.configs.insert({ userid: user.userid, tileid: tileid, position: position });
         }
-        return resolve(user);
+        db.configs.insert({ userid: userid, tileid: tile._id, position: 1, visible: true }, (err, config) => {
+          if (err) {
+            return reject(err);
+          }
+          return resolve(config);
+        });
       });
     });
   }
@@ -364,7 +366,7 @@ module.exports = (function () {
 
   return {
     addUser: addUser,
-    addTiles: addTiles,
+    assignTile: assignTile,
     getTiles: getTiles,
     getTileById: getTileById,
     getClients: getClients,
