@@ -96,14 +96,15 @@ module.exports = (function () {
    */
   function verifyLogin(user, password, callback) {
     if (typeof callback == 'function') {
-      db.users.findOne({ email: user }, function (err, user) {
-        let checkpassword = passwordHash.verify(password, user.password)
-        if (checkpassword) {
-          callback(err, user);
+      db.users.findOne({ email: user.toLowerCase() }, function (err, user) {
+        if (user) {
+          const checkpassword = passwordHash.verify(password, user.password)
+          if (checkpassword) {
+            callback(err, user);
+            return;
+          }
         }
-        else {
-          callback(err, null);
-        }
+        callback(err, null);
       });
     }
   }
