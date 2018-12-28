@@ -48,7 +48,7 @@ let serverRoutes = (function () {
           res.status(401);
           return res.send('Login failed!');
         }
-      }).catch(err => {
+      },(err) => {
         res.status(400);
         return res.send(err);
       });
@@ -84,23 +84,23 @@ let serverRoutes = (function () {
               settingsloader.addUser(newuser).then(function (user) {
                 // Add new User and assign Clock Tile to User.
                 settingsloader.assignTile(user._id, 'clock').then(function (config) {
-                  sendMailer.sendMail(user, 'Welcome to Dasho ✔', `<b>Hello User!</b> Welcome to <a href="http://dasho.co">dashO.co</a>. Your Password is ${password}`, function (error, info) {
+                  sendMailer.sendMail(user.email, 'Welcome to Dasho ✔', `<b>Hello User!</b> Welcome to <a href="https://dasho.netlify.com">dasho</a>. Please login with your E-mail address. Your Password is ${password}`, function (error, info) {
                     if (error) {
                       res.status(400);
                       return res.send(`Couldn't send Invitation Mail ${error}`);
                     } else {
                       res.status(200);
-                      return res.send();
+                      return res.send(info);
                     }
                   }).catch(err => {
                     res.status(400);
                     return res.send(err);
                   });
-                }).catch(err => {
+                },(err) => {
                   res.status(400);
                   return res.send(err);
                 });
-              }).catch(err => {
+              },(err) => {
                 res.status(400);
                 return res.send(err);
               });
