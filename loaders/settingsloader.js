@@ -238,7 +238,6 @@ module.exports = (function () {
             });
 
             return Promise.all(promises).then(() => {
-              console.log(userconfigs.length);
               resolve(userconfigs)
             }, function (error) {
               reject(`No Configs not set! ${error}`);
@@ -269,22 +268,21 @@ module.exports = (function () {
   /**
    * Assign Tile to User.
    * @function
-   * @param {string} email
+   * @param {string} user
    * @param {string} tile
    * @return {promise} promise
    */
-  function assignTile(userid, tile) {
+  function assignTile(user, tile) {
     return new Promise((resolve, reject) => {
-      db.tiles.findOne({ name: tile }, (err, tile) => {
-        if (err) {
-          return reject(err);
-        }
-        db.configs.insert({ userid: userid, tileid: tile._id, position: 1, visible: true }, (err, config) => {
+      return getTileByName(tile).then((tile) => {
+        db.configs.insert({ userid: user, tileid: tile._id, position: 1, visible: true }, (err, config) => {
           if (err) {
             return reject(err);
           }
           return resolve(config);
         });
+      }, (err) => {
+        return reject(err);
       });
     });
   }
@@ -307,13 +305,32 @@ module.exports = (function () {
   }
 
   /**
+   * Gets a Tile by Name.
+   * @function
+   * @param {string} name
+   * @return {promise} promise
+   */
+  function getTileByName(name) {
+    return new Promise((resolve, reject) => {
+      db.tiles.findOne({ name: name }, function (err, tile) {
+        if (err) {
+          return reject(err);
+        } else {
+          return resolve(tile);
+        }
+      });
+    });
+  }
+
+  /**
    * Gets a Tile by Id.
    * @function
+   * @param {string} id
    * @return {promise} promise
    */
   function getTileById(id) {
     return new Promise((resolve, reject) => {
-      db.tiles.findOne({ _id: id }, function (err, tile) {
+      db.tiles.findOne({ _id: id }, (err, tile) => {
         if (err) {
           return reject(err);
         } else {
@@ -332,11 +349,11 @@ module.exports = (function () {
    */
   function getTileConfig(user, tile) {
     return new Promise((resolve, reject) => {
-      db.tiles.findOne({ name: tile }, function (err, tile) {
+      db.tiles.findOne({ name: tile }, (err, tile) => {
         if (err) {
           return reject(err);
         } else {
-          return getUserByName(user).then(function (user) {
+          return getUserByName(user).then((user) => {
             if (user && tile) {
               db.configs.findOne({ tileid: tile._id, userid: user._id }, function (err, config) {
                 if (err) {
@@ -355,7 +372,7 @@ module.exports = (function () {
             } else {
               return reject('Tile or User not set!');
             }
-          }, function (err) {
+          }, (err) => {
             return reject(err);
           })
         }
@@ -369,6 +386,7 @@ module.exports = (function () {
     assignTile: assignTile,
     getTiles: getTiles,
     getTileById: getTileById,
+    getTileByName: getTileByName,
     getClients: getClients,
     verifyLogin: verifyLogin,
     getAccessToken: getAccessToken,
