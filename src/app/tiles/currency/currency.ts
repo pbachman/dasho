@@ -32,7 +32,7 @@ export class Currency extends TileBaseComponent {
     this.events.subscribe('data:ready', data => {
       if (data) {
         this.data = data.fixer;
-        this.currency = data.fixer.currency;
+        this.currency = data.fixer ? data.fixer.currency : '';
         this.setOptions();
       }
     });
