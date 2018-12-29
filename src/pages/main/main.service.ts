@@ -17,8 +17,8 @@ export class DashboardService {
   /**
    * Create the dashboard service
    * @constructor
-   * @param {Http}     privatehttp
-   * @param {UserData} privateuserData
+   * @param {Http} http
+   * @param {UserData} userData
    */
   constructor(
     private http: HttpClient,
@@ -26,7 +26,7 @@ export class DashboardService {
 
   /**
    * Get the settings from the passed user
-   * @param  {string}  username
+   * @param {string} username
    * @return {Promise}
    */
   getSettings(username: string): Observable<Array<Setting>> {
@@ -45,8 +45,8 @@ export class DashboardService {
 
   /**
    * Get all the data to show in the tiles
-   * @param  {string}  username
-   * @param  {Object}  settings
+   * @param {string} username
+   * @param {Object} settings
    * @return {Promise}
    */
   getData(username: string, settings: Array<Setting>): Observable<any> {
@@ -82,8 +82,8 @@ export class DashboardService {
 
   /**
    * Service to save the settings
-   * @param  {string}  username
-   * @param  {Object}  setting  The Settings from the user
+   * @param {string} username
+   * @param {Object} setting The Settings from the user
    * @return {Promise}
    */
   saveSetting(username: string, setting: Setting): Observable<boolean> {
@@ -106,10 +106,10 @@ export class DashboardService {
 
   /**
    * Service for change to password
-   * @param  {string}   username
-   * @param  {string}   password
-   * @param  {string}   newpassword
-   * @param  {string}   newpasswordconfirm
+   * @param {string} username
+   * @param {string} password
+   * @param {string} newpassword
+   * @param {string} newpasswordconfirm
    * @return {Promise}
    */
   changePassword(username: string, password: string, newpassword: string, newpasswordconfirm: string): Observable<boolean> {
@@ -135,8 +135,8 @@ export class DashboardService {
 
   /**
    * Service for invite friends
-   * @param  {string}   username
-   * @param  {string}   friend
+   * @param {string} username
+   * @param {string} friend
    * @return {Promise}
    */
   inviteFriends(username: string, friend: string): Observable<boolean> {

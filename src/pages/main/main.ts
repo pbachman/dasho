@@ -52,9 +52,8 @@ export class MainPage {
         this.currentUser = username;
         // get all Settings for the current User
         this.dashboardService.getSettings(username)
-          .subscribe((settings: any) => {
+          .subscribe((settings: Array<Setting>) => {
             this.settings = settings;
-
             // get all Settings Data for the current User
             this.dashboardService.getData(username, this.settings)
               .subscribe((response: any) => {
@@ -154,7 +153,6 @@ export class MainPage {
    */
   private initGrid(): void {
     document.body.classList.remove('body-loading');
-
     const elem = document.getElementById('packery');
     this.pckry = new Packery(elem, {
       itemSelector: '.grid-item',
@@ -172,6 +170,10 @@ export class MainPage {
       });
   }
 
+  /**
+   * Error Handler
+   * @param {HttpErrorResponse} error
+   */
   private errorHandling(error: HttpErrorResponse): void {
     (error.status === 0) ? this.error = 'No Connection to the Backend!' : this.error = error.message;
 

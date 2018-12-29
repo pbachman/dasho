@@ -30,7 +30,7 @@ export class LanguageProvider {
   }
 
   /**
-   * Set the inital language
+   * Sets the initial language
    */
   initialLanguage(): void {
     const DEFAULT_LANGUAGE = 'en';
