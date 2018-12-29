@@ -62,37 +62,9 @@ export class MainPage {
 
                 if (!this.isGridInitialized)
                   this.initGrid();
-              }, (error: HttpErrorResponse) => {
-                (error.status === 0) ? this.error = 'No Connection to the Backend!' : this.error = error.message;
-              });
-          }, (error: HttpErrorResponse) => {
-            if (error.status === 0)
-              this.error = 'No Connection to the Backend!';
-            else {
-              this.error = error.message;
-              this.userData.logout();
-            }
-
-            const alert = this.alertCtrl.create({
-              title: 'Error!',
-              message: this.error,
-              enableBackdropDismiss: false,
-              buttons: [
-                {
-                  text: 'OK',
-                  handler: data => {
-                    alert.present();
-                    this.navCtrl.push(LoginPage);
-                    document.body.classList.remove('body-loading');
-
-                    return true;
-                  }
-                }
-              ]
-            });
-            alert.present();
-          });
-      });
+              }, (error: HttpErrorResponse) => this.errorHandling(error));
+          }, (error: HttpErrorResponse) => this.errorHandling(error));
+      }, (error: HttpErrorResponse) => this.errorHandling(error));
   }
 
   /**
@@ -114,7 +86,8 @@ export class MainPage {
       const ID = ELEMENT.getAttribute('data-id');
       const setting = this.settings.filter(s => s.id === ID)[0];
       setting.position = index;
-      this.dashboardService.saveSetting(this.currentUser, setting);
+      this.dashboardService.saveSetting(this.currentUser, setting)
+        .subscribe((saved: boolean) => undefined, (error: HttpErrorResponse) => this.errorHandling(error));
     }
 
     setTimeout(() => {
@@ -123,14 +96,9 @@ export class MainPage {
   }
 
   /**
-   *  @typedef EventData
-   *  @type {Object}
-   *  @property {number} tile  The tile number
-   *  @property {number} id    The id, needed to get the element in the dom
-   */
-
-  /**
    * Close and hide a tile
+   * @property {number} tile  The tile number
+   * @property {number} id    The id, needed to get the element in the dom
    * @param {EventData} eventData The needed identifiers for the tiles
    */
   hideTile(eventData: { tile: number, id: number }): void {
@@ -143,7 +111,8 @@ export class MainPage {
 
       setTimeout(() => {
         setting.visible = false;
-        this.dashboardService.saveSetting(this.currentUser, setting);
+        this.dashboardService.saveSetting(this.currentUser, setting)
+          .subscribe((saved: boolean) => undefined, (error: HttpErrorResponse) => this.errorHandling(error));
       }, 500);
     }
   }
@@ -157,25 +126,26 @@ export class MainPage {
     if (setting) {
       setting.visible = true;
       setting.position = this.pckry.layoutItems.length;
-      this.dashboardService.saveSetting(this.currentUser, setting);
-
-      setTimeout(() => {
-        const element = document.querySelector(`[data-id="${setting.id}"]`);
-        if (element) {
-          const draggie = new Draggabilly(element);
-          this.pckry.appended(element);
-          this.pckry.bindDraggabillyEvents(draggie);
-          this.events.publish('data:ready', this.dataobject);
-          this.pckry.layout();
-        } else {
-          this.pckry.element.classList.add('fade-out');
+      this.dashboardService.saveSetting(this.currentUser, setting)
+        .subscribe(() => {
           setTimeout(() => {
-            this.pckry.destroy();
-            this.pckry.element.classList.remove('fade-out');
-            this.initGrid();
-          }, 200);
-        }
-      }, 50);
+            const element = document.querySelector(`[data-id="${setting.id}"]`);
+            if (element) {
+              const draggie = new Draggabilly(element);
+              this.pckry.appended(element);
+              this.pckry.bindDraggabillyEvents(draggie);
+              this.events.publish('data:ready', this.dataobject);
+              this.pckry.layout();
+            } else {
+              this.pckry.element.classList.add('fade-out');
+              setTimeout(() => {
+                this.pckry.destroy();
+                this.pckry.element.classList.remove('fade-out');
+                this.initGrid();
+              }, 200);
+            }
+          }, 50);
+        }, (error: HttpErrorResponse) => this.errorHandling(error));
     }
   }
 
@@ -196,10 +166,32 @@ export class MainPage {
 
     this.pckry.on('dragItemPositioned', this.dragItemPositioned.bind(this));
     this.pckry.getItemElements()
-      .forEach((itemElem, i) => {
+      .forEach((itemElem: any) => {
         const draggie = new Draggabilly(itemElem);
         this.pckry.bindDraggabillyEvents(draggie);
       });
   }
 
+  private errorHandling(error: HttpErrorResponse): void {
+    (error.status === 0) ? this.error = 'No Connection to the Backend!' : this.error = error.message;
+
+    const alert = this.alertCtrl.create({
+      title: 'Error!',
+      message: this.error,
+      enableBackdropDismiss: false,
+      buttons: [
+        {
+          text: 'OK',
+          handler: () => {
+            alert.present();
+            this.navCtrl.push(LoginPage);
+            document.body.classList.remove('body-loading');
+
+            return true;
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
 }
