@@ -1,7 +1,7 @@
 export class Setting {
   id: string;
-  userid: number;
-  tile: number;
+  userid: string;
+  tile: string;
   position: number;
   schemas: string;
   visible: boolean;

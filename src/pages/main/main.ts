@@ -97,11 +97,11 @@ export class MainPage {
 
   /**
    * Close and hide a tile
-   * @property {number} tile  The tile number
+   * @property {string} tile  The tileId
    * @property {number} id    The id, needed to get the element in the dom
    * @param {EventData} eventData The needed identifiers for the tiles
    */
-  hideTile(eventData: { tile: number, id: number }): void {
+  hideTile(eventData: { tile: string, id: number }): void {
     const setting = this.settings.filter(s => s.tile === eventData.tile)[0];
     if (setting) {
       const element = document.querySelector(`[data-id="${setting.id}"]`);
@@ -119,9 +119,9 @@ export class MainPage {
 
   /**
    * Show the tile
-   * @param {number} tileid
+   * @param {string} tileid
    */
-  showTile(tileid: number): void {
+  showTile(tileid: string): void {
     const setting = this.settings.filter(s => s.tile === tileid)[0];
     if (setting) {
       setting.visible = true;
