@@ -217,7 +217,7 @@ let serverRoutes = (function () {
       let setting = req.body.setting;
       settingsloader.saveSetting(setting).then(function (user) {
         res.status(200);
-        return res.send();
+        return res.send(user);
       }).catch(err => {
         res.status(400);
         return res.send(err);
