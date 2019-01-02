@@ -229,6 +229,8 @@ module.exports = (function () {
                   const userConfig = {
                     id: configItem._id,
                     tile: tile.name,
+                    baseUrl: tile.baseUrl,
+                    querystring: configItem.querystring,
                     position: configItem.position,
                     schemas: schemaloader.getSchemaQueryByTile(tile.name),
                     visible: configItem.visible,

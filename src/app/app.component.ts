@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { AlertController, Events, MenuController, NavController } from 'ionic-angular';
 import { LoginPage } from '../pages/login/login';
 import { MainPage } from '../pages/main/main';
+import { SettingPage } from '../pages/setting/setting';
 import { UserProvider } from '../providers/user';
 import { LanguageProvider } from '../providers/language';
 import { DashboardService } from '../pages/main/main.service';
@@ -202,13 +203,8 @@ export class DashoApp {
     this.dashboardService.getSettings(this.currentUser)
       .subscribe((settings: any) => {
         this.settings = settings;
-
-        const alert = this.alertCtrl.create({
-          title: 'Settings',
-          subTitle: 'Settings',
-          buttons: ['OK']
-        });
-        alert.present();
+        this.menuCtrl.close();
+        this.nav.push(SettingPage);
       });
   }
 

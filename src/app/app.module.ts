@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { IonicApp, IonicModule } from 'ionic-angular';
+import { IonicApp, IonicModule, NavController } from 'ionic-angular';
 import { TranslateLoader, TranslateModule, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
 import { MomentModule } from 'angular2-moment';
 import { DashoApp } from './app.component';
@@ -22,6 +22,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicStorageModule } from '@ionic/storage';
 import { Http } from '@angular/http';
 import { HighchartsChartModule } from 'highcharts-angular';
+import { SettingPage } from '../pages/setting/setting';
+import { SettingService } from '../pages/setting/setting.service';
 
 /**
  * Set the paths for the tranlsations
@@ -35,6 +37,7 @@ export function createTranslateLoader(http: Http): TranslateStaticLoader {
     DashoApp,
     LoginPage,
     MainPage,
+    SettingPage,
     Clock,
     Currency,
     Github,
@@ -61,12 +64,14 @@ export function createTranslateLoader(http: Http): TranslateStaticLoader {
   entryComponents: [
     DashoApp,
     LoginPage,
-    MainPage
+    MainPage,
+    SettingPage
   ],
   providers: [
     UserProvider,
     LanguageProvider,
     DashboardService,
+    SettingService,
     LoginService
   ]
 })

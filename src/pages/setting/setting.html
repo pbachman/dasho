@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Configure Tiles</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-item-group *ngFor="let setting of settings">
+    <ion-item-divider color="light">{{ setting.tile }}</ion-item-divider>
+    <ion-list>
+      <ion-item>
+        <ion-label>Position</ion-label>
+        <ion-input placeholder="Position" [value]="setting.position"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="setting.tile !== 'clock'">
+        <ion-label>Querystring</ion-label>
+        <ion-input placeholder="Querystring" [value]="setting.querystring"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Visible</ion-label>
+        <ion-checkbox title="Visible" checked="{{ setting.visible }}"></ion-checkbox>
+      </ion-item>
+    </ion-list>
+  </ion-item-group>
+  <button ion-button color="light">Save</button>
+  <button ion-button color="light">Add new</button>
+</ion-content>
