@@ -48,7 +48,7 @@ let serverRoutes = (function () {
           res.status(401);
           return res.send('Login failed!');
         }
-      },(err) => {
+      }, (err) => {
         res.status(400);
         return res.send(err);
       });
@@ -96,11 +96,11 @@ let serverRoutes = (function () {
                     res.status(400);
                     return res.send(err);
                   });
-                },(err) => {
+                }, (err) => {
                   res.status(400);
                   return res.send(err);
                 });
-              },(err) => {
+              }, (err) => {
                 res.status(400);
                 return res.send(err);
               });
@@ -258,6 +258,22 @@ let serverRoutes = (function () {
       res.status(400);
       return res.send('Required fields missing!');
     }
+  });
+
+  /**
+   * Gets Tiles
+   * @function
+   * @param {req} req - Request object.
+   * @param {res} res - Response object.
+   */
+  router.get('/tiles', oauthServer.authorise(), (req, res) => {
+    // returns the list of tiles
+    settingsloader.getTiles().then(function (tiles) {
+      return res.send(tiles);
+    }).catch(err => {
+      res.status(400);
+      return res.send(err);
+    });
   });
 
   return router;
