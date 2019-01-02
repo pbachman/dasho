@@ -1,5 +1,5 @@
 import { EventEmitter, Input, Output } from '@angular/core';
-import { Setting } from './setting';
+import { Setting } from './setting.model';
 
 /**
  * The Base Tile

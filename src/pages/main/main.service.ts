@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Setting } from '../../shared/setting';
+import { Setting } from '../../shared/setting.model';
 import { BASE_URI } from '../../app/app.environment';
 import { UserProvider } from '../../providers/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';

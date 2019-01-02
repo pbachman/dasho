@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Setting } from './setting';
+import { Setting } from './setting.model';
 
 @Pipe({
   name: 'sort'

@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { DashboardService } from './main.service';
-import { Setting } from '../../shared/setting';
+import { Setting } from '../../shared/setting.model';
 import { UserProvider } from '../../providers/user';
 import { AlertController, Events, FabContainer, NavController } from 'ionic-angular';
 import { HttpErrorResponse } from '@angular/common/http';

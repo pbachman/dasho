@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Events } from 'ionic-angular';
-import { Setting } from '../../../shared/setting';
+import { Setting } from '../../../shared/setting.model';
 import { LanguageProvider } from '../../../providers/language';
 import { TileBaseComponent } from '../../../shared/shared.tile';
 import * as ChartModuleMore from 'highcharts/highcharts-more.js';
