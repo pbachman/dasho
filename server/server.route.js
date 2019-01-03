@@ -229,6 +229,27 @@ let serverRoutes = (function () {
   });
 
   /**
+   * Deletes User Setting
+   * @function
+   * @param {req} req - Request object.
+   * @param {res} res - Response object.
+   */
+  router.delete('/settings/:username/:id', oauthServer.authorise(), (req, res) => {
+    if (req.params.username !== undefined && req.params.id) {
+      settingsloader.deleteSetting(req.params.id).then(function (success) {
+        res.status(200);
+        return res.send(success);
+      }).catch(err => {
+        res.status(400);
+        return res.send(err);
+      });
+    } else {
+      res.status(400);
+      return res.send('Required fields missing!');
+    }
+  });
+
+  /**
    * Gets User Settings
    * @function
    * @param {req} req - Request object.

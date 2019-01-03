@@ -252,7 +252,7 @@ module.exports = (function () {
   }
 
   /**
-   * Saves a List of User Configs.
+   * Saves a User Config Item.
    * @function
    * @param {object} setting
    * @return {promise} promise
@@ -260,6 +260,23 @@ module.exports = (function () {
   function saveSetting(setting) {
     return new Promise((resolve, reject) => {
       db.configs.update({ _id: setting.id }, { $set: { position: setting.position, visible: setting.visible } }, function (err, success) {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(success);
+      });
+    });
+  }
+
+  /**
+   * Deletes a User Config Item.
+   * @function
+   * @param {object} setting
+   * @return {promise} promise
+   */
+  function deleteSetting(id) {
+    return new Promise((resolve, reject) => {
+      db.configs.remove({ _id: id }, {}, function (err, success) {
         if (err) {
           return reject(err);
         }
@@ -397,6 +414,7 @@ module.exports = (function () {
     setsPassword: setsPassword,
     isUserAllowed: isUserAllowed,
     getSettings: getSettings,
+    deleteSetting: deleteSetting,
     saveSetting: saveSetting,
     getTileConfig: getTileConfig,
     getUserByName: getUserByName
