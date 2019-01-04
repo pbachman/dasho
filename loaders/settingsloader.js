@@ -259,7 +259,7 @@ module.exports = (function () {
    */
   function saveSetting(setting) {
     return new Promise((resolve, reject) => {
-      db.configs.update({ _id: setting.id }, { $set: { position: setting.position, visible: setting.visible } }, function (err, success) {
+      db.configs.update({ _id: setting.id }, { $set: { position: setting.position, querystring: setting.querystring, visible: setting.visible } }, function (err, success) {
         if (err) {
           return reject(err);
         }
