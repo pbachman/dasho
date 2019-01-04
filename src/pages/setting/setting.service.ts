@@ -12,7 +12,6 @@ import { Tile } from '../../shared/tile.model';
 @Injectable()
 export class SettingService {
   private apiUrl = `${BASE_URI}api`;
-  private graphqlUrl = `${BASE_URI}graphql`;
 
   /**
    * Create the dashboard service
