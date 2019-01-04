@@ -4,23 +4,24 @@
   </ion-navbar>
 </ion-header>
 <ion-content>
-  <ion-item-group *ngFor="let setting of settings">
+  <ion-item-group *ngFor="let setting of (settings | sort:{value: null});">
     <ion-item-divider color="light">{{ setting.tile }}</ion-item-divider>
     <ion-list>
       <ion-item>
         <ion-label>Position</ion-label>
-        <ion-input placeholder="Position" [value]="setting.position"></ion-input>
+        <ion-input type="number" placeholder="Position" [value]="setting.position" (input)="setting.position = $event.target.value"></ion-input>
       </ion-item>
       <ion-item *ngIf="setting.tile !== 'clock'">
         <ion-label>Querystring</ion-label>
-        <ion-input placeholder="Querystring" [value]="setting.querystring"></ion-input>
+        <ion-input placeholder="Querystring" [value]="setting.querystring" (input)="setting.querystring = $event.target.value"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label>Visible</ion-label>
-        <ion-checkbox title="Visible" checked="{{ setting.visible }}"></ion-checkbox>
+        <ion-checkbox title="Visible" checked="{{ setting.visible }}" (ionChange)="setting.visible = $event.checked"></ion-checkbox>
       </ion-item>
     </ion-list>
+    <button ion-button color="light" (click)="saveItem(setting)">Save</button>
+    <button ion-button color="light" (click)="deleteItem(setting)">Delete</button>
   </ion-item-group>
-  <button ion-button color="light">Save</button>
   <button ion-button color="light">Add new</button>
 </ion-content>

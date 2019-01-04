@@ -81,9 +81,29 @@ export class DashboardService {
   }
 
   /**
-   * Service to save the settings
+   * Service to delete a setting item
    * @param {string} username
-   * @param {Object} setting The Settings from the user
+   * @param {Object} setting A Setting Item from the user
+   * @return {Promise}
+   */
+  deleteSetting(username: string, setting: Setting): Observable<boolean> {
+    return this.userData.getAccessToken()
+      .mergeMap((token: string) => {
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          })
+        };
+
+        return this.http.delete<boolean>(`${this.apiUrl}/settings/${username}/${setting.id}`, httpOptions);
+      });
+  }
+
+  /**
+   * Service to save a setting item
+   * @param {string} username
+   * @param {Object} setting A Setting Item from the user
    * @return {Promise}
    */
   saveSetting(username: string, setting: Setting): Observable<boolean> {
