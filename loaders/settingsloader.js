@@ -50,7 +50,7 @@ module.exports = (function () {
       }
     });
 
-    // Tiles Configuration
+    // Tiles Configurations
     db.configs.count({}, function (err, count) {
       // Insert Configurations, if not exists.
       if (count == 0) {
@@ -80,7 +80,7 @@ module.exports = (function () {
   /**
    * Gets a oAuth Client.
    * @function
-   * @param {object} Client.
+   * @param {object} client.
    * @param {object} callback
    */
   function getClients(client, callback) {
@@ -207,7 +207,7 @@ module.exports = (function () {
   }
 
   /**
-   * Returns a List of Settings by User.
+   * Returns a List of Configurations by User.
    * @function
    * @param {object} user
    * @return {promise} promise
@@ -271,7 +271,7 @@ module.exports = (function () {
   /**
    * Deletes a User Config Item.
    * @function
-   * @param {object} setting
+   * @param {string} id
    * @return {promise} promise
    */
   function deleteSetting(id) {
@@ -286,7 +286,7 @@ module.exports = (function () {
   }
 
   /**
-   * Assign Tile to User.
+   * Adds a new User Config Item (Assignment Tile -> User).
    * @function
    * @param {string} user
    * @param {string} tile
