@@ -14,7 +14,7 @@ export class SettingService {
   private apiUrl = `${BASE_URI}api`;
 
   /**
-   * Create the dashboard service
+   * Create the Setting service
    * @constructor
    * @param {Http} http
    * @param {UserData} userData
@@ -38,6 +38,42 @@ export class SettingService {
         };
 
         return this.http.get<Array<Tile>>(`${this.apiUrl}/tiles`, httpOptions);
+      });
+  }
+
+  /**
+   * Add new Config Item
+   * @return {Promise}
+   */
+  addConfigs(username: string, tile: string): Observable<boolean> {
+    return this.userData.getAccessToken()
+      .mergeMap((token: string) => {
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          })
+        };
+
+        return this.http.post<boolean>(`${this.apiUrl}/settings/${username}/${tile}`, httpOptions);
+      });
+  }
+
+  /**
+   * Get unassigned tiles by a Username
+   * @return {Promise}
+   */
+  getUnassignedTiles(username: string): Observable<Array<Tile>> {
+    return this.userData.getAccessToken()
+      .mergeMap((token: string) => {
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          })
+        };
+
+        return this.http.get<Array<Tile>>(`${this.apiUrl}/settings/unassigned/${username}`, httpOptions);
       });
   }
 }

@@ -288,14 +288,14 @@ module.exports = (function () {
   /**
    * Adds a new User Config Item (Assignment Tile -> User).
    * @function
-   * @param {string} user
+   * @param {string} userid
    * @param {string} tile
    * @return {promise} promise
    */
-  function assignTile(user, tile) {
+  function assignTile(userid, tile) {
     return new Promise((resolve, reject) => {
       return getTileByName(tile).then((tile) => {
-        db.configs.insert({ userid: user, tileid: tile._id, position: 1, visible: true }, (err, config) => {
+        db.configs.insert({ userid: userid, tileid: tile._id, position: 1, visible: true }, (err, config) => {
           if (err) {
             return reject(err);
           }
@@ -361,7 +361,7 @@ module.exports = (function () {
   }
 
   /**
-   * Gets a TileConfig.
+   * Gets a TileConfig by User/Tile.
    * @function
    * @param {string} user
    * @param {object} tile

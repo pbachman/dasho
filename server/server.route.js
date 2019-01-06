@@ -215,9 +215,35 @@ let serverRoutes = (function () {
   router.put('/settings/:username', oauthServer.authorise(), (req, res) => {
     if (req.params.username !== undefined) {
       let setting = req.body.setting;
-      settingsloader.saveSetting(setting).then(function (user) {
+      settingsloader.saveSetting(setting).then(function () {
         res.status(200);
         return res.send(true);
+      }).catch(err => {
+        res.status(400);
+        return res.send(err);
+      });
+    } else {
+      res.status(400);
+      return res.send('Required fields missing!');
+    }
+  });
+
+  /**
+   * Adds User Setting
+   * @function
+   * @param {req} req - Request object.
+   * @param {res} res - Response object.
+   */
+  router.post('/settings/:username/:tile', oauthServer.authorise(), (req, res) => {
+    if (req.params.username !== undefined && req.params.tile) {
+      settingsloader.getUserByName(req.params.username).then(function (user) {
+        settingsloader.assignTile(user._id, req.params.tile).then(function () {
+          res.status(200);
+          return res.send(true);
+        }).catch(err => {
+          res.status(400);
+          return res.send(err);
+        });
       }).catch(err => {
         res.status(400);
         return res.send(err);
@@ -236,9 +262,9 @@ let serverRoutes = (function () {
    */
   router.delete('/settings/:username/:id', oauthServer.authorise(), (req, res) => {
     if (req.params.username !== undefined && req.params.id) {
-      settingsloader.deleteSetting(req.params.id).then(function (success) {
+      settingsloader.deleteSetting(req.params.id).then(function () {
         res.status(200);
-        return res.send(success);
+        return res.send(true);
       }).catch(err => {
         res.status(400);
         return res.send(err);
@@ -263,6 +289,55 @@ let serverRoutes = (function () {
           // returns the list of config
           settingsloader.getSettings(user).then(function (settings) {
             return res.send(settings);
+          }).catch(err => {
+            res.status(400);
+            return res.send(err);
+          });
+        } else {
+          res.status(400);
+          return res.send('Unknown User!');
+        }
+      }).catch(err => {
+        res.status(400);
+        return res.send(err);
+      });
+    } else {
+      res.status(400);
+      return res.send('Required fields missing!');
+    }
+  });
+
+  /**
+    * Gets not assigned User Settings
+    * @function
+    * @param {req} req - Request object.
+    * @param {res} res - Response object.
+    */
+  router.get('/settings/unassigned/:username', oauthServer.authorise(), (req, res) => {
+    if (req.params.username !== undefined) {
+      // check if the user exists
+      settingsloader.getUserByName(req.params.username).then(function (user) {
+        if (user) {
+          // returns the list of config
+          settingsloader.getSettings(user).then(function (settings) {
+            // get all Tiles / compare it with selected Tiles
+            settingsloader.getTiles().then(function (tiles) {
+
+              var temps = [];
+
+              for (let tileIndex = 0; tileIndex < tiles.length; tileIndex++) {
+                const tile = tiles[tileIndex];
+                if (settings.find(x => x.tile === tile.name)) {
+                } else {
+                  temps.push(tile);
+                }
+              }
+
+              return res.send(temps);
+            }).catch(err => {
+              res.status(400);
+              return res.send(err);
+            });
           }).catch(err => {
             res.status(400);
             return res.send(err);

@@ -17,6 +17,7 @@ export class SettingPage {
   error: string;
   tiles: Array<Tile>;
   settings: Array<Setting>;
+  selectedTile: string;
 
   constructor(
     private dashboardService: DashboardService,
@@ -31,12 +32,12 @@ export class SettingPage {
       .subscribe((username: string) => {
         this.currentUser = username;
         this.loadSettings();
-      }, (error: HttpErrorResponse) => this.errorHandling(error));
 
-    // get all tiles.
-    this.settingService.getTiles()
-      .subscribe((tiles: Array<Tile>) => {
-        this.tiles = tiles;
+        // get all tiles.
+        this.settingService.getUnassignedTiles(this.currentUser)
+          .subscribe((tiles: Array<Tile>) => {
+            this.tiles = tiles;
+          }, (error: HttpErrorResponse) => this.errorHandling(error));
       }, (error: HttpErrorResponse) => this.errorHandling(error));
   }
 
@@ -45,6 +46,28 @@ export class SettingPage {
     this.dashboardService.getSettings(this.currentUser)
       .subscribe((settings: Array<Setting>) => {
         this.settings = settings;
+      }, (error: HttpErrorResponse) => this.errorHandling(error));
+  }
+
+  addItem(): void {
+    this.settingService.addConfigs(this.currentUser, this.selectedTile)
+      .subscribe((saved: boolean) => {
+        if (saved) {
+          const alert = this.alertCtrl.create({
+            title: 'Info!',
+            message: 'Successfully saved!',
+            enableBackdropDismiss: false,
+            buttons: [
+              {
+                text: 'OK',
+                handler: () => {
+                  this.loadSettings();
+                }
+              }
+            ]
+          });
+          alert.present();
+        }
       }, (error: HttpErrorResponse) => this.errorHandling(error));
   }
 
