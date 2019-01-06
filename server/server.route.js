@@ -50,7 +50,7 @@ let serverRoutes = (function () {
         }
       }, (err) => {
         res.status(400);
-        return res.send(err);
+        return res.send('Login failed!');
       });
     } else {
       res.status(400);

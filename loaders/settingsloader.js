@@ -140,7 +140,7 @@ module.exports = (function () {
    */
   function getUserByName(user) {
     return new Promise((resolve, reject) => {
-      db.users.findOne({ email: user }, function (err, user) {
+      db.users.findOne({ email: user.toLowerCase() }, function (err, user) {
         if (err) {
           return reject(err);
         }
