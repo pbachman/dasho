@@ -37,6 +37,14 @@
     "alertTitle": "Invitation send",
     "alertSubTitle": "We've sent an invitation to the address (%email%) you specified."
   },
+  "signup": {
+    "button": "Sign up",
+    "title": "Create a new Account",
+    "message": "Enter an Email address and choose a Password.",
+    "send": "Sign up",
+    "password": "Password",
+    "passwordconfirm": "Password Confirm"
+  },
   "forgetPassword": {
     "button": "I've forgotten my password",
     "title": "Forgot your password?",

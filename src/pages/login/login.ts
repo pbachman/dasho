@@ -157,6 +157,55 @@ export class LoginPage {
     prompt.present();
   }
 
+  showSignUpPrompt(): void {
+    const i18n = this.languageProvider.getLanguageStrings();
+    const prompt = this.alertCtrl.create({
+      title: i18n.signup.title,
+      message: i18n.signup.message,
+      inputs: [
+        {
+          name: 'email',
+          placeholder: i18n.general.emailExample,
+          type: 'email'
+        },
+        {
+          name: 'password',
+          placeholder: i18n.signup.password,
+          type: 'password'
+        },
+        {
+          name: 'passwordconfirm',
+          placeholder: i18n.signup.passwordconfirm,
+          type: 'password'
+        }
+      ],
+      buttons: [
+        {
+          text: i18n.general.cancel,
+          role: 'cancel'
+        },
+        {
+          text: i18n.signup.send,
+          handler: data => {
+            if (this.userData.isMailInvalid(data.email)) {
+              const alert = this.alertCtrl.create({
+                title: i18n.forgetPassword.alertInvalidTitle,
+                subTitle: i18n.forgetPassword.alertInvalid,
+                buttons: ['OK']
+              });
+              alert.present();
+
+              return false;
+            }
+
+            return true;
+          }
+        }
+      ]
+    });
+    prompt.present();
+  }
+
   /**
    * Shows the error text and set the fields to pristine
    * @param {Object} controls Object with the fields

@@ -37,6 +37,14 @@
     "alertTitle": "Einladung versendet",
     "alertSubTitle": "Wir haben eine Einladung an die von dir angegebene Adresse (%email%) verschickt."
   },
+  "signup": {
+    "button": "Konto anlegen",
+    "title": "Konto anlegen",
+    "message": "Geben Sie Ihre Email und wählen Sie ein Passwort.",
+    "send": "Konto anlegen",
+    "password": "Passwort",
+    "passwordconfirm": "Passwort Wiederholung"
+  },
   "forgetPassword": {
     "button": "Ich habe mein Passwort vergessen",
     "title": "Passwort vergessen?",
