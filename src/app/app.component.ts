@@ -24,12 +24,12 @@ export class DashoApp {
 
   /**
    * Create the dasho app
-   * @param  {LanguageProvider} privatelanguageProvider
-   * @param  {UserData}         privateuserData
-   * @param  {Events}           privateevents
-   * @param  {AlertController}  privatealertCtrl
-   * @param  {MenuController}   privatemenuCtrl
-   * @param  {DashboardService} privatedashboardService
+   * @param  {LanguageProvider} languageProvider
+   * @param  {UserProvider} userData
+   * @param  {Events} events
+   * @param  {AlertController} alertCtrl
+   * @param  {MenuController} menuCtrl
+   * @param  {DashboardService} dashboardService
    */
   constructor(
     private languageProvider: LanguageProvider,

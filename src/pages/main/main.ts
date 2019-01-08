@@ -28,9 +28,9 @@ export class MainPage {
   /**
    * Create the main page
    * @param  {DashboardService} dashboardService
-   * @param  {UserData}         userData
-   * @param  {AlertController}  alertCtrl
-   * @param  {Events}           events
+   * @param  {UserProvider} userData
+   * @param  {AlertController} alertCtrl
+   * @param  {Events} events
    */
   constructor(
     private dashboardService: DashboardService,

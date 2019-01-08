@@ -18,7 +18,7 @@ export class DashboardService {
    * Create the dashboard service
    * @constructor
    * @param {Http} http
-   * @param {UserData} userData
+   * @param {UserProvider} userData
    */
   constructor(
     private http: HttpClient,

@@ -17,7 +17,7 @@ export class SettingService {
    * Create the Setting service
    * @constructor
    * @param {Http} http
-   * @param {UserData} userData
+   * @param {UserProvider} userData
    */
   constructor(
     private http: HttpClient,

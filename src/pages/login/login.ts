@@ -27,12 +27,12 @@ export class LoginPage {
   /**
    * Create the login page
    * @constructor
-   * @param  {AlertController}  privatealertCtrl
-   * @param  {NavController}    privatenavCtrl
-   * @param  {LanguageProvider} privatelanguageProvider
-   * @param  {UserData}         privateuserData
-   * @param  {LoginService}     privateloginService
-   * @param  {Events}           privateevents
+   * @param  {AlertController} alertCtrl
+   * @param  {NavController} navCtrl
+   * @param  {LanguageProvider} languageProvider
+   * @param  {UserProvider} userData
+   * @param  {LoginService} loginService
+   * @param  {Events} events
    */
   constructor(
     private alertCtrl: AlertController,
