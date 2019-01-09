@@ -43,7 +43,11 @@
     "message": "Geben Sie Ihre Email und wählen Sie ein Passwort.",
     "send": "Konto anlegen",
     "password": "Passwort",
-    "passwordconfirm": "Passwort Wiederholung"
+    "passwordconfirm": "Passwort Wiederholung",
+    "alertTitle": "Konto anlegen!",
+    "alertSubTitle": "Ihr Konto wurde erfolgreich angelegt. Sie können sich nun einloggen.",
+    "alertInvalidPasswordTitle": "Ungültiges Passwort!",
+    "alertInvalidPassword": "Die Passwörter stimmen nicht überrein!"
   },
   "forgetPassword": {
     "button": "Ich habe mein Passwort vergessen",

@@ -59,6 +59,56 @@ let serverRoutes = (function () {
   });
 
   /**
+   * Creates a new User
+   * @function
+   * @param {req} req - Request object.
+   * @param {res} res - Response object.
+   */
+  router.post('/account', (req, res) => {
+    if (req.body.email === undefined || req.body.password === undefined) {
+      res.status(400);
+      return res.send('Required fields missing!');
+    } else {
+      settingsloader.getUserByName(req.body.email).then(function (user) {
+        // does the user already exists?
+        if (user !== null) {
+          res.status(400);
+          return res.send('User already exists!');
+        } else {
+          const newuser = { email: req.body.email, password: passwordHash.generate(req.body.password) };
+
+          settingsloader.addUser(newuser).then(function (user) {
+            // Add new User and assign Clock Tile to User.
+            settingsloader.assignTile(user._id, 'clock').then(function (config) {
+              sendMailer.sendMail(user.email, 'Welcome to Dasho ✔', `<b>Hello User!</b> Welcome to <a href="https://dasho.netlify.com">dasho</a>. Please login with your E-mail address.`, function (error, info) {
+                if (error) {
+                  res.status(400);
+                  return res.send(`Couldn't send Invitation Mail ${error}`);
+                } else {
+                  res.status(200);
+                  return res.send(info);
+                }
+              }).catch(err => {
+                res.status(400);
+                return res.send(err);
+              });
+            }, (err) => {
+              res.status(400);
+              return res.send(err);
+            });
+          }, (err) => {
+            res.status(400);
+            return res.send(err);
+          });
+        }
+      }).catch(err => {
+        res.status(400);
+        return res.send(err);
+      });
+    }
+  });
+
+  /**
    * Invites a new User
    * @function
    * @param {req} req - Request object.

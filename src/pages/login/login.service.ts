@@ -62,4 +62,26 @@ export class LoginService {
 
     return this.http.post<boolean>(API_URL, BODY, httpOptions);
   }
+
+  /**
+   * Sign up a new User
+   * @param {string} email
+   * @param {string} password
+   * @return {Promise}
+   */
+  signUp(email: string, password: string): Observable<boolean> {
+    const API_URL = `${BASE_URI}api/account`;
+    const BODY = JSON.stringify({
+      email: email,
+      password: password
+    });
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return this.http.post<boolean>(API_URL, BODY, httpOptions);
+  }
 }

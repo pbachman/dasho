@@ -188,17 +188,48 @@ export class LoginPage {
           text: i18n.signup.send,
           handler: data => {
             if (this.userData.isMailInvalid(data.email)) {
-              const alert = this.alertCtrl.create({
+              const invalidEmailAlert = this.alertCtrl.create({
                 title: i18n.forgetPassword.alertInvalidTitle,
                 subTitle: i18n.forgetPassword.alertInvalid,
                 buttons: ['OK']
               });
-              alert.present();
+              invalidEmailAlert.present();
 
               return false;
             }
 
-            return true;
+            if (data.password.length < 8 || data.passwordconfirm.length < 8 || data.password === '' ||
+              data.passwordconfirm === '' || (data.password !== data.passwordconfirm)) {
+              const invalidPasswordAlert = this.alertCtrl.create({
+                title: i18n.signup.alertInvalidPasswordTitle,
+                subTitle: i18n.signup.alertInvalidPassword,
+                buttons: ['OK']
+              });
+              invalidPasswordAlert.present();
+
+              return false;
+            }
+
+            this.loginService.signUp(data.email, data.password)
+              .subscribe(() => {
+                const infoDialog = this.alertCtrl.create({
+                  title: i18n.signup.alertTitle,
+                  subTitle: i18n.signup.alertSubTitle,
+                  buttons: ['OK']
+                });
+                infoDialog.present();
+
+                return true;
+              }, (error: HttpErrorResponse) => {
+                const errorDialog = this.alertCtrl.create({
+                  title: 'Error',
+                  subTitle: error.error.text ? error.error.text : error.error,
+                  buttons: ['OK']
+                });
+                errorDialog.present();
+
+                return false;
+              });
           }
         }
       ]

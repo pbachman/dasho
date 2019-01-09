@@ -43,7 +43,11 @@
     "message": "Enter an Email address and choose a Password.",
     "send": "Sign up",
     "password": "Password",
-    "passwordconfirm": "Password Confirm"
+    "passwordconfirm": "Password Confirm",
+    "alertTitle": "Account!",
+    "alertSubTitle": "Your Account was created successfully. You can now log in.",
+    "alertInvalidPasswordTitle": "Invalid Password!",
+    "alertInvalidPassword": "The passwords are not correct."
   },
   "forgetPassword": {
     "button": "I've forgotten my password",
