@@ -2,7 +2,7 @@
 
 Simple and customizable Dashboard, made with Ionic, angular5, Node.JS and GraphQL (former CAS_FEE@HSR Diploma thesis 2016).
 
-<img src="https://353a23c500dde3b2ad58-c49fe7e7355d384845270f4a7a0a7aa1.ssl.cf2.rackcdn.com/5c1aaf4da35cf20009e76ef5/screenshot.png" />
+<img src="https://user-images.githubusercontent.com/393635/56613023-0c1c3680-6616-11e9-8e00-1f7ebde5825a.gif" />
 
 ## Getting Started
 
