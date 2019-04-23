@@ -31,7 +31,16 @@ const settingsType = new graphql.GraphQLObjectType({
               let querystring = tileConfig.querystring.replace('${strategy}', 'desktop');
               if (tileConfig) {
                 console.log(tileConfig.baseUrl + querystring);
-                return fetch.get(tileConfig.baseUrl, querystring);
+                return fetch.get(tileConfig.baseUrl, querystring)
+                  .then((response) => {
+                    if (response.error && response.error.errors.length > 0) {
+                      return null;
+                    } else {
+                      return response;
+                    }
+                  }, function (error) {
+                    throw new Error(error);
+                  });
               }
             }, function (error) {
               console.log('Error: ' + error);
@@ -52,7 +61,16 @@ const settingsType = new graphql.GraphQLObjectType({
               let querystring = tileConfig.querystring.replace('${apikey}', tileConfig.apikey).replace('${apisecret}', tileConfig.apisecret);
               if (tileConfig) {
                 console.log(tileConfig.baseUrl + querystring);
-                return fetch.get(tileConfig.baseUrl, querystring);
+                return fetch.get(tileConfig.baseUrl, querystring)
+                  .then((response) => {
+                    if (response.message) {
+                      return null;
+                    } else {
+                      return response;
+                    }
+                  }, function (error) {
+                    throw new Error(error);
+                  });
               }
               return null;
             }, function (error) {
@@ -74,7 +92,16 @@ const settingsType = new graphql.GraphQLObjectType({
 
             if (tileConfig) {
               console.log(tileConfig.baseUrl + querystring);
-              return fetch.get(tileConfig.baseUrl, querystring);
+              return fetch.get(tileConfig.baseUrl, querystring)
+                .then((response) => {
+                  if (response.message) {
+                    return null;
+                  } else {
+                    return response;
+                  }
+                }, function (error) {
+                  throw new Error(error);
+                });
             }
             throw new Error('Couldnt find TileConfig!');
           }, function (error) {
@@ -112,7 +139,16 @@ const settingsType = new graphql.GraphQLObjectType({
                   if (response.errors) {
                     throw new Error(response.errors[0].message);
                   } else {
-                    return fetch.get(tileConfig.baseUrl, tileConfig.querystring, requestBody);
+                    return fetch.get(tileConfig.baseUrl, tileConfig.querystring, requestBody)
+                      .then((response) => {
+                        if (response.errors && response.errors.length > 0) {
+                          return null;
+                        } else {
+                          return response;
+                        }
+                      }, function (error) {
+                        throw new Error(error);
+                      });
                   }
                 }, function (error) {
                   console.log('Error: ' + error);
@@ -136,7 +172,16 @@ const settingsType = new graphql.GraphQLObjectType({
             let querystring = tileConfig.querystring.replace('${apiKey}', tileConfig.apikey);
             if (tileConfig) {
               console.log(tileConfig.baseUrl + querystring);
-              return fetch.get(tileConfig.baseUrl, querystring);
+              return fetch.get(tileConfig.baseUrl, querystring)
+                .then((response) => {
+                  if (response.error) {
+                    return null;
+                  } else {
+                    return response;
+                  }
+                }, function (error) {
+                  throw new Error(error);
+                });
             }
             return null;
           }, function (error) {
@@ -155,7 +200,16 @@ const settingsType = new graphql.GraphQLObjectType({
             let querystring = tileConfig.querystring.replace('${apiKey}', tileConfig.apikey);
             if (tileConfig) {
               console.log(tileConfig.baseUrl + querystring);
-              return fetch.get(tileConfig.baseUrl, querystring);
+              return fetch.get(tileConfig.baseUrl, querystring)
+                .then((response) => {
+                  if (response.message) {
+                    return null;
+                  } else {
+                    return response;
+                  }
+                }, function (error) {
+                  throw new Error(error);
+                });
             }
             return null;
           }, function (error) {
