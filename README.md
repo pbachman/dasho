@@ -2,6 +2,8 @@
 
 Simple and customizable Dashboard, made with Ionic, angular5, Node.JS and GraphQL (former CAS_FEE@HSR Diploma thesis 2016).
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d27273ec-6d10-42e0-a6cf-cba856d37b20/deploy-status)](https://app.netlify.com/sites/dasho/deploys)
+
 <img src="https://user-images.githubusercontent.com/393635/56613023-0c1c3680-6616-11e9-8e00-1f7ebde5825a.gif" />
 
 ## Getting Started
