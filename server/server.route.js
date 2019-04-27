@@ -13,9 +13,9 @@ let serverRoutes = (function () {
   const oauthServer = require('./server.oauth');
 
   /**
- * Generates a new Password
- * @function
- * @return {string} Password
+   * Generates a new Password
+   * @function
+   * @return {string} Password
    */
   function generateRandomPassword() {
     let text = "";
@@ -34,28 +34,24 @@ let serverRoutes = (function () {
    */
   router.post('/login', (req, res) => {
     if (req.body.username !== undefined && req.body.password !== undefined) {
-      settingsloader.getUserByName(req.body.username).then(function (user) {
-        if (user !== undefined && user !== null) {
-          const checkPassword = passwordHash.verify(req.body.password, user.password);
-          if (checkPassword) {
-            res.status(200);
-            return res.send();
-          } else {
-            res.status(401);
-            return res.send('Login failed!');
+      return settingsloader.getUserByName(req.body.username)
+        .then(function (user) {
+          if (user) {
+            const checkPassword = passwordHash.verify(req.body.password, user.password);
+            if (checkPassword) {
+              res.status(200);
+              return res.send();
+            }
           }
-        } else {
+          throw new Error('Login failed!');
+        })
+        .catch(err => {
           res.status(401);
           return res.send('Login failed!');
-        }
-      }, (err) => {
-        res.status(400);
-        return res.send('Login failed!');
-      });
-    } else {
-      res.status(400);
-      return res.send('Required fields missing!');
+        });
     }
+    res.status(400);
+    return res.send('Required fields missing!');
   });
 
   /**
@@ -65,49 +61,40 @@ let serverRoutes = (function () {
    * @param {res} res - Response object.
    */
   router.post('/account', (req, res) => {
-    if (req.body.email === undefined || req.body.password === undefined) {
-      res.status(400);
-      return res.send('Required fields missing!');
-    } else {
-      settingsloader.getUserByName(req.body.email).then(function (user) {
-        // does the user already exists?
-        if (user !== null) {
-          res.status(400);
-          return res.send('User already exists!');
-        } else {
-          const newuser = { email: req.body.email, password: passwordHash.generate(req.body.password) };
-
-          settingsloader.addUser(newuser).then(function (user) {
-            // Add new User and assign Clock Tile to User.
-            settingsloader.assignTile(user._id, 'clock').then(function (config) {
-              sendMailer.sendMail(user.email, 'Welcome to Dasho ✔', `<b>Hello User!</b> Welcome to <a href="https://dasho.netlify.com">dasho</a>. Please login with your E-mail address.`, function (error, info) {
-                if (error) {
-                  res.status(400);
-                  return res.send(`Couldn't send Invitation Mail ${error}`);
-                } else {
-                  res.status(200);
-                  return res.send(info);
-                }
-              }).catch(err => {
-                res.status(400);
-                return res.send(err);
-              });
-            }, (err) => {
-              res.status(400);
-              return res.send(err);
-            });
-          }, (err) => {
-            res.status(400);
-            return res.send(err);
+    if (req.body.email !== undefined && req.body.password !== undefined) {
+      return settingsloader.getUserByName(req.body.email)
+        .then(function (user) {
+          // does the user already exists?
+          if (user === null) {
+            const newuser = { email: req.body.email, password: passwordHash.generate(req.body.password) };
+            return settingsloader.addUser(newuser);
+          }
+          throw new Error('User already exists!');
+        })
+        .then(function (user) {
+          // Add new User and assign Clock Tile to User.
+          return settingsloader.assignTile(user._id, 'clock');
+        })
+        .then(function () {
+          sendMailer.sendMail(user.email, 'Welcome to Dasho ✔', `<b>Hello User!</b> Welcome to <a href="https://dasho.netlify.com">dasho</a>. Please login with your E-mail address.`, function (error, info) {
+            if (error) {
+              throw new Error(`Couldn't send Invitation Mail ${error}`);
+            } else {
+              res.status(200);
+              return res.send(info);
+            }
+          }).catch(err => {
+            return res.send(err.message);
           });
-        }
-      }).catch(err => {
-        res.status(400);
-        return res.send(err);
-      });
+        })
+        .catch((err) => {
+          res.status(400);
+          return res.send(err.message);
+        })
     }
+    res.status(400);
+    return res.send('Required fields missing!');
   });
-
   /**
    * Invites a new User
    * @function
@@ -120,50 +107,41 @@ let serverRoutes = (function () {
       return res.send('Required fields missing!');
     } else {
       // are you allowed to invite new users ?
-      settingsloader.getUserByName(req.body.username).then(function (user) {
-        if (user !== undefined && user !== null && user.caninvite) {
-          settingsloader.getUserByName(req.body.friend).then(function (user) {
-            // does the user already exists?
-            if (user !== null) {
-              res.status(400);
-              return res.send('User already exists!');
-            } else {
-              const password = generateRandomPassword();
-              const newuser = { email: req.body.friend, password: passwordHash.generate(password), caninvite: false };
+      return settingsloader.getUserByName(req.body.username)
+        .then(function (user) {
+          if (user && user.caninvite) {
+            return settingsloader.getUserByName(req.body.friend);
+          }
+          throw new Error('You are not allowed to invite new Users!');
+        })
+        .then(function (user) {
+          // does the user already exists?
+          if (user === null) {
+            const password = generateRandomPassword();
+            const newuser = { email: req.body.friend, password: passwordHash.generate(password), caninvite: false };
 
-              settingsloader.addUser(newuser).then(function (user) {
-                // Add new User and assign Clock Tile to User.
-                settingsloader.assignTile(user._id, 'clock').then(function (config) {
-                  sendMailer.sendMail(user.email, 'Welcome to Dasho ✔', `<b>Hello User!</b> Welcome to <a href="https://dasho.netlify.com">dasho</a>. Please login with your E-mail address. Your Password is ${password}`, function (error, info) {
-                    if (error) {
-                      res.status(400);
-                      return res.send(`Couldn't send Invitation Mail ${error}`);
-                    } else {
-                      res.status(200);
-                      return res.send(info);
-                    }
-                  }).catch(err => {
-                    res.status(400);
-                    return res.send(err);
-                  });
-                }, (err) => {
-                  res.status(400);
-                  return res.send(err);
-                });
-              }, (err) => {
-                res.status(400);
-                return res.send(err);
-              });
+            return settingsloader.addUser(newuser);
+          }
+          throw new Error('User already exists!');
+        })
+        .then(function (user) {
+          // Adds new User and assign Clock Tile to User.
+          return settingsloader.assignTile(user._id, 'clock');
+        })
+        .then(function () {
+          sendMailer.sendMail(user.email, 'Welcome to Dasho ✔', `<b>Hello User!</b> Welcome to <a href="https://dasho.netlify.com">dasho</a>. Please login with your E-mail address. Your Password is ${password}`, function (error, info) {
+            if (error) {
+              throw new Error(`Couldn't send Invitation Mail ${error}`);
+            } else {
+              res.status(200);
+              return res.send(info);
             }
-          }).catch(err => {
-            res.status(400);
-            return res.send(err);
           });
-        } else {
+        })
+        .catch(err => {
           res.status(400);
-          return res.send('You are not allowed to invite new Users!');
-        }
-      });
+          return res.send(err.message);
+        });
     }
   });
 
@@ -176,34 +154,28 @@ let serverRoutes = (function () {
   router.put('/changepassword', oauthServer.authorise(), (req, res) => {
     if (req.body.username !== undefined && req.body.password !== undefined
       && req.body.newpassword !== undefined && req.body.newpasswordconfirm !== undefined) {
-      settingsloader.getUserByName(req.body.username).then(function (user) {
-        if (user !== undefined && user !== null) {
-          if (req.body.newpassword === req.body.newpasswordconfirm) {
-            const checkPassword = passwordHash.verify(req.body.password, user.password);
-            if (checkPassword) {
-              settingsloader.setsPassword(user, req.body.newpassword).then(function (user) {
-                res.status(200);
-                return res.send();
-              }).catch(err => {
-                res.status(400);
-                return res.send(err);
-              });
-            } else {
-              res.status(401);
-              return res.send('Login failed!');
+      return settingsloader.getUserByName(req.body.username)
+        .then(function (user) {
+          if (user) {
+            if (req.body.newpassword === req.body.newpasswordconfirm) {
+              const checkPassword = passwordHash.verify(req.body.password, user.password);
+              if (checkPassword) {
+                return settingsloader.setsPassword(user, req.body.newpassword);
+              }
+              throw new Error('Login failed!');
             }
-          } else {
-            res.status(400);
-            return res.send('Password and Confirm Password not equal!');
+            throw new Error('Password and Confirm Password not equal!');
           }
-        } else {
+          throw new Error('Unknown User!');
+        })
+        .then(function (user) {
+          res.status(200);
+          return res.send(user);
+        })
+        .catch(err => {
           res.status(400);
-          return res.send('Unknown User!');
-        }
-      }).catch(err => {
-        res.status(400);
-        return res.send(err);
-      });
+          return res.send(err.message);
+        });
     } else {
       res.status(400);
       return res.send('Required fields missing!');
@@ -219,41 +191,34 @@ let serverRoutes = (function () {
   router.post('/pwdreset', (req, res) => {
     if (req.body.username !== undefined) {
       if (req.body.username !== 'hi@dasho.co') {
-        settingsloader.getUserByName(req.body.username).then(function (user) {
-          if (user !== undefined && user !== null) {
-            const password = generateRandomPassword();
-            settingsloader.setsPassword(user.email, password).then(function (check) {
-              if (check) {
-                sendMailer.sendMail(user.email, 'DashO', `<b>Hello ${user.email}!</b> Your new Password is ${password}`, function (error, info) {
-                  if (error) {
-                    res.status(400);
-                    return res.send(error.message);
-                  } else {
-                    res.status(200);
-                    return res.send();
-                  }
-                });
+        return settingsloader.getUserByName(req.body.username)
+          .then(function (user) {
+            if (user) {
+              const password = generateRandomPassword();
+              return settingsloader.setPassword(user.email, password);
+            }
+            throw new Error('Unknown User!');
+          })
+          .then(function (user) {
+            sendMailer.sendMail(user.user, 'DashO', `<b>Hello ${user.user}!</b> Your new Password is ${user.newpassword}`, function (error, info) {
+              if (error) {
+                throw new Error(error.message);
+              } else {
+                res.status(200);
+                return res.send(info);
               }
-            }).catch(err => {
-              res.status(400);
-              return res.send(err);
             });
-          } else {
-            res.status(200);
-            return res.send();
-          }
-        }).catch(err => {
-          res.status(400);
-          return res.send(err);
-        });
-      } else {
-        res.status(200);
-        return res.send('Is not allowed to reset this E-mail address!');
+          })
+          .catch(err => {
+            res.status(400);
+            return res.send(err.message);
+          });
       }
-    } else {
       res.status(400);
-      return res.send('Required fields missing!');
+      return res.send('Is not allowed to reset this E-mail address!');
     }
+    res.status(400);
+    return res.send('Required fields missing!');
   });
 
   /**
@@ -265,17 +230,17 @@ let serverRoutes = (function () {
   router.put('/settings/:username', oauthServer.authorise(), (req, res) => {
     if (req.params.username !== undefined) {
       let setting = req.body.setting;
-      settingsloader.saveSetting(setting).then(function () {
-        res.status(200);
-        return res.send(true);
-      }).catch(err => {
-        res.status(400);
-        return res.send(err);
-      });
-    } else {
-      res.status(400);
-      return res.send('Required fields missing!');
+      settingsloader.saveSetting(setting)
+        .then(function () {
+          res.status(200);
+          return res.send(true);
+        }).catch(err => {
+          res.status(400);
+          return res.send(err.message);
+        });
     }
+    res.status(400);
+    return res.send('Required fields missing!');
   });
 
   /**
@@ -286,22 +251,21 @@ let serverRoutes = (function () {
    */
   router.post('/settings/:username/:tile', oauthServer.authorise(), (req, res) => {
     if (req.params.username !== undefined && req.params.tile) {
-      settingsloader.getUserByName(req.params.username).then(function (user) {
-        settingsloader.assignTile(user._id, req.params.tile).then(function () {
+      return settingsloader.getUserByName(req.params.username)
+        .then(function (user) {
+          return settingsloader.assignTile(user._id, req.params.tile);
+        })
+        .then(function () {
           res.status(200);
           return res.send(true);
-        }).catch(err => {
+        })
+        .catch(err => {
           res.status(400);
-          return res.send(err);
+          return res.send(err.message);
         });
-      }).catch(err => {
-        res.status(400);
-        return res.send(err);
-      });
-    } else {
-      res.status(400);
-      return res.send('Required fields missing!');
     }
+    res.status(400);
+    return res.send('Required fields missing!');
   });
 
   /**
@@ -312,17 +276,17 @@ let serverRoutes = (function () {
    */
   router.delete('/settings/:username/:id', oauthServer.authorise(), (req, res) => {
     if (req.params.username !== undefined && req.params.id) {
-      settingsloader.deleteSetting(req.params.id).then(function () {
-        res.status(200);
-        return res.send(true);
-      }).catch(err => {
-        res.status(400);
-        return res.send(err);
-      });
-    } else {
-      res.status(400);
-      return res.send('Required fields missing!');
+      return settingsloader.deleteSetting(req.params.id)
+        .then(function () {
+          res.status(200);
+          return res.send(true);
+        }).catch(err => {
+          res.status(400);
+          return res.send(err.message);
+        });
     }
+    res.status(400);
+    return res.send('Required fields missing!');
   });
 
   /**
@@ -334,27 +298,24 @@ let serverRoutes = (function () {
   router.get('/settings/:username', oauthServer.authorise(), (req, res) => {
     if (req.params.username !== undefined) {
       // check if the user exists
-      settingsloader.getUserByName(req.params.username).then(function (user) {
-        if (user) {
-          // returns the list of config
-          settingsloader.getSettings(user).then(function (settings) {
-            return res.send(settings);
-          }).catch(err => {
-            res.status(400);
-            return res.send(err);
-          });
-        } else {
+      return settingsloader.getUserByName(req.params.username)
+        .then(function (user) {
+          if (user) {
+            // returns the list of config
+            return settingsloader.getSettings(user);
+          }
+          throw new Error('Unknown User!');
+        })
+        .then(function (settings) {
+          return res.send(settings);
+        })
+        .catch(err => {
           res.status(400);
-          return res.send('Unknown User!');
-        }
-      }).catch(err => {
-        res.status(400);
-        return res.send(err);
-      });
-    } else {
-      res.status(400);
-      return res.send('Required fields missing!');
+          return res.send(err.message);
+        });
     }
+    res.status(400);
+    return res.send('Required fields missing!');
   });
 
   /**
@@ -366,44 +327,37 @@ let serverRoutes = (function () {
   router.get('/settings/unassigned/:username', oauthServer.authorise(), (req, res) => {
     if (req.params.username !== undefined) {
       // check if the user exists
-      settingsloader.getUserByName(req.params.username).then(function (user) {
-        if (user) {
-          // returns the list of config
-          settingsloader.getSettings(user).then(function (settings) {
-            // get all Tiles / compare it with selected Tiles
-            settingsloader.getTiles().then(function (tiles) {
+      return settingsloader.getUserByName(req.params.username)
+        .then(function (user) {
+          if (user) {
+            // returns the list of config
+            return settingsloader.getSettings(user);
+          }
+          throw new Error('Unknown User!');
+        })
+        .then(function (settings) {
+          return settingsloader.getTiles(settings).then(function (tiles) {
+            var tilesConfigs = [];
 
-              var temps = [];
-
-              for (let tileIndex = 0; tileIndex < tiles.length; tileIndex++) {
-                const tile = tiles[tileIndex];
-                if (settings.find(x => x.tile === tile.name)) {
-                } else {
-                  temps.push(tile);
-                }
+            for (let tileIndex = 0; tileIndex < tiles.length; tileIndex++) {
+              const tile = tiles[tileIndex];
+              // gets all Tiles / compare it with selected Tiles
+              if (settings.find(x => x.tile === tile.name)) {
+                // do nothing
+              } else {
+                temps.push(tile);
               }
-
-              return res.send(temps);
-            }).catch(err => {
-              res.status(400);
-              return res.send(err);
-            });
-          }).catch(err => {
-            res.status(400);
-            return res.send(err);
-          });
-        } else {
+            }
+            return res.send(tilesConfigs);
+          })
+        })
+        .catch(err => {
           res.status(400);
-          return res.send('Unknown User!');
-        }
-      }).catch(err => {
-        res.status(400);
-        return res.send(err);
-      });
-    } else {
-      res.status(400);
-      return res.send('Required fields missing!');
+          return res.send(err.message);
+        });
     }
+    res.status(400);
+    return res.send('Required fields missing!');
   });
 
   /**
@@ -414,12 +368,13 @@ let serverRoutes = (function () {
    */
   router.get('/tiles', oauthServer.authorise(), (req, res) => {
     // returns the list of tiles
-    settingsloader.getTiles().then(function (tiles) {
-      return res.send(tiles);
-    }).catch(err => {
-      res.status(400);
-      return res.send(err);
-    });
+    settingsloader.getTiles()
+      .then(function (tiles) {
+        return res.send(tiles);
+      }).catch(err => {
+        res.status(400);
+        return res.send(err.message);
+      });
   });
 
   return router;
