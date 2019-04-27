@@ -88,12 +88,12 @@ module.exports = (function () {
   }
 
   /**
-   * Verifies Username/Password.
-   * @function
-   * @param {string} user.
-   * @param {string} password.
-   * @param {object} callback.
-   */
+    * Verifies Username/Password.
+    * @function
+    * @param {string} user.
+    * @param {string} password.
+    * @param {object} callback.
+    */
   function verifyLogin(user, password, callback) {
     if (typeof callback == 'function') {
       db.users.findOne({ email: user.toLowerCase() }, function (err, user) {
@@ -194,13 +194,13 @@ module.exports = (function () {
    * @param {string} newpassword
    * @return {promise} promise
    */
-  function setsPassword(user, newpassword) {
+  function setPassword(user, newpassword) {
     return new Promise((resolve, reject) => {
       db.users.update(user, { $set: { password: passwordHash.generate(newpassword) } }, { multi: true }, function (err, numReplaced) {
         if (err) {
           return reject(err);
         } else {
-          return resolve(true);
+          return resolve({ user, newpassword });
         }
       });
     });
@@ -411,7 +411,7 @@ module.exports = (function () {
     verifyLogin: verifyLogin,
     getAccessToken: getAccessToken,
     saveAccessToken: saveAccessToken,
-    setsPassword: setsPassword,
+    setPassword: setPassword,
     isUserAllowed: isUserAllowed,
     getSettings: getSettings,
     deleteSetting: deleteSetting,
