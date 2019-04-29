@@ -57,7 +57,7 @@ let server = (function () {
   /** Graphql */
   app.use('/graphql', cors(), graphqlHTTP({
     schema: schema,
-    graphiql: true
+    graphiql: !config.production  // set it to false in the production
   }));
 
   /** Use Helmet to secure REST API */
