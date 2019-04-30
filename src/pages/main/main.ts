@@ -1,10 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
-import { DashboardService } from './main.service';
-import { Setting } from '../../shared/setting.model';
-import { UserProvider } from '../../providers/user';
 import { AlertController, Events, FabContainer, NavController } from 'ionic-angular';
 import { HttpErrorResponse } from '@angular/common/http';
+
+import { Setting } from '../../shared/setting.model';
+import { UserProvider } from '../../providers/user';
 import { LoginPage } from '../login/login';
+
+import { DashboardService } from './main.service';
 
 declare const Packery: any;
 declare const Draggabilly: any;

@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Events } from 'ionic-angular';
+import * as Highcharts from 'highcharts';
+
 import { Setting } from '../../../shared/setting.model';
 import { TileBaseComponent } from '../../../shared/shared.tile';
-import * as Highcharts from 'highcharts';
 
 @Component({
   selector: 'grid-currency',

@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Setting } from '../../shared/setting.model';
-import { BASE_URI } from '../../app/app.environment';
-import { UserProvider } from '../../providers/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/mergeMap';
+
+import { Setting } from '../../shared/setting.model';
+import { BASE_URI } from '../../app/app.environment';
+import { UserProvider } from '../../providers/user';
 
 /**
  * Represents the dashboard service.

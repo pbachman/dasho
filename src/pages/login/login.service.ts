@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { URLSearchParams } from '@angular/http';
-import { BASE_URI } from '../../app/app.environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
 import 'rxjs/add/operator/toPromise';
 import { Observable } from 'rxjs';
+
+import { BASE_URI } from '../../app/app.environment';
 
 /**
  * Represents the login service.

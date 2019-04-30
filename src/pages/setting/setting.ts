@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import { AlertController, NavController } from 'ionic-angular';
+import { AlertController } from 'ionic-angular';
+import { HttpErrorResponse } from '@angular/common/http';
+
 import { DashboardService } from '../main/main.service';
 import { UserProvider } from '../../providers/user';
 import { Setting } from '../../shared/setting.model';
-import { HttpErrorResponse } from '@angular/common/http';
-import { SettingService } from './setting.service';
 import { Tile } from '../../shared/tile.model';
+
+import { SettingService } from './setting.service';
 
 @Component({
   selector: 'page-setting',
@@ -23,8 +25,7 @@ export class SettingPage {
     private dashboardService: DashboardService,
     private settingService: SettingService,
     private userData: UserProvider,
-    private alertCtrl: AlertController,
-    private navCtrl: NavController) {
+    private alertCtrl: AlertController) {
   }
 
   ngOnInit(): void {

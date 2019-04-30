@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Events } from 'ionic-angular';
-import { Setting } from '../../../shared/setting.model';
-import { TileBaseComponent } from '../../../shared/shared.tile';
 import * as Highcharts from 'highcharts';
 import moment from 'moment';
+
+import { Setting } from '../../../shared/setting.model';
+import { TileBaseComponent } from '../../../shared/shared.tile';
 
 @Component({
   selector: 'grid-clock',

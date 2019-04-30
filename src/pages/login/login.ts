@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { AlertController, Events, NavController } from 'ionic-angular';
+import { HttpErrorResponse } from '@angular/common/http';
+
 import { LanguageProvider } from '../../providers/language';
 import { UserProvider } from '../../providers/user';
-import { LoginService } from './login.service';
-
 import { MainPage } from '../main/main';
-import { HttpErrorResponse } from '@angular/common/http';
+
+import { LoginService } from './login.service';
 
 @Component({
   selector: 'page-login',

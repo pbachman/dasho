@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BASE_URI } from '../../app/app.environment';
-import { UserProvider } from '../../providers/user';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/mergeMap';
+
+import { BASE_URI } from '../../app/app.environment';
+import { UserProvider } from '../../providers/user';
 import { Tile } from '../../shared/tile.model';
 
 /**

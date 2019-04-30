@@ -1,12 +1,13 @@
 import { Component, ViewChild } from '@angular/core';
 import { AlertController, Events, MenuController, NavController } from 'ionic-angular';
+import { HttpErrorResponse } from '@angular/common/http';
+
 import { LoginPage } from '../pages/login/login';
 import { MainPage } from '../pages/main/main';
 import { SettingPage } from '../pages/setting/setting';
 import { UserProvider } from '../providers/user';
 import { LanguageProvider } from '../providers/language';
 import { DashboardService } from '../pages/main/main.service';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   templateUrl: 'app.html'
