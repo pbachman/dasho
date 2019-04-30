@@ -23,6 +23,9 @@ let serveroAuth = (function () {
     getUser: function (username, password, callback) {
       settingsloader.verifyLogin(username, password, callback);
     },
+    getRefreshToken: function (refreshToken, callback) {
+      settingsloader.getAccessToken(refreshToken, callback);
+    },
     getAccessToken: function (bearerToken, callback) {
       settingsloader.getAccessToken(bearerToken, callback);
     },
