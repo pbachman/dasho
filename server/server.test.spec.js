@@ -56,10 +56,10 @@ describe('Dash0 backend/middleware', function () {
       .expect(200, done);
   });
 
-  it('PwdReset_WithWrongUser_ShouldFailWith400', function method(done) {
+  it('Account_AlreadyExists_ShouldFailWith400', function method(done) {
     request(server)
-      .post('/api/pwdreset')
-      .send({ username: 'wrong@user.com' })
+      .post('/api/account/')
+      .send({ email: 'hi@dasho.co', password: 'test1234' })
       .expect(400, done);
   });
 
@@ -68,6 +68,13 @@ describe('Dash0 backend/middleware', function () {
       .post('/api/invite/')
       .set('Authorization', 'Bearer ' + token)
       .send({ username: 'hi@dasho.co', friend: 'hi@dasho.co' })
+      .expect(400, done);
+  });
+
+  it('InviteFriend_RequiredFieldsMissing_ShouldFailWith400', function method(done) {
+    request(server)
+      .post('/api/invite/')
+      .set('Authorization', 'Bearer ' + token)
       .expect(400, done);
   });
 
@@ -92,6 +99,27 @@ describe('Dash0 backend/middleware', function () {
       .put('/api/changepassword/')
       .set('Authorization', 'Bearer ' + token)
       .send({ username: 'hi@dasho.co', password: 'test1234', newpassword: '1234', newpasswordconfirm: '5678' })
+      .expect(400, done);
+  });
+
+  it('PwdReset_WithWrongUser_ShouldFailWith400', function method(done) {
+    request(server)
+      .post('/api/pwdreset')
+      .send({ username: 'wrong@user.com' })
+      .expect(400, done);
+  });
+
+  it('ChangeUserSettings_WithWrongUser_ShouldFailWith400', function method(done) {
+    request(server)
+      .put('/api/settings/wrong@user.com')
+      .set('Authorization', 'Bearer ' + token)
+      .expect(400, done);
+  });
+
+  it('AssignTitleToUser_WithWrongUser_ShouldFailWith400', function method(done) {
+    request(server)
+      .post('/api/settings/wrong@user.com/clock')
+      .set('Authorization', 'Bearer ' + token)
       .expect(400, done);
   });
 
