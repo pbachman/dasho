@@ -1,6 +1,6 @@
 # Dasho
 
-Simple and customizable Dashboard, made with Ionic, angular5, Node.JS and GraphQL (former CAS_FEE@HSR Diploma thesis 2016).
+Simple and customizable Dashboard, made with Ionic, angular5, Node.JS and GraphQL (former [CAS_FEE@HSR](https://www.hsr.ch) Diploma thesis 2016).
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/d27273ec-6d10-42e0-a6cf-cba856d37b20/deploy-status)](https://app.netlify.com/sites/dasho/deploys)
 
