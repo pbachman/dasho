@@ -2,7 +2,7 @@
 
 Simple and customizable Dashboard, made with Ionic, angular5, Node.JS and GraphQL (former [CAS_FEE@HSR](https://www.hsr.ch) Diploma thesis 2016).
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/d27273ec-6d10-42e0-a6cf-cba856d37b20/deploy-status)](https://app.netlify.com/sites/dasho/deploys)
+[![Heroku](http://heroku-badge.herokuapp.com/?app=dasho&style=flat&svg=1)]
 
 <img src="https://user-images.githubusercontent.com/393635/56613023-0c1c3680-6616-11e9-8e00-1f7ebde5825a.gif" />
 
@@ -59,7 +59,7 @@ npm test
 ```
 ## DEMO
 
-You will find a productive Version under **[https://dasho.netlify.com](https://dasho.netlify.com)**. Login with Username *hi@dasho.co* and Password *test1234*.
+You will find a productive Version under **[https://dasho.herokuapp.com](https://dasho.netlify.com)**. Login with Username *hi@dasho.co* and Password *test1234*.
 
 ## Authors
 
