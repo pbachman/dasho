@@ -76,7 +76,7 @@ let serverRoutes = (function () {
           return settingsloader.assignTile(user._id, 'clock');
         })
         .then(function () {
-          sendMailer.sendMail(user.email, 'Welcome to Dasho ✔', `<b>Hello User!</b> Welcome to <a href="https://dasho.netlify.com">dasho</a>. Please login with your E-mail address.`, function (error, info) {
+          sendMailer.sendMail(user.email, 'Welcome to Dasho ✔', `<b>Hello User!</b> Welcome to <a href="https://dasho.herokuapp.com">dasho</a>. Please login with your E-mail address.`, function (error, info) {
             if (error) {
               throw new Error(`Couldn't send Invitation Mail ${error}`);
             } else {
@@ -129,7 +129,7 @@ let serverRoutes = (function () {
           return settingsloader.assignTile(user._id, 'clock');
         })
         .then(function () {
-          sendMailer.sendMail(user.email, 'Welcome to Dasho ✔', `<b>Hello User!</b> Welcome to <a href="https://dasho.netlify.com">dasho</a>. Please login with your E-mail address. Your Password is ${password}`, function (error, info) {
+          sendMailer.sendMail(user.email, 'Welcome to Dasho ✔', `<b>Hello User!</b> Welcome to <a href="https://dasho.herokuapp.com">dasho</a>. Please login with your E-mail address. Your Password is ${password}`, function (error, info) {
             if (error) {
               throw new Error(`Couldn't send Invitation Mail ${error}`);
             } else {
