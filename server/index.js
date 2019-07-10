@@ -18,8 +18,6 @@ const server = (function () {
   const oauthServer = require('./server.oauth');
   const config = require('../config.json');
   const helmet = require('helmet');
-  const engine = require('consolidate');
-  const path = require('path');
   const compression = require('compression')
 
   /** Use Body Parser */
@@ -47,12 +45,7 @@ const server = (function () {
   app.use(compression())
 
   /** static files */
-  const pathApp = path.join(__dirname, 'www');
-  app.use(express.static(pathApp));
-
-  app.set('views', pathApp);
-  app.engine('html', engine.mustache);
-  app.set('view engine', 'html');
+  app.use(express.static('www'));
 
   /** Graphql */
   app.use('/graphql', cors(), graphqlHTTP({
