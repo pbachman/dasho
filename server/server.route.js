@@ -40,18 +40,15 @@ let serverRoutes = (function () {
             const checkPassword = passwordHash.verify(req.body.password, user.password);
             if (checkPassword) {
               res.status(200);
-              return res.send();
             }
           }
           throw new Error('Login failed!');
         })
         .catch(err => {
-          res.status(401);
-          return res.send('Login failed!');
+          res.status(401).send('Login failed!');
         });
     }
-    res.status(400);
-    return res.send('Required fields missing!');
+    res.status(400).send('Required fields missing!');
   });
 
   /**
@@ -80,20 +77,17 @@ let serverRoutes = (function () {
             if (error) {
               throw new Error(`Couldn't send Invitation Mail ${error}`);
             } else {
-              res.status(200);
-              return res.send(info);
+              res.send(info);
             }
           }).catch(err => {
-            return res.send(err.message);
+            res.status(400).res.send(err.message);
           });
         })
         .catch((err) => {
-          res.status(400);
-          return res.send(err.message);
+          res.status(400).send(err.message);
         })
     }
-    res.status(400);
-    return res.send('Required fields missing!');
+    res.status(400).send('Required fields missing!');
   });
   /**
    * Invites a new User
@@ -103,8 +97,7 @@ let serverRoutes = (function () {
    */
   router.post('/invite', oauthServer.authorise(), (req, res) => {
     if (req.body.username === undefined) {
-      res.status(400);
-      return res.send('Required fields missing!');
+      res.status(400).send('Required fields missing!');
     } else {
       // are you allowed to invite new users ?
       return settingsloader.getUserByName(req.body.username)
@@ -133,14 +126,12 @@ let serverRoutes = (function () {
             if (error) {
               throw new Error(`Couldn't send Invitation Mail ${error}`);
             } else {
-              res.status(200);
-              return res.send(info);
+              res.send(info);
             }
           });
         })
         .catch(err => {
-          res.status(400);
-          return res.send(err.message);
+          res.status(400).send(err.message);
         });
     }
   });
@@ -169,16 +160,13 @@ let serverRoutes = (function () {
           throw new Error('Unknown User!');
         })
         .then(function (user) {
-          res.status(200);
-          return res.send(user);
+          res.send(user);
         })
         .catch(err => {
-          res.status(400);
-          return res.send(err.message);
+          res.status(400).send(err.message);
         });
     } else {
-      res.status(400);
-      return res.send('Required fields missing!');
+      res.status(400).send('Required fields missing!');
     }
   });
 
@@ -204,21 +192,17 @@ let serverRoutes = (function () {
               if (error) {
                 throw new Error(error.message);
               } else {
-                res.status(200);
-                return res.send(info);
+                res.send(info);
               }
             });
           })
           .catch(err => {
-            res.status(400);
-            return res.send(err.message);
+            res.status(400).send(err.message);
           });
       }
-      res.status(400);
-      return res.send('Is not allowed to reset this E-mail address!');
+      res.status(400).send('Is not allowed to reset this E-mail address!');
     }
-    res.status(400);
-    return res.send('Required fields missing!');
+    res.status(400).send('Required fields missing!');
   });
 
   /**
@@ -232,15 +216,13 @@ let serverRoutes = (function () {
       let setting = req.body.setting;
       settingsloader.saveSetting(setting)
         .then(function () {
-          res.status(200);
-          return res.send(true);
+          res.status(200).send(true);
         }).catch(err => {
-          res.status(400);
-          return res.send(err.message);
+          res.status(400).send(err.message);
         });
+    } else {
+      res.status(400).send('Required fields missing!');
     }
-    res.status(400);
-    return res.send('Required fields missing!');
   });
 
   /**
@@ -256,16 +238,13 @@ let serverRoutes = (function () {
           return settingsloader.assignTile(user._id, req.params.tile);
         })
         .then(function () {
-          res.status(200);
-          return res.send(true);
+          res.send(true);
         })
         .catch(err => {
-          res.status(400);
-          return res.send(err.message);
+          res.status(400).send(err.message);
         });
     }
-    res.status(400);
-    return res.send('Required fields missing!');
+    res.status(400).send('Required fields missing!');
   });
 
   /**
@@ -278,15 +257,12 @@ let serverRoutes = (function () {
     if (req.params.username !== undefined && req.params.id) {
       return settingsloader.deleteSetting(req.params.id)
         .then(function () {
-          res.status(200);
-          return res.send(true);
+          res.send(true);
         }).catch(err => {
-          res.status(400);
-          return res.send(err.message);
+          res.status(400).send(err.message);
         });
     }
-    res.status(400);
-    return res.send('Required fields missing!');
+    res.status(400).send('Required fields missing!');
   });
 
   /**
@@ -307,15 +283,13 @@ let serverRoutes = (function () {
           throw new Error('Unknown User!');
         })
         .then(function (settings) {
-          return res.send(settings);
+          res.send(settings);
         })
         .catch(err => {
-          res.status(400);
-          return res.send(err.message);
+          res.status(400).send(err.message);
         });
     }
-    res.status(400);
-    return res.send('Required fields missing!');
+    res.status(400).send('Required fields missing!');
   });
 
   /**
@@ -348,16 +322,14 @@ let serverRoutes = (function () {
                 temps.push(tile);
               }
             }
-            return res.send(tilesConfigs);
+            res.send(tilesConfigs);
           })
         })
         .catch(err => {
-          res.status(400);
-          return res.send(err.message);
+          res.status(400).send(err.message);
         });
     }
-    res.status(400);
-    return res.send('Required fields missing!');
+    res.status(400).send('Required fields missing!');
   });
 
   /**
@@ -370,10 +342,9 @@ let serverRoutes = (function () {
     // returns the list of tiles
     settingsloader.getTiles()
       .then(function (tiles) {
-        return res.send(tiles);
+        res.send(tiles);
       }).catch(err => {
-        res.status(400);
-        return res.send(err.message);
+        res.status(400).send(err.message);
       });
   });
 
