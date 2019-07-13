@@ -39,34 +39,7 @@ module.exports = (function () {
     return null;
   }
 
-  /**
-   * Gets a Schema Query by Tile.
-   * @function
-   * @param {string} tile Tile
-   * @return {string} Query
-   */
-  function getSchemaQueryByTile(tile) {
-    switch (tile) {
-      case 'googleapi':
-        return `googleapi { url, desktop { speed }, mobile { speed usability } }`;
-      case 'github':
-        return `github { watchers forks stars user repository }`;
-      case 'openweather':
-        return `openweather { location unit latitude longitude, today { temp, icon } }`;
-      case 'twitter':
-        return `twitter { user followers following tweets likes backgroundimage profileimage }`;
-      case 'fixer':
-        return `fixer { currency CHF USD EUR GBP }`;
-      case 'news':
-        return `news { source, articles { title image publishedAt url }}`;
-      case 'clock':
-        return `clock { datetime totalSeconds }`;
-    }
-    return null;
-  }
-
   return {
-    getSchemaByName: getSchemaByName,
-    getSchemaQueryByTile: getSchemaQueryByTile
+    getSchemaByName: getSchemaByName
   };
 })();

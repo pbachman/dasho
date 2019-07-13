@@ -39,13 +39,13 @@ module.exports = (function () {
       // Insert Tiles, if not exists.
       if (count == 0) {
         db.tiles.insert([
-          { _id: "ZkNW1xMuVq7B1rn5", name: 'googleapi', baseUrl: 'https://www.googleapis.com/pagespeedonline/v2/runPagespeed', apikey: '', apisecret: '' },
-          { _id: "8vJH0MaIin7KDpUY", name: 'github', baseUrl: 'https://api.github.com', apikey: '0a01416559cc95dc055d', apisecret: '' },
-          { _id: "mB2wXblzppRSnewm", name: 'openweather', baseUrl: 'http://api.openweathermap.org/data/2.5/weather', apikey: '', apisecret: '' },
-          { _id: "JyVSFAw0ygrFphVp", name: 'twitter', baseUrl: 'https://api.twitter.com', apikey: '', apisecret: '' },
-          { _id: "tuAPdN68QwtG4Aha", name: 'fixer', baseUrl: 'http://data.fixer.io/api/latest', apikey: '', apisecret: '' },
-          { _id: "d3THA4b9mkxhqVQ3", name: 'news', baseUrl: 'https://newsapi.org/v1/articles', apikey: '', apisecret: '' },
-          { _id: "88MjFRnZnNrVYKsI", name: 'clock', baseUrl: '', apikey: '', apisecret: '' }
+          { _id: "ZkNW1xMuVq7B1rn5", name: 'googleapi', baseUrl: 'https://www.googleapis.com/pagespeedonline/v2/runPagespeed', apikey: '', apisecret: '', schema: 'googleapi { url, desktop { speed }, mobile { speed usability } }' },
+          { _id: "8vJH0MaIin7KDpUY", name: 'github', baseUrl: 'https://api.github.com', apikey: '', apisecret: '', schema: 'github { watchers forks stars user repository }' },
+          { _id: "mB2wXblzppRSnewm", name: 'openweather', baseUrl: 'http://api.openweathermap.org/data/2.5/weather', apikey: '', apisecret: '', schema: 'openweather { location unit latitude longitude, today { temp, icon } }' },
+          { _id: "JyVSFAw0ygrFphVp", name: 'twitter', baseUrl: 'https://api.twitter.com', apikey: '', apisecret: '', schema: 'twitter { user followers following tweets likes backgroundimage profileimage }' },
+          { _id: "tuAPdN68QwtG4Aha", name: 'fixer', baseUrl: 'http://data.fixer.io/api/latest', apikey: '', apisecret: '', schema: 'fixer { currency CHF USD EUR GBP }' },
+          { _id: "d3THA4b9mkxhqVQ3", name: 'news', baseUrl: 'https://newsapi.org/v1/articles', apikey: '', apisecret: '', schema: 'news { source, articles { title image publishedAt url }}' },
+          { _id: "88MjFRnZnNrVYKsI", name: 'clock', baseUrl: '', apikey: '', apisecret: '', schema: 'clock { datetime totalSeconds }' }
         ]);
       }
     });
@@ -232,7 +232,7 @@ module.exports = (function () {
                     baseUrl: tile.baseUrl,
                     querystring: configItem.querystring,
                     position: configItem.position,
-                    schemas: schemaloader.getSchemaQueryByTile(tile.name),
+                    schemas: tile.schema,
                     visible: configItem.visible,
                   };
                   userconfigs.push(userConfig);
