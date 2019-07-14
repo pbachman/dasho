@@ -89,6 +89,7 @@ let serverRoutes = (function () {
     }
     res.status(400).send('Required fields missing!');
   });
+
   /**
    * Invites a new User
    * @function
@@ -346,6 +347,26 @@ let serverRoutes = (function () {
       }).catch(err => {
         res.status(400).send(err.message);
       });
+  });
+
+  /**
+   * Saves a Tiles
+   * @function
+   * @param {req} req - Request object.
+   * @param {res} res - Response object.
+   */
+  router.put('/tiles/:tile', oauthServer.authorise(), (req, res) => {
+    if (req.params.tile !== undefined) {
+      let tile = req.body.tile;
+      settingsloader.saveTile(tile)
+        .then(function () {
+          res.status(200).send(true);
+        }).catch(err => {
+          res.status(400).send(err.message);
+        });
+    } else {
+      res.status(400).send('Required fields missing!');
+    }
   });
 
   return router;

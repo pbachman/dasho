@@ -13,7 +13,8 @@
     "logout": "Abmelden",
     "changePassword": "Passwort wechseln",
     "inviteFriend": "Freund einladen",
-    "configureTiles": "Einstellungen"
+    "configureTileSetting": "Einstellungen",
+    "configureTiles": "Tiles"
   },
   "login": {
     "toolbar": "Einloggen",

@@ -8,6 +8,7 @@ import { SettingPage } from '../pages/setting/setting';
 import { UserProvider } from '../providers/user';
 import { LanguageProvider } from '../providers/language';
 import { DashboardService } from '../pages/main/main.service';
+import { TilePage } from '../pages/tile/tile';
 
 @Component({
   templateUrl: 'app.html'
@@ -200,12 +201,24 @@ export class DashoApp {
   /**
    * Shows the Settings dialog
    */
-  configureTiles(): void {
+  configureTileSettings(): void {
     this.dashboardService.getSettings(this.currentUser)
       .subscribe((settings: any) => {
         this.settings = settings;
         this.menuCtrl.close();
         this.nav.push(SettingPage);
+      });
+  }
+
+  /**
+   * Shows the Tiles dialog
+   */
+  configureTiles(): void {
+    this.dashboardService.getSettings(this.currentUser)
+      .subscribe((settings: any) => {
+        this.settings = settings;
+        this.menuCtrl.close();
+        this.nav.push(TilePage);
       });
   }
 

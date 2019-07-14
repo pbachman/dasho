@@ -25,8 +25,12 @@
         <ion-icon name="person-add" item-left></ion-icon>
         {{'menu.inviteFriend' | translate}}
       </button>
-      <button ion-item (click)="configureTiles()">
+      <button ion-item (click)="configureTileSettings()">
         <ion-icon name="settings" item-left></ion-icon>
+        {{'menu.configureTileSetting' | translate}}
+      </button>
+      <button ion-item (click)="configureTiles()">
+        <ion-icon name="cog" item-left></ion-icon>
         {{'menu.configureTiles' | translate}}
       </button>
       <button ion-item (click)="logout()">

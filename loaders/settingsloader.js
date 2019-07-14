@@ -325,6 +325,23 @@ module.exports = (function () {
   }
 
   /**
+   * Saves a Tile Item.
+   * @function
+   * @param {object} tile
+   * @return {promise} promise
+   */
+  function saveTile(tile) {
+    return new Promise((resolve, reject) => {
+      db.tiles.update({ _id: tile._id }, { $set: { baseUrl: tile.baseUrl, apikey: tile.apikey, apisecret: tile.apisecret, schema: tile.schema } }, function (err, success) {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(success);
+      });
+    });
+  }
+
+  /**
    * Gets a Tile by Name.
    * @function
    * @param {string} name
@@ -405,6 +422,7 @@ module.exports = (function () {
     addUser: addUser,
     assignTile: assignTile,
     getTiles: getTiles,
+    saveTile: saveTile,
     getTileById: getTileById,
     getTileByName: getTileByName,
     getClients: getClients,

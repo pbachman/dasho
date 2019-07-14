@@ -8,15 +8,17 @@ import { IonicStorageModule } from '@ionic/storage';
 import { Http } from '@angular/http';
 import { HighchartsChartModule } from 'highcharts-angular';
 
+import { LoginService } from '../pages/login/login.service';
 import { LoginPage } from '../pages/login/login';
-import { MainPage } from '../pages/main/main';
 import { UserProvider } from '../providers/user';
 import { LanguageProvider } from '../providers/language';
 import { DashboardService } from '../pages/main/main.service';
-import { LoginService } from '../pages/login/login.service';
+import { MainPage } from '../pages/main/main';
 import { ArraySort } from '../shared/shared.sort';
 import { SettingPage } from '../pages/setting/setting';
 import { SettingService } from '../pages/setting/setting.service';
+import { TilePage } from '../pages/tile/tile';
+import { TileService } from '../pages/tile/tile.service';
 
 import { DashoApp } from './app.component';
 import { Clock } from './tiles/clock/clock';
@@ -40,6 +42,7 @@ export function createTranslateLoader(http: Http): TranslateStaticLoader {
     LoginPage,
     MainPage,
     SettingPage,
+    TilePage,
     Clock,
     Currency,
     Github,
@@ -67,14 +70,16 @@ export function createTranslateLoader(http: Http): TranslateStaticLoader {
     DashoApp,
     LoginPage,
     MainPage,
-    SettingPage
+    SettingPage,
+    TilePage
   ],
   providers: [
     UserProvider,
     LanguageProvider,
     DashboardService,
     SettingService,
-    LoginService
+    LoginService,
+    TileService
   ]
 })
 
