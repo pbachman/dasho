@@ -29,7 +29,7 @@
         <ion-icon name="settings" item-left></ion-icon>
         {{'menu.configureTileSetting' | translate}}
       </button>
-      <button ion-item (click)="configureTiles()">
+      <button ion-item (click)="configureTiles()" *ngIf="currentUser && currentUser.isAdmin">
         <ion-icon name="cog" item-left></ion-icon>
         {{'menu.configureTiles' | translate}}
       </button>

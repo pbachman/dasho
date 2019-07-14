@@ -112,7 +112,7 @@ let serverRoutes = (function () {
           // does the user already exists?
           if (user === null) {
             const password = generateRandomPassword();
-            const newuser = { email: req.body.friend, password: passwordHash.generate(password), caninvite: false };
+            const newuser = { email: req.body.friend, password: passwordHash.generate(password), caninvite: false, isAdmin: false };
 
             return settingsloader.addUser(newuser);
           }

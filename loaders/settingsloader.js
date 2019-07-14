@@ -71,7 +71,8 @@ module.exports = (function () {
       // Insert Standard User, if not exists.
       if (count == 0) {
         db.users.insert([
-          { _id: "6kO2i9Wt2ElAjvdl", email: 'hi@dasho.co', password: passwordHash.generate('test1234'), caninvite: true }]
+          { _id: "6kO2i9Wt2ElAjvdl", email: 'hi@dasho.co', password: passwordHash.generate('test1234'), caninvite: true, isAdmin: false },
+          { _id: "88MjFRnZnNrVYKs4", email: 'admin@dasho.co', password: passwordHash.generate('admin1234'), caninvite: true, isAdmin: true }]
         );
       }
     });
