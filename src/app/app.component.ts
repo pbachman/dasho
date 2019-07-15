@@ -214,12 +214,8 @@ export class DashoApp {
    * Shows the Tiles dialog
    */
   configureTiles(): void {
-    this.dashboardService.getSettings(this.currentUser)
-      .subscribe((settings: any) => {
-        this.settings = settings;
-        this.menuCtrl.close();
-        this.nav.push(TilePage);
-      });
+    this.menuCtrl.close();
+    this.nav.push(TilePage);
   }
 
   /**
