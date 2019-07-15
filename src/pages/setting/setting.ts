@@ -20,6 +20,7 @@ export class SettingPage {
   tiles: Array<Tile>;
   settings: Array<Setting>;
   selectedTile: string;
+  hasChanged: boolean;
 
   constructor(
     private dashboardService: DashboardService,
@@ -73,6 +74,7 @@ export class SettingPage {
   }
 
   saveItem(setting: Setting): void {
+    this.hasChanged = true;
     this.dashboardService.saveSetting(this.currentUser, setting)
       .subscribe((saved: boolean) => {
         if (saved) {

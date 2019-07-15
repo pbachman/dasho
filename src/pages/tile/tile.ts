@@ -19,6 +19,7 @@ export class TilePage {
   tiles: Array<Tile>;
   settings: Array<Setting>;
   selectedTile: string;
+  hasChanged: boolean;
 
   constructor(
     private tileService: TileService,
@@ -44,6 +45,7 @@ export class TilePage {
   }
 
   saveItem(tile: Tile): void {
+    this.hasChanged = true;
     this.tileService.saveTile(tile)
       .subscribe((saved: boolean) => {
         if (saved) {

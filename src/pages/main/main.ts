@@ -58,7 +58,8 @@ export class MainPage {
     this.navCtrl.viewDidLeave.subscribe(event => {
       if (event.name === 'SettingPage' || event.name === 'TilePage') {
         this.isGridInitialized = false;
-        this.loadData();
+        if (event.instance.hasChanged)
+          this.loadData();
       }
     });
 
