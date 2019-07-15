@@ -54,6 +54,21 @@ export class MainPage {
       }, 500);
     });
 
+    // subscribe the Event, when the Setting- or TilePage will close.
+    this.navCtrl.viewDidLeave.subscribe(event => {
+      if (event.name === 'SettingPage' || event.name === 'TilePage') {
+        this.isGridInitialized = false;
+        this.loadData();
+      }
+    });
+
+    this.loadData();
+  }
+
+  /**
+   * (Re-)Loads the Settings by User.
+   */
+  loadData(): void {
     this.userData.getUsername()
       .subscribe((username: string) => {
         this.currentUser = username;
