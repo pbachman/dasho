@@ -1,4 +1,4 @@
-<div class="grid-item grid-item-news" [attr.data-id]="tile.id">
+<div [class]="data ? 'grid-item grid-item-news' : 'grid-item grid-item-news nodata'" [attr.data-id]="tile.id">
   <button aria-label="close" class="grid-item-close" (click)="onClose()">
     <ion-icon name="close"></ion-icon>
   </button>
@@ -11,14 +11,5 @@
       <div class="grid-item-news-date"><span>{{ news.publishedAt | amTimeAgo }}</span></div>
     </ion-card>
   </ion-content>
+  <ion-card-content *ngIf="!data">{{'tiles.noContent' | translate}}</ion-card-content>
 </div>
-
-<ion-card class="grid-item grid-item-news-nodata" [attr.data-id]="tile.id" *ngIf="!data || !data.articles">
-  <ion-card-header class="grid-item-news-nodata-header">
-    <ion-icon name="paper" item-left></ion-icon> News
-  </ion-card-header>
-  <button aria-label="close" class="grid-item-close" (click)="onClose()">
-    <ion-icon name="close"></ion-icon>
-  </button>
-  <ion-card-content>{{'tiles.noContent' | translate}}</ion-card-content>
-</ion-card>

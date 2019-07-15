@@ -15,24 +15,19 @@
     }
   }
 
+  &.nodata {
+    > .card-content {
+      background: #fff;
+      height: grid-unit(2);
+    }
+  }
+
   // force style
   &.grid-item-news .scroll-content {
     ion-app & {
       padding: 0;
     }
   }
-}
-
-.grid-item-news-nodata {
-  height: grid-unit(2);
-  width: grid-unit(2);
-}
-
-.grid-item-news--nodata-header {
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  text-shadow: 0 0 2px #fff, 0 0 7px #fff;
 }
 
 .grid-item-news-text {
