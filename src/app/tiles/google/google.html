@@ -11,13 +11,11 @@
       <strong>{{data.url}}</strong>
       <ion-row>
         <ion-col width-10>
-          <ion-icon name="desktop"></ion-icon>
+          <ion-icon name="desktop"></ion-icon> <span class="grid-item-value">{{ data.desktop.speed }}</span>
         </ion-col>
-        <ion-col class="grid-item-value">{{data.desktop.speed}}</ion-col>
         <ion-col width-10>
-          <ion-icon name="phone-portrait"></ion-icon>
+          <ion-icon name="phone-portrait"></ion-icon> <span class="grid-item-value">{{ data.mobile.speed }} | {{ data.mobile.usability }}</span>
         </ion-col>
-        <ion-col class="grid-item-value">{{data.mobile.speed}} | {{data.mobile.usability}}</ion-col>
       </ion-row>
     </ion-card-content>
   </div>
