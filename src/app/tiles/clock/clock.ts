@@ -30,6 +30,9 @@ export class Clock extends TileBaseComponent {
     super();
 
     this.setMathBounce();
+  }
+
+  ngOnInit(): void {
     this.events.subscribe('data:ready', data => {
       this.onReady();
     });

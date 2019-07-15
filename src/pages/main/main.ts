@@ -40,15 +40,20 @@ export class MainPage {
     private alertCtrl: AlertController,
     private navCtrl: NavController,
     private events: Events) {
-    this.events.subscribe('data:ready', data => {
-      this.dataobject = data;
-    });
   }
 
   /**
    * Get the username and the settings from the services
    */
   ngOnInit(): void {
+    this.events.subscribe('data:ready', data => {
+      this.dataobject = data;
+
+      setTimeout(() => {
+        this.pckry.layout();
+      }, 500);
+    });
+
     this.userData.getUsername()
       .subscribe((username: string) => {
         this.currentUser = username;

@@ -35,7 +35,9 @@ export class Google extends TileBaseComponent {
     private events: Events,
     private languageProvider: LanguageProvider) {
     super();
+  }
 
+  ngOnInit(): void {
     this.events.subscribe('data:ready', data => {
       if (data)
         this.data = data.googleapi;

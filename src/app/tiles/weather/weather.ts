@@ -24,11 +24,12 @@ export class Weather extends TileBaseComponent {
    */
   constructor(private events: Events) {
     super();
+  }
 
+  ngOnInit(): void {
     this.events.subscribe('data:ready', data => {
       if (data)
         this.data = data.openweather;
     });
   }
-
 }

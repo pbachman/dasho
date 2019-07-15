@@ -24,7 +24,9 @@ export class News extends TileBaseComponent {
    */
   constructor(private events: Events) {
     super();
+  }
 
+  ngOnInit(): void {
     this.events.subscribe('data:ready', data => {
       if (data) {
         const news = data.news;
