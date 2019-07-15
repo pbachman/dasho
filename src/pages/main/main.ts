@@ -50,7 +50,9 @@ export class MainPage {
       this.dataobject = data;
 
       setTimeout(() => {
-        this.pckry.layout();
+        if (this.pckry) {
+          this.pckry.layout();
+        }
       }, 500);
     });
 
