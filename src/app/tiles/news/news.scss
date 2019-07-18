@@ -16,6 +16,9 @@
   }
 
   &.nodata {
+    height: grid-unit(2);
+    width: grid-unit(2);
+
     > .card-content {
       background: #fff;
       height: grid-unit(2);
