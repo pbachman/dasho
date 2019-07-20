@@ -225,7 +225,6 @@ export class DashoApp {
   private listenToLoginEvents(): void {
     this.events.subscribe('user:login', username => {
       this.enableMenu(true);
-      this.currentUser = username;
     });
 
     this.events.subscribe('user:logout', () => {
