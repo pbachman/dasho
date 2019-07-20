@@ -38,12 +38,16 @@ export class Clock extends TileBaseComponent {
     });
   }
 
+  ngOnDestroy(): void {
+    clearInterval(this.interval);
+  }
+
   /**
    * A callback function for the created chart / makes the clock move.
    * @param {Highcharts} chart The current Chart
    * @returns {void}
    */
-  moveClock(chart: Highcharts): void {
+  startMoveClock(chart: Highcharts): void {
     this.interval = setInterval(() => {
       if (chart.axes) { // not destroyed
         const hour = chart.get('hour');
