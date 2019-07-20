@@ -320,7 +320,7 @@ let serverRoutes = (function () {
               if (settings.find(x => x.tile === tile.name)) {
                 // do nothing
               } else {
-                temps.push(tile);
+                tilesConfigs.push(tile);
               }
             }
             res.send(tilesConfigs);
