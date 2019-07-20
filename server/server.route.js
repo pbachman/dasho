@@ -51,6 +51,33 @@ let serverRoutes = (function () {
     res.status(400).send('Required fields missing!');
   });
 
+ /**
+   * Gets the current Userprofile
+   * @function
+   * @param {req} req - Request object.
+   * @param {res} res - Response object.
+   */
+  router.get('/account/current', oauthServer.authorise(), (req, res) => {
+    if (req.user !== undefined) {
+      return settingsloader.getUserByName(req.user)
+        .then(function (user) {
+          // gets the Userdata (without Pwd)
+          if (user !== null) {
+            res.status(200).send({
+              "username": user.email,
+              "caninvite": user.caninvite,
+              "isAdmin": user.isAdmin
+            });
+          }
+          throw new Error('User already exists!');
+        })
+        .catch((err) => {
+          res.status(400).send(err.message);
+        })
+    }
+    res.status(400).send('User is missing!');
+  });
+
   /**
    * Creates a new User
    * @function

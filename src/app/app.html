@@ -2,7 +2,7 @@
   <ion-header>
     <ion-toolbar color="primary">
       <ion-title>
-        <ion-icon name="person" item-left></ion-icon> {{currentUser}}
+        <ion-icon name="person" item-left></ion-icon> {{currentUser?.username}}
       </ion-title>
     </ion-toolbar>
   </ion-header>
@@ -21,7 +21,7 @@
         <ion-icon name="key" item-left></ion-icon>
         {{'menu.changePassword' | translate}}
       </button>
-      <button ion-item (click)="inviteFriendPrompt()">
+      <button ion-item (click)="inviteFriendPrompt()" *ngIf="currentUser?.caninvite">
         <ion-icon name="person-add" item-left></ion-icon>
         {{'menu.inviteFriend' | translate}}
       </button>
@@ -29,7 +29,7 @@
         <ion-icon name="settings" item-left></ion-icon>
         {{'menu.configureTileSetting' | translate}}
       </button>
-      <button ion-item (click)="configureTiles()" *ngIf="currentUser && currentUser.isAdmin">
+      <button ion-item (click)="configureTiles()" *ngIf="currentUser?.isAdmin">
         <ion-icon name="cog" item-left></ion-icon>
         {{'menu.configureTiles' | translate}}
       </button>

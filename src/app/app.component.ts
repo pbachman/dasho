@@ -9,6 +9,7 @@ import { UserProvider } from '../providers/user';
 import { LanguageProvider } from '../providers/language';
 import { DashboardService } from '../pages/main/main.service';
 import { TilePage } from '../pages/tile/tile';
+import { User } from '../shared/user.model';
 
 @Component({
   templateUrl: 'app.html'
@@ -21,7 +22,7 @@ export class DashoApp {
   @ViewChild('content') nav: NavController;
   rootPage: Object = LoginPage;
   menuEnable: boolean;
-  currentUser: string;
+  currentUser: User;
   settings: any;
 
   /**
@@ -50,9 +51,9 @@ export class DashoApp {
 
         if (hasLoggedIn) {
           this.nav.push(MainPage);
-          this.userData.getUsername()
-            .subscribe((username: string) => {
-              this.currentUser = username;
+          this.dashboardService.getUserprofile()
+            .subscribe(user => {
+              this.currentUser = user;
             });
         }
       });
@@ -115,7 +116,7 @@ export class DashoApp {
             if (!data.passwordOld || !data.password || data.password !== data.passwordConfirm)
               return false;
 
-            this.dashboardService.changePassword(this.currentUser, data.passwordOld, data.password, data.passwordConfirm)
+            this.dashboardService.changePassword(this.currentUser.username, data.passwordOld, data.password, data.passwordConfirm)
               .subscribe(() => {
                 const alert = this.alertCtrl.create({
                   title: i18n.changePassword.alertTitle,
@@ -170,7 +171,7 @@ export class DashoApp {
               return false;
             }
 
-            this.dashboardService.inviteFriends(this.currentUser, data.email)
+            this.dashboardService.inviteFriends(this.currentUser.username, data.email)
               .subscribe(() => {
                 const alert = this.alertCtrl.create({
                   title: i18n.invite.alertTitle,
@@ -202,7 +203,7 @@ export class DashoApp {
    * Shows the Settings dialog
    */
   configureTileSettings(): void {
-    this.dashboardService.getSettings(this.currentUser)
+    this.dashboardService.getSettings(this.currentUser.username)
       .subscribe((settings: any) => {
         this.settings = settings;
         this.menuCtrl.close();

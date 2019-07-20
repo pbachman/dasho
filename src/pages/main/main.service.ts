@@ -6,6 +6,7 @@ import 'rxjs/add/operator/mergeMap';
 import { Setting } from '../../shared/setting.model';
 import { BASE_URI } from '../../app/app.environment';
 import { UserProvider } from '../../providers/user';
+import { User } from '../../shared/user.model';
 
 /**
  * Represents the dashboard service.
@@ -41,6 +42,24 @@ export class DashboardService {
         };
 
         return this.http.get<Array<Setting>>(`${this.apiUrl}/settings/${username}`, httpOptions);
+      });
+  }
+
+  /**
+   * Get the Profiledata
+   * @return {Promise}
+   */
+  getUserprofile(): Observable<User> {
+    return this.userData.getAccessToken()
+      .mergeMap((token: string) => {
+        const httpOptions = {
+          headers: new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          })
+        };
+
+        return this.http.get<User>(`${this.apiUrl}/account/current`, httpOptions);
       });
   }
 
