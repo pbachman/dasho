@@ -12,7 +12,7 @@ Simple and customizable Dashboard, made with Ionic, angular5, Node.JS and GraphQ
 
 - Node >= 10.0
 
-### Library List
+### Used external Libraries
 
 * [Draggabilly](https://draggabilly.desandro.com)
 * [Highcharts](https://github.com/highcharts/highcharts)
@@ -51,6 +51,11 @@ node server
 * News (from **[NewsApi](https://newsapi.org)**)
 * Twitter
 * Weather (from **[OpenWeatherMap](https://openweathermap.org)**)
+
+## Missing a Tile ? How to add your own Tile(s) ?
+
+* Create a new Tile Component and extends it with TileBaseComponent (under src/app/tiles)
+* Define the GraphQL Schema (under api/schema) and add the Resolve Logic in the Schema File
 
 ## Running the tests
 
