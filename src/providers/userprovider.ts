@@ -4,6 +4,8 @@ import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs';
 import { from } from 'rxjs/observable/from';
 
+import { User } from '../shared/user.model';
+
 /**
  * Represents the user provider
  */
@@ -34,37 +36,32 @@ export class UserProvider {
   }
 
   /**
-   * Set the userdate and publish the `user:login` event
-   * @param  {string}  username The username (email address)
-   * @param  {string}  token
-   * @return {Promise}
-   */
-  login(username: string, token: string): Observable<void> {
-    return from(this.storage.set(this.HAS_LOGGED_IN, true)
-      .then(() => {
-        this.setsUserdata(username, token);
-        this.events.publish('user:login', username);
-      }));
-  }
-
-  /**
    * Removes all storage information and publish the `user:logout` event
    */
   logout(): void {
     this.storage.remove(this.HAS_LOGGED_IN);
-    this.storage.remove('username');
+    this.storage.remove('user');
     this.storage.remove('token');
     this.events.publish('user:logout');
   }
 
   /**
-   * Set the userdata in the storage
-   * @param {string} username
+   * Set the userdata in the storage (after successful login)
+   * @param {User} user
+   */
+  setsUserdata(user: User): Observable<void> {
+    return from(this.storage.set('user', user)
+      .then(() => {
+        return this.storage.set(this.HAS_LOGGED_IN, true);
+      }));
+  }
+
+  /**
+   * Set the Token
    * @param {string} token
    */
-  setsUserdata(username: string, token: string): void {
-    this.storage.set('username', username);
-    this.storage.set('token', token);
+  setsAccessToken(token: string): Observable<void> {
+    return from(this.storage.set('token', token));
   }
 
   /**
@@ -83,7 +80,18 @@ export class UserProvider {
    * @return {Promise}
    */
   getUsername(): Observable<string> {
-    return from(this.storage.get('username')
+    return from(this.storage.get('user')
+      .then(value => {
+        return value.username;
+      }));
+  }
+
+  /**
+   * Get the user from the storage
+   * @return {Promise}
+   */
+  getUser(): Observable<User> {
+    return from(this.storage.get('user')
       .then(value => {
         return value;
       }));

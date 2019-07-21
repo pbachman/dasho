@@ -5,7 +5,7 @@ import HCSoldGauge from 'highcharts/modules/solid-gauge';
 import Highcharts from 'highcharts';
 
 import { Setting } from '../../../shared/setting.model';
-import { LanguageProvider } from '../../../providers/language';
+import { LanguageProvider } from '../../../providers/languageprovider';
 import { TileBaseComponent } from '../../../shared/shared.tile';
 
 ChartModuleMore(Highcharts);

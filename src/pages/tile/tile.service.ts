@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import 'rxjs/add/operator/mergeMap';
 
 import { BASE_URI } from '../../app/app.environment';
-import { UserProvider } from '../../providers/user';
+import { UserProvider } from '../../providers/userprovider';
 import { Tile } from '../../shared/tile.model';
 
 /**
@@ -18,18 +18,18 @@ export class TileService {
    * Create the Tiles service
    * @constructor
    * @param {Http} http
-   * @param {UserProvider} userData
+   * @param {UserProvider} userprovider
    */
   constructor(
     private http: HttpClient,
-    private userData: UserProvider) { }
+    private userprovider: UserProvider) { }
 
   /**
    * Get all tiles
    * @return {Promise}
    */
   getTiles(): Observable<Array<Tile>> {
-    return this.userData.getAccessToken()
+    return this.userprovider.getAccessToken()
       .mergeMap((token: string) => {
         const httpOptions = {
           headers: new HttpHeaders({
@@ -48,7 +48,7 @@ export class TileService {
    * @return {Promise}
    */
   saveTile(tile: Tile): Observable<boolean> {
-    return this.userData.getAccessToken()
+    return this.userprovider.getAccessToken()
       .mergeMap((token: string) => {
         const httpOptions = {
           headers: new HttpHeaders({

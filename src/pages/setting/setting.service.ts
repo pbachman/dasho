@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import 'rxjs/add/operator/mergeMap';
 
 import { BASE_URI } from '../../app/app.environment';
-import { UserProvider } from '../../providers/user';
+import { UserProvider } from '../../providers/userprovider';
 import { Tile } from '../../shared/tile.model';
 
 /**
@@ -18,18 +18,18 @@ export class SettingService {
    * Create the Setting service
    * @constructor
    * @param {Http} http
-   * @param {UserProvider} userData
+   * @param {UserProvider} userprovider
    */
   constructor(
     private http: HttpClient,
-    private userData: UserProvider) { }
+    private userprovider: UserProvider) { }
 
   /**
    * Get all tiles
    * @return {Promise}
    */
   getTiles(): Observable<Array<Tile>> {
-    return this.userData.getAccessToken()
+    return this.userprovider.getAccessToken()
       .mergeMap((token: string) => {
         const httpOptions = {
           headers: new HttpHeaders({
@@ -47,7 +47,7 @@ export class SettingService {
    * @return {Promise}
    */
   addConfigs(username: string, tile: string): Observable<boolean> {
-    return this.userData.getAccessToken()
+    return this.userprovider.getAccessToken()
       .mergeMap((token: string) => {
         const httpOptions = {
           headers: new HttpHeaders({
@@ -65,7 +65,7 @@ export class SettingService {
    * @return {Promise}
    */
   getUnassignedTiles(username: string): Observable<Array<Tile>> {
-    return this.userData.getAccessToken()
+    return this.userprovider.getAccessToken()
       .mergeMap((token: string) => {
         const httpOptions = {
           headers: new HttpHeaders({

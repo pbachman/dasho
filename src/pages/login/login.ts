@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { AlertController, Events, NavController } from 'ionic-angular';
 import { HttpErrorResponse } from '@angular/common/http';
 
-import { LanguageProvider } from '../../providers/language';
-import { UserProvider } from '../../providers/user';
+import { LanguageProvider } from '../../providers/languageprovider';
+import { UserProvider } from '../../providers/userprovider';
 import { MainPage } from '../main/main';
+import { DashboardService } from '../main/main.service';
 
 import { LoginService } from './login.service';
 
@@ -31,16 +32,18 @@ export class LoginPage {
    * @param  {AlertController} alertCtrl
    * @param  {NavController} navCtrl
    * @param  {LanguageProvider} languageProvider
-   * @param  {UserProvider} userData
+   * @param  {UserProvider} userprovider
    * @param  {LoginService} loginService
+   * @param  {DashboardService} mainService
    * @param  {Events} events
    */
   constructor(
     private alertCtrl: AlertController,
     private navCtrl: NavController,
     private languageProvider: LanguageProvider,
-    private userData: UserProvider,
+    private userprovider: UserProvider,
     private loginService: LoginService,
+    private mainService: DashboardService,
     private events: Events
   ) {
     this.showError = false;
@@ -64,7 +67,7 @@ export class LoginPage {
    * @param  {Object} ngModel Model of the email field
    */
   onEMailBlur(ngModel): void {
-    const isInvalid = this.userData.isMailInvalid(ngModel.model);
+    const isInvalid = this.userprovider.isMailInvalid(ngModel.model);
     if (isInvalid)
       ngModel.control.setErrors({ invalidMail: isInvalid });
     this.formErrors.username = isInvalid;
@@ -76,7 +79,7 @@ export class LoginPage {
    */
   loginForm(form): void {
     const email = form.form.controls.email;
-    if (this.userData.isMailInvalid(email.value))
+    if (this.userprovider.isMailInvalid(email.value))
       email.setErrors({ noMail: true });
 
     if (form.valid) {
@@ -120,7 +123,7 @@ export class LoginPage {
         {
           text: i18n.forgetPassword.send,
           handler: data => {
-            if (this.userData.isMailInvalid(data.email)) {
+            if (this.userprovider.isMailInvalid(data.email)) {
               const alert = this.alertCtrl.create({
                 title: i18n.forgetPassword.alertInvalidTitle,
                 subTitle: i18n.forgetPassword.alertInvalid,
@@ -188,7 +191,7 @@ export class LoginPage {
         {
           text: i18n.signup.send,
           handler: data => {
-            if (this.userData.isMailInvalid(data.email)) {
+            if (this.userprovider.isMailInvalid(data.email)) {
               const invalidEmailAlert = this.alertCtrl.create({
                 title: i18n.forgetPassword.alertInvalidTitle,
                 subTitle: i18n.forgetPassword.alertInvalid,

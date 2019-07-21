@@ -10,8 +10,8 @@ import { HighchartsChartModule } from 'highcharts-angular';
 
 import { LoginService } from '../pages/login/login.service';
 import { LoginPage } from '../pages/login/login';
-import { UserProvider } from '../providers/user';
-import { LanguageProvider } from '../providers/language';
+import { UserProvider } from '../providers/userprovider';
+import { LanguageProvider } from '../providers/languageprovider';
 import { DashboardService } from '../pages/main/main.service';
 import { MainPage } from '../pages/main/main';
 import { ArraySort } from '../shared/shared.sort';

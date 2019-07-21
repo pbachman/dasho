@@ -3,7 +3,7 @@ import { AlertController } from 'ionic-angular';
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { DashboardService } from '../main/main.service';
-import { UserProvider } from '../../providers/user';
+import { UserProvider } from '../../providers/userprovider';
 import { Setting } from '../../shared/setting.model';
 import { Tile } from '../../shared/tile.model';
 
@@ -25,12 +25,12 @@ export class SettingPage {
   constructor(
     private dashboardService: DashboardService,
     private settingService: SettingService,
-    private userData: UserProvider,
+    private userprovider: UserProvider,
     private alertCtrl: AlertController) {
   }
 
   ngOnInit(): void {
-    this.userData.getUsername()
+    this.userprovider.getUsername()
       .subscribe((username: string) => {
         this.currentUser = username;
         this.loadSettings();

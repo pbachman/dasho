@@ -5,7 +5,7 @@ import 'rxjs/add/operator/mergeMap';
 
 import { Setting } from '../../shared/setting.model';
 import { BASE_URI } from '../../app/app.environment';
-import { UserProvider } from '../../providers/user';
+import { UserProvider } from '../../providers/userprovider';
 import { User } from '../../shared/user.model';
 
 /**
@@ -20,11 +20,11 @@ export class DashboardService {
    * Create the dashboard service
    * @constructor
    * @param {Http} http
-   * @param {UserProvider} userData
+   * @param {UserProvider} userprovider
    */
   constructor(
     private http: HttpClient,
-    private userData: UserProvider) { }
+    private userprovider: UserProvider) { }
 
   /**
    * Get the settings from the passed user
@@ -32,7 +32,7 @@ export class DashboardService {
    * @return {Promise}
    */
   getSettings(username: string): Observable<Array<Setting>> {
-    return this.userData.getAccessToken()
+    return this.userprovider.getAccessToken()
       .mergeMap((token: string) => {
         const httpOptions = {
           headers: new HttpHeaders({
@@ -50,7 +50,7 @@ export class DashboardService {
    * @return {Promise}
    */
   getUserprofile(): Observable<User> {
-    return this.userData.getAccessToken()
+    return this.userprovider.getAccessToken()
       .mergeMap((token: string) => {
         const httpOptions = {
           headers: new HttpHeaders({
@@ -70,7 +70,7 @@ export class DashboardService {
    * @return {Promise}
    */
   getData(username: string, settings: Array<Setting>): Observable<any> {
-    return this.userData.getAccessToken()
+    return this.userprovider.getAccessToken()
       .mergeMap((token: string) => {
         const httpOptions = {
           headers: new HttpHeaders({
@@ -107,7 +107,7 @@ export class DashboardService {
    * @return {Promise}
    */
   deleteSetting(username: string, setting: Setting): Observable<boolean> {
-    return this.userData.getAccessToken()
+    return this.userprovider.getAccessToken()
       .mergeMap((token: string) => {
         const httpOptions = {
           headers: new HttpHeaders({
@@ -127,7 +127,7 @@ export class DashboardService {
    * @return {Promise}
    */
   saveSetting(username: string, setting: Setting): Observable<boolean> {
-    return this.userData.getAccessToken()
+    return this.userprovider.getAccessToken()
       .mergeMap((token: string) => {
         const httpOptions = {
           headers: new HttpHeaders({
@@ -153,7 +153,7 @@ export class DashboardService {
    * @return {Promise}
    */
   changePassword(username: string, password: string, newpassword: string, newpasswordconfirm: string): Observable<boolean> {
-    return this.userData.getAccessToken()
+    return this.userprovider.getAccessToken()
       .mergeMap((token: string) => {
         const httpOptions = {
           headers: new HttpHeaders({
@@ -180,7 +180,7 @@ export class DashboardService {
    * @return {Promise}
    */
   inviteFriends(username: string, friend: string): Observable<boolean> {
-    return this.userData.getAccessToken()
+    return this.userprovider.getAccessToken()
       .mergeMap((token: string) => {
         const httpOptions = {
           headers: new HttpHeaders({

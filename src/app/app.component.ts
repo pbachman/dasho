@@ -5,8 +5,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { LoginPage } from '../pages/login/login';
 import { MainPage } from '../pages/main/main';
 import { SettingPage } from '../pages/setting/setting';
-import { UserProvider } from '../providers/user';
-import { LanguageProvider } from '../providers/language';
+import { UserProvider } from '../providers/userprovider';
+import { LanguageProvider } from '../providers/languageprovider';
 import { DashboardService } from '../pages/main/main.service';
 import { TilePage } from '../pages/tile/tile';
 import { User } from '../shared/user.model';
@@ -28,7 +28,7 @@ export class DashoApp {
   /**
    * Create the dasho app
    * @param  {LanguageProvider} languageProvider
-   * @param  {UserProvider} userData
+   * @param  {UserProvider} userprovider
    * @param  {Events} events
    * @param  {AlertController} alertCtrl
    * @param  {MenuController} menuCtrl
@@ -36,7 +36,7 @@ export class DashoApp {
    */
   constructor(
     private languageProvider: LanguageProvider,
-    private userData: UserProvider,
+    private userprovider: UserProvider,
     private events: Events,
     private alertCtrl: AlertController,
     private menuCtrl: MenuController,
@@ -67,7 +67,7 @@ export class DashoApp {
    */
   logout(): void {
     this.menuCtrl.close();
-    this.userData.logout();
+    this.userprovider.logout();
     this.nav.pop();
     document.body.classList.remove('body-loading');
   }
@@ -160,7 +160,7 @@ export class DashoApp {
         {
           text: i18n.invite.send,
           handler: data => {
-            if (this.userData.isMailInvalid(data.email)) {
+            if (this.userprovider.isMailInvalid(data.email)) {
               const alert = this.alertCtrl.create({
                 title: i18n.forgetPassword.alertInvalidTitle,
                 subTitle: i18n.forgetPassword.alertInvalid,

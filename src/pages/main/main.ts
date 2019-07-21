@@ -3,7 +3,7 @@ import { AlertController, Events, FabContainer, NavController } from 'ionic-angu
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { Setting } from '../../shared/setting.model';
-import { UserProvider } from '../../providers/user';
+import { UserProvider } from '../../providers/userprovider';
 import { LoginPage } from '../login/login';
 
 import { DashboardService } from './main.service';
@@ -30,13 +30,13 @@ export class MainPage {
   /**
    * Create the main page
    * @param  {DashboardService} dashboardService
-   * @param  {UserProvider} userData
+   * @param  {UserProvider} userprovider
    * @param  {AlertController} alertCtrl
    * @param  {Events} events
    */
   constructor(
     private dashboardService: DashboardService,
-    private userData: UserProvider,
+    private userprovider: UserProvider,
     private alertCtrl: AlertController,
     private navCtrl: NavController,
     private events: Events) {
@@ -71,7 +71,7 @@ export class MainPage {
    * (Re-)Loads the Settings by User.
    */
   loadData(): void {
-    this.userData.getUsername()
+    this.userprovider.getUsername()
       .subscribe((username: string) => {
         this.currentUser = username;
         // get all Settings for the current User
