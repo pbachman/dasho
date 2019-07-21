@@ -87,11 +87,24 @@ export class LoginPage {
       this.loginService.login(this.user.username, this.user.password)
         .subscribe((response: any) => {
           const token = response.access_token;
-          (token) ? this.userData.login(this.user.username, token)
-            .subscribe(() => {
-              this.navCtrl.push(MainPage);
-              this.showError = false;
-            }) : this.showErrorDialog(form.form.controls);
+          (token) ?
+            /**
+             * Sets the Token, loads the current Profile and store it locally.
+             */
+            this.userprovider.setsAccessToken(token)
+              .subscribe(() => {
+                this.mainService.getUserprofile()
+                  .subscribe(user => {
+                    this.userprovider.setsUserdata(user)
+                      .subscribe(() => {
+                        this.showError = false;
+                        this.userprovider.setsUserdata(user);
+                        this.navCtrl.push(MainPage);
+                        this.events.publish('user:login', user);
+                      });
+                  });
+              })
+            : this.showErrorDialog(form.form.controls);
           this.isLoginIn = false;
         }, err => {
           this.showErrorDialog(form.form.controls);

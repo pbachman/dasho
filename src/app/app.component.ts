@@ -45,17 +45,15 @@ export class DashoApp {
     this.menuEnable = false;
 
     // decide which menu items should be hidden by current login status stored in local storage
-    this.userData.hasLoggedIn()
+    this.userprovider.hasLoggedIn()
       .subscribe((hasLoggedIn: boolean) => {
         this.enableMenu(hasLoggedIn === true);
-
-        if (hasLoggedIn) {
-          this.nav.push(MainPage);
-          this.dashboardService.getUserprofile()
+        if (hasLoggedIn)
+          this.userprovider.getUser()
             .subscribe(user => {
               this.currentUser = user;
+              this.nav.push(MainPage);
             });
-        }
       });
 
     languageProvider.initialLanguage();
@@ -223,7 +221,8 @@ export class DashoApp {
    * Handle the menu visability and headline. Subscribe to the user events
    */
   private listenToLoginEvents(): void {
-    this.events.subscribe('user:login', username => {
+    this.events.subscribe('user:login', user => {
+      this.currentUser = user;
       this.enableMenu(true);
     });
 
