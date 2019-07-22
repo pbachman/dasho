@@ -56,6 +56,19 @@ describe('Dash0 backend/middleware', function () {
       .expect(200, done);
   });
 
+  it('AccountCurrent_GetProfile_ShouldGet200', function method(done) {
+    request(server)
+      .get('/api/account/current')
+      .set('Authorization', 'Bearer ' + token)
+      .expect(200, done);
+  });
+
+  it('AccountCurrent_WithoutAuthorizedGetProfile_ShouldGet401', function method(done) {
+    request(server)
+      .get('/api/account/current')
+      .expect(500, done);
+  });
+
   it('Account_AlreadyExists_ShouldFailWith400', function method(done) {
     request(server)
       .post('/api/account/')
