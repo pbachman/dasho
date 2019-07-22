@@ -4,7 +4,7 @@ Simple and customizable Dashboard, made with Ionic, angular5, Node.JS and GraphQ
 
 ![Heroku](http://heroku-badge.herokuapp.com/?app=dasho&style=flat&svg=1)
 
-<img src="https://user-images.githubusercontent.com/393635/56613023-0c1c3680-6616-11e9-8e00-1f7ebde5825a.gif" />
+<img src="https://user-images.githubusercontent.com/393635/61664879-06e18d00-acd4-11e9-8c3a-6bfae3db12c2.gif" />
 
 ## Getting Started
 
