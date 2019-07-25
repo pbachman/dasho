@@ -28,6 +28,7 @@ import { News } from './tiles/news/news';
 import { Google } from './tiles/google/google';
 import { Twitter } from './tiles/twitter/twitter';
 import { Weather } from './tiles/weather/weather';
+import { Wiewarm } from './tiles/wiewarm/wiewarm';
 
 /**
  * Set the paths for the tranlsations
@@ -50,6 +51,7 @@ export function createTranslateLoader(http: Http): TranslateStaticLoader {
     Google,
     Twitter,
     Weather,
+    Wiewarm,
     ArraySort
   ],
   imports: [

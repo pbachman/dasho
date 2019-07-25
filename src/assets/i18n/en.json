@@ -93,6 +93,9 @@
     },
     "weather": {
       "header": "Weather"
+    },
+    "wiewarm": {
+      "header": "Wiewarm.ch Lake Temperature"
     }
   }
 }

@@ -12,6 +12,7 @@ module.exports = (function () {
   const twitterApiServiceDataType = require('../api/schema-twitter');
   const fixerApiServiceDataType = require('../api/schema-fixer');
   const newsApiServiceDataType = require('../api/schema-news');
+  const wiewarmApiServiceDataType = require('../api/schema-wiewarm');
 
   /**
    * Gets a Schema by Name.
@@ -35,6 +36,8 @@ module.exports = (function () {
         return newsApiServiceDataType;
       case 'clock':
         return clockDataType;
+      case 'wiewarm':
+        return wiewarmApiServiceDataType;
     }
     return null;
   }

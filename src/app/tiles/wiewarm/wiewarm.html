@@ -1,0 +1,31 @@
+<ion-card class="grid-item grid-item-github" [attr.data-id]="tile.id" [ngStyle]="{backgroundImage: 'url(/assets/imgs/lake.png)'}">
+  <ion-card-header>
+    <ion-icon name="sunny" item-left></ion-icon> {{ 'tiles.wiewarm.header' | translate }}
+  </ion-card-header>
+  <button aria-label="close" class="grid-item-close" (click)="onClose()">
+    <ion-icon name="close"></ion-icon>
+  </button>
+  <ion-card-content *ngIf="data">
+    <ion-row>
+      <ion-col width-2>
+        <b>Lake</b> <span class="grid-item-value">{{ data.lake }}</span>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-2>
+        <b>Bath</b> <span class="grid-item-value">{{ data.name }}</span>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-2>
+        <b>Water Temperature</b> <span class="grid-item-value">{{ data.temp }}°</span>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col width-2>
+        <b>State</b> <span class="grid-item-value">{{ data.status }}</span>
+      </ion-col>
+    </ion-row>
+  </ion-card-content>
+  <ion-card-content *ngIf="!data">{{'tiles.noContent' | translate}}</ion-card-content>
+</ion-card>

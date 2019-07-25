@@ -9,6 +9,7 @@
         <grid-currency *ngSwitchCase="'fixer'" [tile]="setting" (notify)="hideTile($event)"></grid-currency>
         <grid-news *ngSwitchCase="'news'" [tile]="setting" (notify)="hideTile($event)"></grid-news>
         <grid-clock *ngSwitchCase="'clock'" [tile]="setting" (notify)="hideTile($event)"></grid-clock>
+        <grid-wiewarm *ngSwitchCase="'wiewarm'" [tile]="setting" (notify)="hideTile($event)"></grid-wiewarm>
       </div>
     </div>
   </div>
@@ -32,7 +33,8 @@
           <ion-icon name="logo-twitter" *ngSwitchCase="'twitter'"></ion-icon>
           <ion-icon name="logo-usd" *ngSwitchCase="'fixer'"></ion-icon>
           <ion-icon name="paper" *ngSwitchCase="'news'"></ion-icon>
-          <ion-icon name="clock" *ngSwitchCase="'clock'"></ion-icon>
+          <ion-icon name="clock" *ngSwitchCase="'clock'"></ion-icon>¨
+          <ion-icon name="sunny" *ngSwitchCase="'wiewarm'"></ion-icon>
           <ion-icon *ngSwitchDefault>Unknown Tile!</ion-icon>
         </button>
       </span>

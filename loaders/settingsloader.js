@@ -45,7 +45,8 @@ module.exports = (function () {
           { _id: "JyVSFAw0ygrFphVp", name: 'twitter', baseUrl: 'https://api.twitter.com', apikey: '', apisecret: '', schema: 'twitter { user followers following tweets likes backgroundimage profileimage }' },
           { _id: "tuAPdN68QwtG4Aha", name: 'fixer', baseUrl: 'http://data.fixer.io/api/latest', apikey: '', apisecret: '', schema: 'fixer { currency CHF USD EUR GBP }' },
           { _id: "d3THA4b9mkxhqVQ3", name: 'news', baseUrl: 'https://newsapi.org/v1/articles', apikey: '', apisecret: '', schema: 'news { source, articles { title image publishedAt url }}' },
-          { _id: "88MjFRnZnNrVYKsI", name: 'clock', baseUrl: '', apikey: '', apisecret: '', schema: 'clock { datetime totalSeconds }' }
+          { _id: "88MjFRnZnNrVYKsI", name: 'clock', baseUrl: '', apikey: '', apisecret: '', schema: 'clock { datetime totalSeconds }' },
+          { _id: "JyVSFAw0ygrFphVx", name: 'wiewarm', baseUrl: 'https://www.wiewarm.ch:443/api/v1/bad.json', apikey: '', apisecret: '', schema: 'wiewarm { lake name temp status }' }
         ]);
       }
     });
@@ -61,7 +62,8 @@ module.exports = (function () {
           { userid: "6kO2i9Wt2ElAjvdl", tileid: "JyVSFAw0ygrFphVp", position: 3, visible: true, querystring: '/1.1/users/lookup.json?screen_name=pbachman_ch' },
           { userid: "6kO2i9Wt2ElAjvdl", tileid: "tuAPdN68QwtG4Aha", position: 4, visible: true, querystring: '?access_key=${apiKey}&format=1&base=EUR' },
           { userid: "6kO2i9Wt2ElAjvdl", tileid: "d3THA4b9mkxhqVQ3", position: 5, visible: true, querystring: '?source=metro&apiKey=${apiKey}' },
-          { userid: "6kO2i9Wt2ElAjvdl", tileid: "88MjFRnZnNrVYKsI", position: 6, visible: true, querystring: '' }
+          { userid: "6kO2i9Wt2ElAjvdl", tileid: "88MjFRnZnNrVYKsI", position: 6, visible: true, querystring: '' },
+          { userid: "6kO2i9Wt2ElAjvdl", tileid: "JyVSFAw0ygrFphVx", position: 7, visible: true, querystring: '?search=Zug' }
         ]);
       }
     });

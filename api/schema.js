@@ -218,6 +218,34 @@ const settingsType = new graphql.GraphQLObjectType({
           });
       }
     },
+    wiewarm: {
+      type: schemaloader.getSchemaByName('wiewarm'),
+      resolve: (root, args, context) => {
+        let user = context.body.user;
+
+        return settingsloader.getTileConfig(user, 'wiewarm')
+          .then(function (tileConfig) {
+            let querystring = tileConfig.querystring;
+            if (tileConfig) {
+              console.log(tileConfig.baseUrl + querystring);
+              return fetch.get(tileConfig.baseUrl, querystring)
+                .then((response) => {
+                  if (response.message) {
+                    return null;
+                  } else {
+                    return response;
+                  }
+                }, function (error) {
+                  throw new Error(error);
+                });
+            }
+            return null;
+          }, function (error) {
+            console.log('Error: ' + error);
+            throw new Error(error);
+          });
+      }
+    },
     clock: {
       type: schemaloader.getSchemaByName('clock'),
       resolve: clock => clock

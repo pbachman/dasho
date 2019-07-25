@@ -93,6 +93,9 @@
     },
     "weather": {
       "header": "Wetter"
+    },
+    "wiewarm": {
+      "header": "Wiewarm.ch Wasser Temperatur"
     }
   }
 }
