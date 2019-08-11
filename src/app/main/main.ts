@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { AlertController, Events, MenuController } from '@ionic/angular';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -19,7 +19,6 @@ declare const Draggabilly: any;
  * Represents the main page.
  */
 export class MainPage implements OnInit, AfterViewInit {
-  @ViewChild('addServiceFab', { static: true }) addServiceFab;
   pckry: any;
   settings: Array<Setting>;
   isGridInitialized: boolean;
@@ -145,7 +144,6 @@ export class MainPage implements OnInit, AfterViewInit {
     const setting = this.settings.filter(s => s.tile === eventData.tile)[0];
     if (setting) {
       const element = document.querySelector(`[data-id="${setting.id}"]`);
-      this.addServiceFab.close();
       this.pckry.remove(element);
       this.pckry.layout();
 

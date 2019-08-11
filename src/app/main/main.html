@@ -26,17 +26,17 @@
     </ion-fab-button>
     <ion-fab-list side="top">
       <span *ngFor="let setting of settings;">
-        <button ion-fab (click)="showTile(setting.tile)" [ngSwitch]="setting.tile" *ngIf="!setting.visible">
+        <ion-fab-button size="small" (click)="showTile(setting.tile)" [ngSwitch]="setting.tile" *ngIf="!setting.visible">
           <ion-icon name="speedometer" *ngSwitchCase="'googleapi'"></ion-icon>
           <ion-icon name="logo-github" *ngSwitchCase="'github'"></ion-icon>
           <ion-icon name="partly-sunny" *ngSwitchCase="'openweather'"></ion-icon>
           <ion-icon name="logo-twitter" *ngSwitchCase="'twitter'"></ion-icon>
           <ion-icon name="logo-usd" *ngSwitchCase="'fixer'"></ion-icon>
           <ion-icon name="paper" *ngSwitchCase="'news'"></ion-icon>
-          <ion-icon name="clock" *ngSwitchCase="'clock'"></ion-icon>¨
+          <ion-icon name="clock" *ngSwitchCase="'clock'"></ion-icon>
           <ion-icon name="sunny" *ngSwitchCase="'wiewarm'"></ion-icon>
           <ion-icon *ngSwitchDefault>Unknown Tile!</ion-icon>
-        </button>
+        </ion-fab-button>
       </span>
     </ion-fab-list>
   </ion-fab>
