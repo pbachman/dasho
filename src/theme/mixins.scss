@@ -1,8 +1,8 @@
+
 $loading-indicator-margin: 40px auto !default;
 $loading-indicator-size: 40px !default;
 $loading-indicator-color: $background-color !default;
 $loading-indicator-background: rgba($background-color, .8) !default;
-
 
 @mixin loading-indicator {
   cursor: progress;

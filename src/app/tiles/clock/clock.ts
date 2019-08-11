@@ -1,22 +1,22 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Events } from 'ionic-angular';
+import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
+import { Events } from '@ionic/angular';
+import * as moment from 'moment';
+import { TileBaseComponent } from 'src/app/shared/shared.tile';
+import { Setting } from 'src/app/shared/setting.model';
 import * as Highcharts from 'highcharts';
-import moment from 'moment';
-
-import { Setting } from '../../../shared/setting.model';
-import { TileBaseComponent } from '../../../shared/shared.tile';
 
 @Component({
   selector: 'grid-clock',
-  templateUrl: 'clock.html'
+  templateUrl: 'clock.html',
+  styleUrls: ['clock.scss'],
 })
 
 /**
  * Represents a clock tile.
  */
-export class Clock extends TileBaseComponent {
+export class Clock extends TileBaseComponent implements OnInit, OnDestroy {
   @Input('tile') tile: Setting;
-  @Output() notify: EventEmitter<Object> = new EventEmitter<Object>();
+  @Output() notify: EventEmitter<object> = new EventEmitter<object>();
   Highcharts = Highcharts;
   options: any | boolean = false;
   private interval: any;
@@ -47,7 +47,7 @@ export class Clock extends TileBaseComponent {
    * @param {Highcharts} chart The current Chart
    * @returns {void}
    */
-  startMoveClock(chart: Highcharts): void {
+  startMoveClock(chart: any): void {
     this.interval = setInterval(() => {
       if (chart.axes) { // not destroyed
         const hour = chart.get('hour');

@@ -1,10 +1,5 @@
 @import 'functions';
 
-// Ionic Variables and Theming. For more info, please see:
-// http://ionicframework.com/docs/v2/theming/
-
-@import 'ionic.globals';
-
 // Shared Variables
 // --------------------------------------------------
 // To customize the look and feel of this app, you can override
@@ -39,26 +34,13 @@ $font-family-md-base: 'Ubuntu', 'Roboto', 'Roboto', sans-serif;
 $font-family-ios-base: 'Ubuntu', -apple-system, 'Helvetica Neue', 'Roboto', sans-serif;
 $font-family-wp-base: 'Ubuntu', 'Segoe UI', 'Noto Sans', sans-serif;
 
-
-// App Theme
-// --------------------------------------------------
-// Ionic apps can have different themes applied, which can
-// then be future customized. This import comes last
-// so that the above variables are used and Ionic's
-// default are overridden.
-
-@import 'ionic.theme.default';
-
-
 // Ionicons
 // --------------------------------------------------
 // The premium icon font for Ionic. For more info, please see:
 // http://ionicframework.com/docs/v2/ionicons/
 
 $ionicons-font-path: '../assets/fonts';
-@import 'ionicons';
 @import 'mixins';
 
-@import 'global';
 @import 'packery';
 @import 'forms';

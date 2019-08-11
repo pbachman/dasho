@@ -1,220 +1,58 @@
-import { Component, ViewChild } from '@angular/core';
-import { AlertController, Events, MenuController, NavController } from 'ionic-angular';
-import { HttpErrorResponse } from '@angular/common/http';
+import { Component } from '@angular/core';
 
-import { LoginPage } from '../pages/login/login';
-import { MainPage } from '../pages/main/main';
-import { SettingPage } from '../pages/setting/setting';
-import { UserProvider } from '../providers/userprovider';
-import { LanguageProvider } from '../providers/languageprovider';
-import { DashboardService } from '../pages/main/main.service';
-import { TilePage } from '../pages/tile/tile';
-import { User } from '../shared/user.model';
+import { Platform, Events } from '@ionic/angular';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
+import { TranslateService } from '@ngx-translate/core';
+import { LanguageService } from './shared/language.service';
+import { UserService } from './shared/user.service';
+import { Router } from '@angular/router';
 
 @Component({
-  templateUrl: 'app.html'
+  selector: 'app-root',
+  templateUrl: 'app.component.html',
+  styleUrls: ['app.component.scss']
 })
+export class AppComponent {
 
-/**
- * Represent the dasho app
- */
-export class DashoApp {
-  @ViewChild('content') nav: NavController;
-  rootPage: Object = LoginPage;
   menuEnable: boolean;
-  currentUser: User;
-  settings: any;
 
-  /**
-   * Create the dasho app
-   * @param  {LanguageProvider} languageProvider
-   * @param  {UserProvider} userprovider
-   * @param  {Events} events
-   * @param  {AlertController} alertCtrl
-   * @param  {MenuController} menuCtrl
-   * @param  {DashboardService} dashboardService
-   */
   constructor(
-    private languageProvider: LanguageProvider,
-    private userprovider: UserProvider,
+    private platform: Platform,
+    private splashScreen: SplashScreen,
+    private statusBar: StatusBar,
+    private translate: TranslateService,
+    private languageProvider: LanguageService,
     private events: Events,
-    private alertCtrl: AlertController,
-    private menuCtrl: MenuController,
-    private dashboardService: DashboardService
-  ) {
+    private router: Router,
+    private userprovider: UserService
+    ) {
+    this.initializeApp();
+    this.listenToLoginEvents();
+
     this.menuEnable = false;
 
     // decide which menu items should be hidden by current login status stored in local storage
     this.userprovider.hasLoggedIn()
       .subscribe((hasLoggedIn: boolean) => {
-        this.enableMenu(hasLoggedIn === true);
-        if (hasLoggedIn)
-          this.userprovider.getUser()
-            .subscribe(user => {
-              this.currentUser = user;
-              this.nav.push(MainPage);
-            });
+        if (hasLoggedIn) {
+          this.router.navigateByUrl('/main');
+        }
       });
 
+    // this language will be used as a fallback when a translation isn't found in the current language
+    this.translate.setDefaultLang('en');
     languageProvider.initialLanguage();
-    this.listenToLoginEvents();
+
+    // the lang to use, if the lang isn't available, it will use the current loader to get them
+    this.translate.use('en');
   }
 
-  /**
-   * Log the user out and go back to the login page
-   */
-  logout(): void {
-    this.menuCtrl.close();
-    this.userprovider.logout();
-    this.nav.pop();
-    document.body.classList.remove('body-loading');
-  }
-
-  /**
-   * Publish the change language event
-   */
-  changeLanguage(): void {
-    const data = {
-      key: this.languageProvider.currentLanguage
-    };
-    this.events.publish('user:language', data);
-  }
-
-  /**
-   * Shows the dialog to change the password
-   */
-  showChangePasswortPrompt(): void {
-    const i18n = this.languageProvider.getLanguageStrings();
-    const prompt = this.alertCtrl.create({
-      title: i18n.changePassword.title,
-      message: i18n.changePassword.message,
-      inputs: [
-        {
-          name: 'passwordOld',
-          placeholder: i18n.changePassword.passwordOld,
-          type: 'password'
-        }, {
-          name: 'password',
-          placeholder: i18n.changePassword.password,
-          type: 'password'
-        }, {
-          name: 'passwordConfirm',
-          placeholder: i18n.changePassword.passwordConfirm,
-          type: 'password'
-        }
-      ],
-      buttons: [
-        {
-          text: i18n.general.cancel,
-          role: 'cancel'
-        },
-        {
-          text: i18n.changePassword.change,
-          handler: data => {
-            if (!data.passwordOld || !data.password || data.password !== data.passwordConfirm)
-              return false;
-
-            this.dashboardService.changePassword(this.currentUser.username, data.passwordOld, data.password, data.passwordConfirm)
-              .subscribe(() => {
-                const alert = this.alertCtrl.create({
-                  title: i18n.changePassword.alertTitle,
-                  subTitle: i18n.changePassword.alertSubTitle,
-                  buttons: ['OK']
-                });
-                alert.present();
-
-                return true;
-              }, (error: string) => {
-
-                return false;
-              });
-          }
-        }
-      ]
+  initializeApp() {
+    this.platform.ready().then(() => {
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
     });
-    prompt.present();
-  }
-
-  /**
-   * Shows the dialog to invite a friend
-   */
-  inviteFriendPrompt(): void {
-    const i18n = this.languageProvider.getLanguageStrings();
-    const prompt = this.alertCtrl.create({
-      title: i18n.invite.title,
-      message: i18n.invite.message,
-      inputs: [
-        {
-          name: 'email',
-          placeholder: i18n.general.email,
-          type: 'text'
-        }
-      ],
-      buttons: [
-        {
-          text: i18n.general.cancel,
-          role: 'cancel'
-        },
-        {
-          text: i18n.invite.send,
-          handler: data => {
-            if (this.userprovider.isMailInvalid(data.email)) {
-              const alert = this.alertCtrl.create({
-                title: i18n.forgetPassword.alertInvalidTitle,
-                subTitle: i18n.forgetPassword.alertInvalid,
-                buttons: ['OK']
-              });
-              alert.present();
-
-              return false;
-            }
-
-            this.dashboardService.inviteFriends(this.currentUser.username, data.email)
-              .subscribe(() => {
-                const alert = this.alertCtrl.create({
-                  title: i18n.invite.alertTitle,
-                  subTitle: i18n.invite.alertSubTitle.replace('%email%', data.email),
-                  buttons: ['OK']
-                });
-                alert.present();
-
-                return true;
-              }, (error: HttpErrorResponse) => {
-                const alert = this.alertCtrl.create({
-                  title: 'Error!',
-                  message: error.error,
-                  enableBackdropDismiss: false,
-                  buttons: ['OK']
-                });
-                alert.present();
-
-                return false;
-              });
-          }
-        }
-      ]
-    });
-    prompt.present();
-  }
-
-  /**
-   * Shows the Settings dialog
-   */
-  configureTileSettings(): void {
-    this.dashboardService.getSettings(this.currentUser.username)
-      .subscribe((settings: any) => {
-        this.settings = settings;
-        this.menuCtrl.close();
-        this.nav.push(SettingPage);
-      });
-  }
-
-  /**
-   * Shows the Tiles dialog
-   */
-  configureTiles(): void {
-    this.menuCtrl.close();
-    this.nav.push(TilePage);
   }
 
   /**
@@ -222,7 +60,6 @@ export class DashoApp {
    */
   private listenToLoginEvents(): void {
     this.events.subscribe('user:login', user => {
-      this.currentUser = user;
       this.enableMenu(true);
     });
 
@@ -233,7 +70,6 @@ export class DashoApp {
 
   /**
    * Handle the menu visability
-   * @param {boolean} loggedIn
    */
   private enableMenu(loggedIn): void {
     this.menuEnable = loggedIn;

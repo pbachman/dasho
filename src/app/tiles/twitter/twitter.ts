@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Events } from 'ionic-angular';
-
-import { Setting } from '../../../shared/setting.model';
-import { TileBaseComponent } from '../../../shared/shared.tile';
+import { Events } from '@ionic/angular';
+import { TileBaseComponent } from 'src/app/shared/shared.tile';
+import { Setting } from 'src/app/shared/setting.model';
 
 @Component({
   selector: 'grid-twitter',
-  templateUrl: 'twitter.html'
+  templateUrl: 'twitter.html',
+  styleUrls: ['twitter.scss'],
 })
 
 /**
@@ -14,7 +14,7 @@ import { TileBaseComponent } from '../../../shared/shared.tile';
  */
 export class Twitter extends TileBaseComponent {
   @Input('tile') tile: Setting;
-  @Output() notify: EventEmitter<Object> = new EventEmitter<Object>();
+  @Output() notify: EventEmitter<object> = new EventEmitter<object>();
   data: Object;
 
   /**

@@ -1,13 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Events } from 'ionic-angular';
+import { Events } from '@ionic/angular';
 import * as Highcharts from 'highcharts';
 
-import { Setting } from '../../../shared/setting.model';
-import { TileBaseComponent } from '../../../shared/shared.tile';
+import { Setting } from 'src/app/shared/setting.model';
+import { TileBaseComponent } from 'src/app/shared/shared.tile';
 
 @Component({
   selector: 'grid-currency',
-  templateUrl: 'currency.html'
+  templateUrl: 'currency.html',
+  styleUrls: ['currency.scss'],
 })
 
 /**
@@ -15,11 +16,11 @@ import { TileBaseComponent } from '../../../shared/shared.tile';
  */
 export class Currency extends TileBaseComponent {
   @Input('tile') tile: Setting;
-  @Output() notify: EventEmitter<Object> = new EventEmitter<Object>();
+  @Output() notify: EventEmitter<object> = new EventEmitter<object>();
 
   options: any;
   Highcharts = Highcharts;
-  data: Object;
+  data: any;
   currency: string;
 
   /**
@@ -106,9 +107,11 @@ export class Currency extends TileBaseComponent {
    */
   generateDataForSeries(): any {
     const array = [];
-    for (const key in this.data)
-      if (key !== 'currency')
+    for (const key in this.data) {
+      if (key !== 'currency') {
         array.push([key, this.data[key]]);
+      }
+    }
 
     return array;
   }
@@ -130,9 +133,11 @@ export class Currency extends TileBaseComponent {
     const point = event.context;
     const value = point.y;
 
-    for (const key in this.data)
-      if (key !== 'currency')
+    for (const key in this.data) {
+      if (key !== 'currency') {
         this.data[key] = this.round(this.data[key] / value);
+      }
+    }
     point.series.setData(this.generateDataForSeries());
 
     this.currency = point.name;

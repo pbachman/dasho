@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Events } from 'ionic-angular';
+import { Events } from '@ionic/angular';
 
-import { Setting } from '../../../shared/setting.model';
-import { TileBaseComponent } from '../../../shared/shared.tile';
+import { Setting } from 'src/app/shared/setting.model';
+import { TileBaseComponent } from 'src/app/shared/shared.tile';
 
 @Component({
   selector: 'grid-github',
-  templateUrl: 'github.html'
+  templateUrl: 'github.html',
+  styleUrls: ['github.scss'],
 })
 
 /**
@@ -14,7 +15,7 @@ import { TileBaseComponent } from '../../../shared/shared.tile';
  */
 export class Github extends TileBaseComponent {
   @Input('tile') tile: Setting;
-  @Output() notify: EventEmitter<Object> = new EventEmitter<Object>();
+  @Output() notify: EventEmitter<object> = new EventEmitter<object>();
   data: Object;
 
   /**

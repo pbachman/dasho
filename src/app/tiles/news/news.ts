@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Events } from 'ionic-angular';
-
-import { Setting } from '../../../shared/setting.model';
-import { TileBaseComponent } from '../../../shared/shared.tile';
+import { TileBaseComponent } from 'src/app/shared/shared.tile';
+import { Setting } from 'src/app/shared/setting.model';
+import { Events } from '@ionic/angular';
 
 @Component({
   selector: 'grid-news',
-  templateUrl: 'news.html'
+  templateUrl: 'news.html',
+  styleUrls: ['news.scss'],
 })
 
 /**
@@ -14,13 +14,11 @@ import { TileBaseComponent } from '../../../shared/shared.tile';
  */
 export class News extends TileBaseComponent {
   @Input('tile') tile: Setting;
-  @Output() notify: EventEmitter<Object>;
-  data: Object;
+  @Output() notify: EventEmitter<object>;
+  data: any;
 
   /**
    * Create the news tile
-   * @constructor
-   * @param  {Events} events used to subscribe to the `data:ready` event and the `user:language` event
    */
   constructor(private events: Events) {
     super();
@@ -30,13 +28,14 @@ export class News extends TileBaseComponent {
     this.events.subscribe('data:ready', data => {
       if (data) {
         const news = data.news;
-        if (news && news.articles)
+        if (news && news.articles) {
           news.articles.sort((a, b) => {
             const dateB = new Date(b.publishedAt).getTime();
             const dateA = new Date(a.publishedAt).getTime();
 
             return dateB - dateA;
           });
+        }
         this.data = news;
       }
     });
