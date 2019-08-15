@@ -18,6 +18,7 @@ import { LanguageService } from './shared/language.service';
 import { UserService } from './shared/user.service';
 import { AdminPageModule } from './admin/admin.module';
 import { MenuComponent } from './menu/menu.component';
+import { FormsModule } from '@angular/forms';
 
 /**
  * Set the paths for the tranlsations
@@ -36,6 +37,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
     TranslateModule.forRoot({

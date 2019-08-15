@@ -20,7 +20,6 @@ import { SettingService } from '../admin/setting/setting.service';
 import { LoginService } from '../login/login.service';
 import { DashboardService } from './main.service';
 import { UserService } from '../shared/user.service';
-import { LanguageService } from '../shared/language.service';
 
 @NgModule({
   imports: [

@@ -11,7 +11,7 @@
       <ion-item>
         <ion-icon name="globe" slot="start"></ion-icon>
         <ion-label>{{'general.language' | translate}}</ion-label>
-        <ion-select name="language" (ionChange)="changeLanguage()" okText="{{'general.ok' | translate}}"
+        <ion-select name="language" [(ngModel)]="languageProvider.currentLanguage" (ionChange)="changeLanguage()" okText="{{'general.ok' | translate}}"
           cancelText="{{'general.cancel' | translate}}">
           <ion-select-option value="de">Deutsch</ion-select-option>
           <ion-select-option value="en">English</ion-select-option>
