@@ -7,6 +7,7 @@ import { Tile } from '../../shared/tile.model';
 import { TileService } from './tile.service';
 import { AlertController } from '@ionic/angular';
 import { UserService } from 'src/app/shared/user.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'tile-setting',
@@ -22,6 +23,7 @@ export class TilePage implements OnInit {
   hasChanged: boolean;
 
   constructor(
+    public location: Location,
     private tileService: TileService,
     private userprovider: UserService,
     private alertCtrl: AlertController) {

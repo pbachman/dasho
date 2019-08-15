@@ -29,7 +29,10 @@
           </ion-input>
         </ion-item>
       </ion-list>
-      <button ion-button color="light" (click)="saveItem(tile)">Save</button>
+      <ion-button color="light" (click)="saveItem(tile)">Save</ion-button>
     </div>
   </ion-item-group>
+  <section>
+    <ion-button size="small" (click)="location.back();">Back</ion-button>
+  </section>
 </ion-content>

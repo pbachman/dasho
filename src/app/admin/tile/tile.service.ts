@@ -16,9 +16,6 @@ export class TileService {
 
   /**
    * Create the Tiles service
-   * @constructor
-   * @param {Http} http
-   * @param {UserProvider} userprovider
    */
   constructor(
     private http: HttpClient,
@@ -26,7 +23,6 @@ export class TileService {
 
   /**
    * Get all tiles
-   * @return {Promise}
    */
   getTiles(): Observable<Array<Tile>> {
     return this.userprovider.getAccessToken()
@@ -34,7 +30,7 @@ export class TileService {
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           })
         };
 
@@ -44,8 +40,6 @@ export class TileService {
 
   /**
    * Saves a Tile item
-   * @param {Object} tile A Tile
-   * @return {Promise}
    */
   saveTile(tile: Tile): Observable<boolean> {
     return this.userprovider.getAccessToken()
@@ -53,7 +47,7 @@ export class TileService {
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           })
         };
 

@@ -13,7 +13,7 @@
         </select>
       </ion-item>
       <ion-item>
-        <button ion-button color="light" [disabled]="!selectedTile" (click)="addItem()">Add new</button>
+        <ion-button color="light" [disabled]="!selectedTile" (click)="addItem()">Add new</ion-button>
       </ion-item>
     </ion-list>
   </ion-item-group>
@@ -33,7 +33,10 @@
         <ion-checkbox title="Visible" checked="{{ setting.visible }}" (ionChange)="setting.visible = $event.checked"></ion-checkbox>
       </ion-item>
     </ion-list>
-    <button ion-button color="light" (click)="saveItem(setting)">Save</button>
-    <button ion-button color="light" (click)="deleteItem(setting)">Delete</button>
+    <ion-button color="light" (click)="saveItem(setting)">Save</ion-button>
+    <ion-button color="light" (click)="deleteItem(setting)">Delete</ion-button>
   </ion-item-group>
+  <section>
+    <ion-button size="small" (click)="location.back();">Back</ion-button>
+  </section>
 </ion-content>

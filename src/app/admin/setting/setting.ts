@@ -8,6 +8,7 @@ import { SettingService } from './setting.service';
 import { UserService } from 'src/app/shared/user.service';
 import { DashboardService } from 'src/app/main/main.service';
 import { AlertController } from '@ionic/angular';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'page-setting',
@@ -23,6 +24,7 @@ export class SettingPage implements OnInit {
   hasChanged: boolean;
 
   constructor(
+    public location: Location,
     private dashboardService: DashboardService,
     private settingService: SettingService,
     private userprovider: UserService,
@@ -129,7 +131,6 @@ export class SettingPage implements OnInit {
 
   /**
    * Error Handler
-   * @param {HttpErrorResponse} error
    */
   private async errorHandling(error: HttpErrorResponse): Promise<void> {
     (error.status === 0) ? this.error = 'No Connection to the Backend!' : this.error = error.message;

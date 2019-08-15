@@ -167,7 +167,7 @@ export class MenuComponent implements OnInit {
       .subscribe((settings: any) => {
         this.settings = settings;
         this.menuCtrl.close();
-        this.router.navigateByUrl('/admin');
+        this.router.navigateByUrl('/setting');
       });
   }
 

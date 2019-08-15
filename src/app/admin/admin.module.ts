@@ -24,6 +24,9 @@ import { TileService } from './tile/tile.service';
     ])
   ],
   declarations: [SettingPage, TilePage],
-  providers: [TileService]
+  providers: [
+    TileService,
+    Location
+  ]
 })
 export class AdminPageModule {}
