@@ -1,18 +1,6 @@
-
-
-
 ion-card[max-width] {
   margin: auto;
   max-width: 400px;
-}
-
-.login-bg {
-  background: url('/assets/imgs/bg-01.jpg');
-background-attachment: fixed;
-background-position: center;
-background-repeat: no-repeat;
-background-size: cover;
-
 }
 
 .login-logo {
@@ -26,14 +14,15 @@ background-size: cover;
 
   .login-box-login-failed {
     background: #f53d3d;
-    color: #fff;
+    color: #f53d3d;
   }
 
   .login-select-language {
     &,
     ion-label,
+    ion-select,
     .select-icon-inner {
-      color: #fff;
+      color: #3880ff;
     }
   }
 
@@ -51,6 +40,10 @@ background-size: cover;
     background: none;
   }
 
+  ion-button {
+    color: white;
+  }
+
   .login-box-input {
     background: #fff;
     margin: 5px 0;
@@ -65,6 +58,7 @@ background-size: cover;
     background: none;
     overflow: hidden;
     position: relative;
+    margin-top: 25px;
 
     &::before,
     &::after {

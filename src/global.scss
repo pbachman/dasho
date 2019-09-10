@@ -42,18 +42,17 @@ body > app-root > ion-app {
   }
 }
 
-.ion-page {
-  background: url('/assets/imgs/bg-01.jpg') !important;
-  background-attachment: fixed  !important;
-  background-position: center  !important;
-  background-repeat: no-repeat  !important;
-  background-size: cover  !important;
-}
-
 .body-loading  ion-app {
   @include loading-indicator;
 
   .add-service {
     display: none;
   }
+}
+
+ion-content {
+  --background: url('/assets/imgs/bg-01.jpg');
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
 }
