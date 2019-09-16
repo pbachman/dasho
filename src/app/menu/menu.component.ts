@@ -37,6 +37,7 @@ export class MenuComponent implements OnInit {
    * Shows the dialog to change the password
    */
   async showChangePasswortPrompt(): Promise<void> {
+    this.menuCtrl.close();
     const i18n = this.languageProvider.getLanguageStrings();
     const prompt = await this.alertCtrl.create({
       header: i18n.changePassword.title,
@@ -70,6 +71,7 @@ export class MenuComponent implements OnInit {
 
             this.dashboardService.changePassword(this.currentUser.username, data.passwordOld, data.password, data.passwordConfirm)
               .subscribe(async () => {
+
                 const alert = await this.alertCtrl.create({
                   header: i18n.changePassword.alertTitle,
                   subHeader: i18n.changePassword.alertSubTitle,
@@ -86,7 +88,6 @@ export class MenuComponent implements OnInit {
                   buttons: ['OK']
                 });
                 await alert.present();
-
                 return false;
               });
           }
@@ -100,6 +101,7 @@ export class MenuComponent implements OnInit {
    * Shows the dialog to invite a friend
    */
   async inviteFriendPrompt(): Promise<void> {
+    this.menuCtrl.close();
     const i18n = this.languageProvider.getLanguageStrings();
     const prompt = await this.alertCtrl.create({
       header: i18n.invite.title,
@@ -126,7 +128,6 @@ export class MenuComponent implements OnInit {
                 buttons: ['OK']
               });
               await alert.present();
-
               return false;
             }
 
@@ -139,7 +140,6 @@ export class MenuComponent implements OnInit {
                   buttons: ['OK']
                 });
                 await alert.present();
-
                 return true;
               }, async (error: HttpErrorResponse) => {
                 const alert = await this.alertCtrl.create({
@@ -149,7 +149,6 @@ export class MenuComponent implements OnInit {
                   buttons: ['OK']
                 });
                 await alert.present();
-
                 return false;
               });
           }
