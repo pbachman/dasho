@@ -5,7 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { DashboardService } from './main.service';
 import { Setting } from '../shared/setting.model';
 import { UserService } from '../shared/user.service';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { User } from '../shared/user.model';
 
 declare const Packery: any;
@@ -51,6 +51,16 @@ export class MainPage implements OnInit, AfterViewInit {
         }
       });
 
+    this.router.events.subscribe((val) => {
+      if (val instanceof NavigationEnd && val.url === '/main') {
+        setTimeout(() => {
+          if (this.pckry) {
+            this.pckry.layout();
+          }
+        }, 500);
+      }
+    });
+
     this.listenToLoginEvents();
   }
 
@@ -67,17 +77,6 @@ export class MainPage implements OnInit, AfterViewInit {
         }
       }, 500);
     });
-
-    // TODO
-    // subscribe the Event, when the Setting- or TilePage will close.
-    // this.navCtrl.navigateBack('login').then(event => {
-    //   if (event.name === 'SettingPage' || event.name === 'TilePage') {
-    //     this.isGridInitialized = false;
-    //     if (event.instance.hasChanged) {
-    //       this.loadData();
-    //     }
-    //   }
-    // });
   }
 
   /**
