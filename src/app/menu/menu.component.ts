@@ -196,4 +196,11 @@ export class MenuComponent implements OnInit {
     };
     this.events.publish('user:language', data);
   }
+
+  /**
+   * Closes the Menu, before the language dialog shows up.
+   */
+  showChangeLanguage(): void {
+    this.menuCtrl.close();
+  }
 }

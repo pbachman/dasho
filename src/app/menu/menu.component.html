@@ -8,7 +8,7 @@
   </ion-header>
   <ion-content>
     <ion-list>
-      <ion-item>
+      <ion-item (click)="showChangeLanguage()">
         <ion-icon name="globe" slot="start"></ion-icon>
         <ion-label>{{'general.language' | translate}}</ion-label>
         <ion-select name="language" [(ngModel)]="languageProvider.currentLanguage" (ionChange)="changeLanguage()" okText="{{'general.ok' | translate}}"
