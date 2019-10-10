@@ -1,7 +1,7 @@
 <ion-content class="main-bg">
   <div id="packery" class="grid">
-    <div *ngFor="let setting of (settings);">
-      <div [ngSwitch]="setting.tile" [hidden]="!setting.visible">
+    <div *ngFor="let setting of settings;">
+      <div [ngSwitch]="setting.tile" *ngIf="setting.visible" [hidden]="!isGridInitialized">
         <grid-google *ngSwitchCase="'googleapi'" [tile]="setting" (notify)="hideTile($event)"></grid-google>
         <grid-github *ngSwitchCase="'github'" [tile]="setting" (notify)="hideTile($event)"></grid-github>
         <grid-weather *ngSwitchCase="'openweather'" [tile]="setting" (notify)="hideTile($event)"></grid-weather>

@@ -197,13 +197,12 @@ export class MainPage implements OnInit, AfterViewInit {
       columnWidth: 100
     });
 
-    this.isGridInitialized = true;
-
     this.pckry.on('dragItemPositioned', this.dragItemPositioned.bind(this));
     this.pckry.getItemElements()
       .forEach((itemElem: any) => {
         const draggie = new Draggabilly(itemElem);
         this.pckry.bindDraggabillyEvents(draggie);
+        this.isGridInitialized = true;
       });
   }
 
