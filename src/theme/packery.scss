@@ -15,7 +15,6 @@ $grid-outline: 3px dashed lighten($grid-bg-active, 90%);
 .grid,
 .grid-item {
   // Hide grid without style
-  opacity: 0;
   transition: opacity .4s ease;
 
   &[style] {
@@ -25,6 +24,10 @@ $grid-outline: 3px dashed lighten($grid-bg-active, 90%);
   &.fade-out {
     opacity: 0;
     transition-duration: .2s;
+  }
+
+  ion-card {
+    background-color: #fff;
   }
 }
 
