@@ -36,7 +36,10 @@
                 "input": "src/global.scss"
               }
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/packery/dist/packery.pkgd.js",
+              "node_modules/draggabilly/dist/draggabilly.pkgd.js"
+            ]
           },
           "configurations": {
             "production": {
