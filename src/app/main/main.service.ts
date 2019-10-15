@@ -36,7 +36,7 @@ export class DashboardService {
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           })
         };
 
@@ -54,7 +54,7 @@ export class DashboardService {
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           })
         };
 
@@ -74,18 +74,15 @@ export class DashboardService {
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           })
         };
 
         let query = `{settings(user:"${username}") {`;
         if (settings.length > 0) {
-          for (let settingIndex = 0; settingIndex < settings.length; settingIndex++) {
-            const settingItem = settings[settingIndex];
-            if (settingItem) {
-              if (settingItem.schemas !== undefined && settingItem.schemas !== null) {
-                query += ` ${settingItem.schemas}`;
-              }
+          for (const settingItem of settings) {
+            if (settingItem.schemas !== undefined && settingItem.schemas !== null) {
+              query += ` ${settingItem.schemas}`;
             }
           }
           query += '}}';
@@ -94,7 +91,7 @@ export class DashboardService {
         }
 
         const BODY = JSON.stringify({
-          query: query,
+          query,
           user: username
         });
 
@@ -114,7 +111,7 @@ export class DashboardService {
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           })
         };
 
@@ -134,7 +131,7 @@ export class DashboardService {
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           })
         };
 
@@ -160,15 +157,15 @@ export class DashboardService {
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           })
         };
 
         const BODY = JSON.stringify({
-          username: username,
-          password: password,
-          newpassword: newpassword,
-          newpasswordconfirm: newpasswordconfirm
+          username,
+          password,
+          newpassword,
+          newpasswordconfirm
         });
 
         return this.http.put<boolean>(`${this.apiUrl}/changepassword`, BODY, httpOptions);
@@ -187,13 +184,13 @@ export class DashboardService {
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           })
         };
 
         const BODY = JSON.stringify({
-          username: username,
-          friend: friend
+          username,
+          friend
         });
 
         return this.http.post<boolean>(`${this.apiUrl}/invite`, BODY, httpOptions);

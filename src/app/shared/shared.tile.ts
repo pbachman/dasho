@@ -7,7 +7,7 @@ import { Setting } from './setting.model';
  */
 export class TileBaseComponent implements OnInit {
 
-  @Input('tile') protected tile: Setting;
+  @Input() protected tile: Setting;
   @Output() protected notify: EventEmitter<object> = new EventEmitter<object>();
 
   ngOnInit(): void {

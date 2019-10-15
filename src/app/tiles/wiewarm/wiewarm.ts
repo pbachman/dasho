@@ -13,10 +13,10 @@ import { TileBaseComponent } from 'src/app/shared/shared.tile';
 /**
  * Represents a Wiewarm.ch tile.
  */
-export class Wiewarm extends TileBaseComponent {
-  @Input('tile') tile: Setting;
+export class WiewarmTileComponent extends TileBaseComponent {
+  @Input() tile: Setting;
   @Output() notify: EventEmitter<object> = new EventEmitter<object>();
-  data: Object;
+  data: object;
 
   /**
    * Create the Wiewarm.ch tile
@@ -29,8 +29,9 @@ export class Wiewarm extends TileBaseComponent {
 
   ngOnInit(): void {
     this.events.subscribe('data:ready', data => {
-      if (data)
+      if (data) {
         this.data = data.wiewarm;
+      }
     });
   }
 }

@@ -9,7 +9,7 @@ import { Events } from '@ionic/angular';
  */
 @Injectable()
 export class UserService {
-  _favorites = [];
+  FAVORITES = [];
   HAS_LOGGED_IN = 'hasLoggedIn';
 
   /**

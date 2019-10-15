@@ -14,8 +14,8 @@ import * as Highcharts from 'highcharts';
 /**
  * Represents a clock tile.
  */
-export class Clock extends TileBaseComponent implements OnInit, OnDestroy {
-  @Input('tile') tile: Setting;
+export class ClockTileComponent extends TileBaseComponent implements OnInit, OnDestroy {
+  @Input() tile: Setting;
   @Output() notify: EventEmitter<object> = new EventEmitter<object>();
   Highcharts = Highcharts;
   options: any | boolean = false;
@@ -191,14 +191,17 @@ export class Clock extends TileBaseComponent implements OnInit, OnDestroy {
   setMathBounce(): void {
     Object.defineProperty(Math, 'easeOutBounce', {
       value: (pos: number) => {
-        if ((pos) < (1 / 2.75))
+        if ((pos) < (1 / 2.75)) {
           return (7.5625 * pos * pos);
+        }
 
-        if (pos < (2 / 2.75))
+        if (pos < (2 / 2.75)) {
           return (7.5625 * (pos -= (1.5 / 2.75)) * pos + 0.75);
+        }
 
-        if (pos < (2.5 / 2.75))
+        if (pos < (2.5 / 2.75)) {
           return (7.5625 * (pos -= (2.25 / 2.75)) * pos + 0.9375);
+        }
 
         return (7.5625 * (pos -= (2.625 / 2.75)) * pos + 0.984375);
       }

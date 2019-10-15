@@ -13,10 +13,10 @@ import { TileBaseComponent } from 'src/app/shared/shared.tile';
 /**
  * Represents a GitHub tile.
  */
-export class Github extends TileBaseComponent {
-  @Input('tile') tile: Setting;
+export class GithubTileComponent extends TileBaseComponent {
+  @Input() tile: Setting;
   @Output() notify: EventEmitter<object> = new EventEmitter<object>();
-  data: Object;
+  data: object;
 
   /**
    * Create the GitHub tile
@@ -29,8 +29,9 @@ export class Github extends TileBaseComponent {
 
   ngOnInit(): void {
     this.events.subscribe('data:ready', data => {
-      if (data)
+      if (data) {
         this.data = data.github;
+      }
     });
   }
 }

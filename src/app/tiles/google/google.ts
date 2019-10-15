@@ -20,8 +20,8 @@ HCSoldGauge(Highcharts);
 /**
  * Represents a Google tile.
  */
-export class Google extends TileBaseComponent {
-  @Input('tile') tile: Setting;
+export class GoogleTileComponent extends TileBaseComponent {
+  @Input() tile: Setting;
   @Output() notify: EventEmitter<object> = new EventEmitter<object>();
   data: { desktop: { speed: number }, mobile: { speed: number, usability: number } };
   options: object;
@@ -57,18 +57,19 @@ export class Google extends TileBaseComponent {
    * Set options for the highchart
    */
   setOptions(): void {
-    if (this.data)
+    if (this.data) {
       this.options = this.pageSpeedValues({
         speedDesktop: this.data.desktop.speed,
         speedMobile: this.data.mobile.speed,
         usabilityMobile: this.data.mobile.usability
       });
-    else
+    } else {
       this.options = this.pageSpeedValues({
         speedDesktop: 0,
         speedMobile: 0,
         usabilityMobile: 0
       });
+    }
   }
 
   /**

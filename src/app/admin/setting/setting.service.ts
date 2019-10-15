@@ -33,7 +33,7 @@ export class SettingService {
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           })
         };
 
@@ -51,7 +51,7 @@ export class SettingService {
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           })
         };
 
@@ -69,7 +69,7 @@ export class SettingService {
         const httpOptions = {
           headers: new HttpHeaders({
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            Authorization: `Bearer ${token}`
           })
         };
 

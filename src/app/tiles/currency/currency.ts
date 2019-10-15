@@ -14,8 +14,8 @@ import { TileBaseComponent } from 'src/app/shared/shared.tile';
 /**
  * Represents a currency tile.
  */
-export class Currency extends TileBaseComponent {
-  @Input('tile') tile: Setting;
+export class CurrencyTileComponent extends TileBaseComponent {
+  @Input() tile: Setting;
   @Output() notify: EventEmitter<object> = new EventEmitter<object>();
 
   options: any;

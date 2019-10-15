@@ -5,14 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MainPage } from './main';
 import { LoginPage } from '../login/login';
-import { Clock } from '../tiles/clock/clock';
-import { Github } from '../tiles/github/github';
-import { Weather } from '../tiles/weather/weather';
-import { Wiewarm } from '../tiles/wiewarm/wiewarm';
-import { Currency } from '../tiles/currency/currency';
-import { Google } from '../tiles/google/google';
-import { News } from '../tiles/news/news';
-import { Twitter } from '../tiles/twitter/twitter';
+import { ClockTileComponent } from '../tiles/clock/clock';
+import { GithubTileComponent } from '../tiles/github/github';
+import { WeatherTileComponent } from '../tiles/weather/weather';
+import { WiewarmTileComponent } from '../tiles/wiewarm/wiewarm';
+import { CurrencyTileComponent } from '../tiles/currency/currency';
+import { GoogleTileComponent } from '../tiles/google/google';
+import { NewsTileComponent } from '../tiles/news/news';
+import { TwitterTileComponent } from '../tiles/twitter/twitter';
 import { TranslateModule } from '@ngx-translate/core';
 import { MomentModule } from 'angular2-moment';
 import { HighchartsChartModule } from 'highcharts-angular';
@@ -39,14 +39,14 @@ import { UserService } from '../shared/user.service';
   declarations: [
     MainPage,
     LoginPage,
-    Clock,
-    Currency,
-    Github,
-    Google,
-    News,
-    Twitter,
-    Weather,
-    Wiewarm
+    ClockTileComponent,
+    CurrencyTileComponent,
+    GithubTileComponent,
+    GoogleTileComponent,
+    NewsTileComponent,
+    TwitterTileComponent,
+    WeatherTileComponent,
+    WiewarmTileComponent
   ],
   providers: [
     DashboardService,

@@ -12,8 +12,8 @@ import { Events } from '@ionic/angular';
 /**
  * Represents a news tile.
  */
-export class News extends TileBaseComponent {
-  @Input('tile') tile: Setting;
+export class NewsTileComponent extends TileBaseComponent {
+  @Input() tile: Setting;
   @Output() notify: EventEmitter<object>;
   data: any;
 

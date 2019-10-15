@@ -43,8 +43,9 @@ export class LanguageService {
 
     this.getLanguage()
       .then(value => {
-        if (value && value.match(/en|de/) && choosenLanguage !== value)
+        if (value && value.match(/en|de/) && choosenLanguage !== value) {
           this.setLanguage(value);
+        }
       });
     this.setLanguage(choosenLanguage);
   }
@@ -63,7 +64,7 @@ export class LanguageService {
    * @param {string} key The value of a key (or an array of keys).
    * @return {string|Object} Gets the instant translated value or Object
    */
-  get(key: string | Array<string>): string | Object {
+  get(key: string | Array<string>): string | object {
     return this.translate.get(key);
   }
 

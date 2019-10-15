@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { URLSearchParams } from '@angular/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
@@ -25,13 +24,13 @@ export class LoginService {
    * @return {Promise}
    */
   login(username: string, password: string): Observable<string> {
-    const urlSearchParams = new URLSearchParams();
-    urlSearchParams.append('grant_type', 'password');
-    urlSearchParams.append('client_id', 'dasho');
-    urlSearchParams.append('client_secret', '$ecret');
-    urlSearchParams.append('username', username);
-    urlSearchParams.append('password', password);
-    const body = urlSearchParams.toString();
+    const body = {
+      grant_type: 'password',
+      client_id: 'dasho',
+      client_secret: '$ecret',
+      username,
+      password
+    };
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -71,8 +70,8 @@ export class LoginService {
   signUp(email: string, password: string): Observable<boolean> {
     const API_URL = `${environment.BASE_URI}api/account`;
     const BODY = JSON.stringify({
-      email: email,
-      password: password
+      email,
+      password
     });
 
     const httpOptions = {

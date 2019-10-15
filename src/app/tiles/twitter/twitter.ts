@@ -12,10 +12,10 @@ import { Setting } from 'src/app/shared/setting.model';
 /**
  * Represents a Twitter tile.
  */
-export class Twitter extends TileBaseComponent {
-  @Input('tile') tile: Setting;
+export class TwitterTileComponent extends TileBaseComponent {
+  @Input() tile: Setting;
   @Output() notify: EventEmitter<object> = new EventEmitter<object>();
-  data: Object;
+  data: object;
 
   /**
    * Create the twitter userdata tile
@@ -28,8 +28,9 @@ export class Twitter extends TileBaseComponent {
 
   ngOnInit(): void {
     this.events.subscribe('data:ready', data => {
-      if (data)
+      if (data) {
         this.data = data.twitter;
+      }
     });
   }
 }

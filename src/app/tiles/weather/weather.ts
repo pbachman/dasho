@@ -13,8 +13,8 @@ import { TileBaseComponent } from 'src/app/shared/shared.tile';
 /**
  * Represents a weather tile.
  */
-export class Weather extends TileBaseComponent {
-  @Input('tile') tile: Setting;
+export class WeatherTileComponent extends TileBaseComponent {
+  @Input() tile: Setting;
   @Output() notify: EventEmitter<object> = new EventEmitter<object>();
   data: any;
 
