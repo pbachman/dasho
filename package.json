@@ -77,9 +77,5 @@
     "mocha": "^6.1.4",
     "supertest": "^3.3.0"
   },
-  "description": "dasho project",
-  "engines": {
-    "node": "10.2.1",
-    "npm": "6.4.1"
-  }
+  "description": "dasho project"
 }
