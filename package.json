@@ -83,9 +83,5 @@
     "tslint": "~5.15.0",
     "typescript": "~3.4.3"
   },
-  "description": "dasho project",
-  "engines": {
-    "node": "10.2.1",
-    "npm": "6.4.1"
-  }
+  "description": "dasho project"
 }
