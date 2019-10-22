@@ -26,7 +26,7 @@ npm install -g ionic mocha
 ```
 
 ```
-npm install
+yarn install
 ```
 
 ## How to start
