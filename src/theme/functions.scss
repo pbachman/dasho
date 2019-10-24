@@ -1,4 +1,0 @@
-@function grid-unit($cols: 1) {
-  $gutters: $cols - 1;
-  @return ($cols * $grid-column-unit) + ($gutters * $grid-column-gutter);
-}

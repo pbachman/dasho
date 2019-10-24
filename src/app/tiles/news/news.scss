@@ -8,9 +8,9 @@ $colors: (
 );
 
 .grid-item-news {
-  height: grid-unit(3);
   overflow: hidden;
-  width: grid-unit(3);
+  height: 360px;
+  width: 360px;
 
   > .content {
     background: none;
@@ -25,12 +25,13 @@ $colors: (
   }
 
   &.nodata {
-    height: grid-unit(2);
-    width: grid-unit(2);
+    height: 230px;
+    width: 230px;
+    background-color: white;
 
     > .card-content {
       background: #fff;
-      height: grid-unit(2);
+      height: 230px;
     }
   }
 
