@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Dasho</title>
-  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport"
+    content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <base href="/" />
 
   <link rel="apple-touch-icon" sizes="57x57" href="/assets/icon/apple-icon-57x57.png">
   <link rel="apple-touch-icon" sizes="60x60" href="/assets/icon/apple-icon-60x60.png">
@@ -14,7 +18,7 @@
   <link rel="apple-touch-icon" sizes="144x144" href="/assets/icon/apple-icon-144x144.png">
   <link rel="apple-touch-icon" sizes="152x152" href="/assets/icon/apple-icon-152x152.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/icon/apple-icon-180x180.png">
-  <link rel="icon" type="image/png" sizes="192x192"  href="/assets/icon/android-icon-192x192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/icon/android-icon-192x192.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="96x96" href="/assets/icon/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/icon/favicon-16x16.png">
@@ -22,35 +26,10 @@
   <meta name="msapplication-TileColor" content="#ffffff">
   <meta name="msapplication-TileImage" content="/assets/icon/ms-icon-144x144.png">
   <meta name="theme-color" content="#ffffff">
-  <script src="assets/js/packery.js"></script>
-  <script src="assets/js/draggabilly.js"></script>
-
-  <!-- un-comment this code to enable service worker
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(() => console.log('service worker installed'))
-        .catch(err => console.error('Error', err));
-    }
-  </script>-->
-
-  <link href="build/main.css" rel="stylesheet">
-
 </head>
+
 <body>
-
-  <!-- Ionic's root component and where the app will load -->
-  <ion-app></ion-app>
-
-  <!-- The polyfills js is generated during the build process -->
-  <script src="build/polyfills.js"></script>
-
-  <!-- The vendor js is generated during the build process
-       It contains all of the dependencies in node_modules -->
-  <script src="build/vendor.js"></script>
-
-  <!-- The main bundle js is generated during the build process -->
-  <script src="build/main.js"></script>
-
+  <app-root></app-root>
 </body>
+
 </html>

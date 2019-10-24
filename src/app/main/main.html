@@ -1,0 +1,43 @@
+<ion-content class="main-bg">
+  <div id="packery" class="grid">
+    <div *ngFor="let setting of settings;">
+      <div [ngSwitch]="setting.tile" *ngIf="setting.visible" [hidden]="!isGridInitialized">
+        <grid-google *ngSwitchCase="'googleapi'" [tile]="setting" (notify)="hideTile($event)"></grid-google>
+        <grid-github *ngSwitchCase="'github'" [tile]="setting" (notify)="hideTile($event)"></grid-github>
+        <grid-weather *ngSwitchCase="'openweather'" [tile]="setting" (notify)="hideTile($event)"></grid-weather>
+        <grid-twitter *ngSwitchCase="'twitter'" [tile]="setting" (notify)="hideTile($event)"></grid-twitter>
+        <grid-currency *ngSwitchCase="'fixer'" [tile]="setting" (notify)="hideTile($event)"></grid-currency>
+        <grid-news *ngSwitchCase="'news'" [tile]="setting" (notify)="hideTile($event)"></grid-news>
+        <grid-clock *ngSwitchCase="'clock'" [tile]="setting" (notify)="hideTile($event)"></grid-clock>
+        <grid-wiewarm *ngSwitchCase="'wiewarm'" [tile]="setting" (notify)="hideTile($event)"></grid-wiewarm>
+      </div>
+    </div>
+  </div>
+
+  <ion-fab vertical="top" horizontal="end" *ngIf="!error">
+    <ion-fab-button color="light" size="small" (click)="menuopen()">
+      <ion-icon name="menu"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-fab vertical="bottom" horizontal="end" edge slot="fixed" *ngIf="!error">
+    <ion-fab-button class="add-service" size="small" color="light">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <span *ngFor="let setting of settings;">
+        <ion-fab-button size="small" (click)="showTile(setting.tile)" [ngSwitch]="setting.tile" *ngIf="!setting.visible">
+          <ion-icon name="speedometer" *ngSwitchCase="'googleapi'"></ion-icon>
+          <ion-icon name="logo-github" *ngSwitchCase="'github'"></ion-icon>
+          <ion-icon name="partly-sunny" *ngSwitchCase="'openweather'"></ion-icon>
+          <ion-icon name="logo-twitter" *ngSwitchCase="'twitter'"></ion-icon>
+          <ion-icon name="logo-usd" *ngSwitchCase="'fixer'"></ion-icon>
+          <ion-icon name="paper" *ngSwitchCase="'news'"></ion-icon>
+          <ion-icon name="clock" *ngSwitchCase="'clock'"></ion-icon>
+          <ion-icon name="sunny" *ngSwitchCase="'wiewarm'"></ion-icon>
+          <ion-icon *ngSwitchDefault>Unknown Tile!</ion-icon>
+        </ion-fab-button>
+      </span>
+    </ion-fab-list>
+  </ion-fab>
+</ion-content>

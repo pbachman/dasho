@@ -1,27 +1,28 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Events } from 'ionic-angular';
+import { Events } from '@ionic/angular';
 import * as ChartModuleMore from 'highcharts/highcharts-more.js';
 import HCSoldGauge from 'highcharts/modules/solid-gauge';
 import Highcharts from 'highcharts';
 
-import { Setting } from '../../../shared/setting.model';
-import { LanguageProvider } from '../../../providers/languageprovider';
-import { TileBaseComponent } from '../../../shared/shared.tile';
+import { Setting } from 'src/app/shared/setting.model';
+import { TileBaseComponent } from 'src/app/shared/shared.tile';
+import { LanguageService } from 'src/app/shared/language.service';
 
 ChartModuleMore(Highcharts);
 HCSoldGauge(Highcharts);
 
 @Component({
   selector: 'grid-google',
-  templateUrl: 'google.html'
+  templateUrl: 'google.html',
+  styleUrls: ['google.scss'],
 })
 
 /**
  * Represents a Google tile.
  */
-export class Google extends TileBaseComponent {
-  @Input('tile') tile: Setting;
-  @Output() notify: EventEmitter<Object> = new EventEmitter<Object>();
+export class GoogleTileComponent extends TileBaseComponent {
+  @Input() tile: Setting;
+  @Output() notify: EventEmitter<object> = new EventEmitter<object>();
   data: { desktop: { speed: number }, mobile: { speed: number, usability: number } };
   options: object;
   Highcharts = Highcharts;
@@ -33,14 +34,15 @@ export class Google extends TileBaseComponent {
    */
   constructor(
     private events: Events,
-    private languageProvider: LanguageProvider) {
+    private languageProvider: LanguageService) {
     super();
   }
 
   ngOnInit(): void {
     this.events.subscribe('data:ready', data => {
-      if (data)
+      if (data) {
         this.data = data.googleapi;
+      }
       this.setOptions();
     });
 
@@ -55,18 +57,19 @@ export class Google extends TileBaseComponent {
    * Set options for the highchart
    */
   setOptions(): void {
-    if (this.data)
+    if (this.data) {
       this.options = this.pageSpeedValues({
         speedDesktop: this.data.desktop.speed,
         speedMobile: this.data.mobile.speed,
         usabilityMobile: this.data.mobile.usability
       });
-    else
+    } else {
       this.options = this.pageSpeedValues({
         speedDesktop: 0,
         speedMobile: 0,
         usabilityMobile: 0
       });
+    }
   }
 
   /**

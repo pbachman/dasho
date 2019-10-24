@@ -1,22 +1,22 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Events } from 'ionic-angular';
+import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
+import { Events } from '@ionic/angular';
+import * as moment from 'moment';
+import { TileBaseComponent } from 'src/app/shared/shared.tile';
+import { Setting } from 'src/app/shared/setting.model';
 import * as Highcharts from 'highcharts';
-import moment from 'moment';
-
-import { Setting } from '../../../shared/setting.model';
-import { TileBaseComponent } from '../../../shared/shared.tile';
 
 @Component({
   selector: 'grid-clock',
-  templateUrl: 'clock.html'
+  templateUrl: 'clock.html',
+  styleUrls: ['clock.scss'],
 })
 
 /**
  * Represents a clock tile.
  */
-export class Clock extends TileBaseComponent {
-  @Input('tile') tile: Setting;
-  @Output() notify: EventEmitter<Object> = new EventEmitter<Object>();
+export class ClockTileComponent extends TileBaseComponent implements OnInit, OnDestroy {
+  @Input() tile: Setting;
+  @Output() notify: EventEmitter<object> = new EventEmitter<object>();
   Highcharts = Highcharts;
   options: any | boolean = false;
   private interval: any;
@@ -47,7 +47,7 @@ export class Clock extends TileBaseComponent {
    * @param {Highcharts} chart The current Chart
    * @returns {void}
    */
-  startMoveClock(chart: Highcharts): void {
+  startMoveClock(chart: any): void {
     this.interval = setInterval(() => {
       if (chart.axes) { // not destroyed
         const hour = chart.get('hour');
@@ -191,14 +191,17 @@ export class Clock extends TileBaseComponent {
   setMathBounce(): void {
     Object.defineProperty(Math, 'easeOutBounce', {
       value: (pos: number) => {
-        if ((pos) < (1 / 2.75))
+        if ((pos) < (1 / 2.75)) {
           return (7.5625 * pos * pos);
+        }
 
-        if (pos < (2 / 2.75))
+        if (pos < (2 / 2.75)) {
           return (7.5625 * (pos -= (1.5 / 2.75)) * pos + 0.75);
+        }
 
-        if (pos < (2.5 / 2.75))
+        if (pos < (2.5 / 2.75)) {
           return (7.5625 * (pos -= (2.25 / 2.75)) * pos + 0.9375);
+        }
 
         return (7.5625 * (pos -= (2.625 / 2.75)) * pos + 0.984375);
       }

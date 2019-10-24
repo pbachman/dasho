@@ -1,91 +1,66 @@
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-import { IonicApp, IonicModule } from 'ionic-angular';
-import { TranslateLoader, TranslateModule, TranslateStaticLoader } from 'ng2-translate/ng2-translate';
-import { MomentModule } from 'angular2-moment';
 import { BrowserModule } from '@angular/platform-browser';
+import { RouteReuseStrategy } from '@angular/router';
+
+import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage';
-import { Http } from '@angular/http';
-import { HighchartsChartModule } from 'highcharts-angular';
+import { SplashScreen } from '@ionic-native/splash-screen/ngx';
+import { StatusBar } from '@ionic-native/status-bar/ngx';
 
-import { LoginService } from '../pages/login/login.service';
-import { LoginPage } from '../pages/login/login';
-import { UserProvider } from '../providers/userprovider';
-import { LanguageProvider } from '../providers/languageprovider';
-import { DashboardService } from '../pages/main/main.service';
-import { MainPage } from '../pages/main/main';
-import { ArraySort } from '../shared/shared.sort';
-import { SettingPage } from '../pages/setting/setting';
-import { SettingService } from '../pages/setting/setting.service';
-import { TilePage } from '../pages/tile/tile';
-import { TileService } from '../pages/tile/tile.service';
-
-import { DashoApp } from './app.component';
-import { Clock } from './tiles/clock/clock';
-import { Currency } from './tiles/currency/currency';
-import { Github } from './tiles/github/github';
-import { News } from './tiles/news/news';
-import { Google } from './tiles/google/google';
-import { Twitter } from './tiles/twitter/twitter';
-import { Weather } from './tiles/weather/weather';
-import { Wiewarm } from './tiles/wiewarm/wiewarm';
+import { MomentModule } from 'angular2-moment';
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './app-routing.module';
+import { MainPageModule } from './main/main.module';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { LanguageService } from './shared/language.service';
+import { UserService } from './shared/user.service';
+import { AdminPageModule } from './admin/admin.module';
+import { MenuComponent } from './menu/menu.component';
+import { FormsModule } from '@angular/forms';
 
 /**
  * Set the paths for the tranlsations
  */
-export function createTranslateLoader(http: Http): TranslateStaticLoader {
-  return new TranslateStaticLoader(http, './assets/i18n', '.json');
+// tslint:disable-next-line:only-arrow-functions
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(http);
 }
 
 @NgModule({
   declarations: [
-    DashoApp,
-    LoginPage,
-    MainPage,
-    SettingPage,
-    TilePage,
-    Clock,
-    Currency,
-    Github,
-    News,
-    Google,
-    Twitter,
-    Weather,
-    Wiewarm,
-    ArraySort
+    AppComponent,
+    MenuComponent
   ],
+  entryComponents: [],
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule,
+    IonicModule.forRoot(),
+    IonicStorageModule.forRoot(),
     TranslateModule.forRoot({
-      provide: TranslateLoader,
-      useFactory: (createTranslateLoader),
-      deps: [Http]
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
     }),
     MomentModule,
-    IonicStorageModule.forRoot(),
-    IonicModule.forRoot(DashoApp),
-    HighchartsChartModule
-  ],
-  bootstrap: [IonicApp],
-  entryComponents: [
-    DashoApp,
-    LoginPage,
-    MainPage,
-    SettingPage,
-    TilePage
+    MainPageModule,
+    AdminPageModule,
+    AppRoutingModule
   ],
   providers: [
-    UserProvider,
-    LanguageProvider,
-    DashboardService,
-    SettingService,
-    LoginService,
-    TileService
-  ]
+    StatusBar,
+    LanguageService,
+    UserService,
+    SplashScreen,
+    {
+      provide: RouteReuseStrategy, useClass: IonicRouteStrategy
+    }
+  ],
+  bootstrap: [AppComponent]
 })
-
-/**
- * Represents the App Module
- */
 export class AppModule { }

@@ -1,4 +1,4 @@
-<ion-card class="grid-item grid-item-github" [attr.data-id]="tile.id" [ngStyle]="{backgroundImage: 'url(/assets/imgs/lake.png)'}">
+<ion-card class="grid-item grid-item-wiewarm" [attr.data-id]="tile.id" [ngStyle]="{backgroundImage: 'url(/assets/imgs/lake.png)'}">
   <ion-card-header>
     <ion-icon name="sunny" item-left></ion-icon> {{ 'tiles.wiewarm.header' | translate }}
   </ion-card-header>
@@ -8,22 +8,22 @@
   <ion-card-content *ngIf="data">
     <ion-row>
       <ion-col width-2>
-        <b>Lake</b> <span class="grid-item-value">{{ data.lake }}</span>
+        <b>Lake</b> <span> {{ data.lake }}</span>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col width-2>
-        <b>Bath</b> <span class="grid-item-value">{{ data.name }}</span>
+        <b>Bath</b> <span> {{ data.name }}</span>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col width-2>
-        <b>Water Temperature</b> <span class="grid-item-value">{{ data.temp }}°</span>
+        <b>Water Temperature</b> <span> {{ data.temp }}°</span>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col width-2>
-        <b>State</b> <span class="grid-item-value">{{ data.status }}</span>
+        <b>State</b> <span> {{ data.status }}</span>
       </ion-col>
     </ion-row>
   </ion-card-content>

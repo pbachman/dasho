@@ -1,0 +1,92 @@
+ion-card[max-width] {
+  margin: auto;
+  max-width: 400px;
+}
+
+.login-logo {
+  max-width: 150px;
+  margin: auto;
+}
+
+// Double class => Higher weight
+.login-box.login-box {
+  min-height: 450px;
+
+  .login-box-login-failed {
+    background: #f53d3d;
+    color: #f53d3d;
+  }
+
+  .login-select-language {
+    &,
+    ion-label,
+    ion-select,
+    .select-icon-inner {
+      color: #3880ff;
+    }
+  }
+
+  .list-ios > .item-block {
+    &:first-child {
+      border-top: none;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  ion-item {
+    background: none;
+  }
+
+  ion-button {
+    color: white;
+  }
+
+  .login-box-input {
+    background: #fff;
+    margin: 5px 0;
+    padding: 0;
+
+    .item-inner {
+      padding-left: 8px;
+    }
+  }
+
+  > ion-card {
+    background: none;
+    overflow: hidden;
+    position: relative;
+    margin-top: 25px;
+
+    &::before,
+    &::after {
+      z-index: -1;
+      display: block;
+      position: absolute;
+      content: ' ';
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    &::before {
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+      -webkit-filter: blur(10px);
+      -moz-filter: blur(10px);
+      -o-filter: blur(10px);
+      -ms-filter: blur(10px);
+      filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius='10');
+      filter: blur(10px);
+    }
+
+    &::after {
+      background: rgba(255, 255, 255, 0.25);
+    }
+  }
+}

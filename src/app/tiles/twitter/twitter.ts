@@ -1,21 +1,21 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Events } from 'ionic-angular';
-
-import { Setting } from '../../../shared/setting.model';
-import { TileBaseComponent } from '../../../shared/shared.tile';
+import { Events } from '@ionic/angular';
+import { TileBaseComponent } from 'src/app/shared/shared.tile';
+import { Setting } from 'src/app/shared/setting.model';
 
 @Component({
   selector: 'grid-twitter',
-  templateUrl: 'twitter.html'
+  templateUrl: 'twitter.html',
+  styleUrls: ['twitter.scss'],
 })
 
 /**
  * Represents a Twitter tile.
  */
-export class Twitter extends TileBaseComponent {
-  @Input('tile') tile: Setting;
-  @Output() notify: EventEmitter<Object> = new EventEmitter<Object>();
-  data: Object;
+export class TwitterTileComponent extends TileBaseComponent {
+  @Input() tile: Setting;
+  @Output() notify: EventEmitter<object> = new EventEmitter<object>();
+  data: object;
 
   /**
    * Create the twitter userdata tile
@@ -28,8 +28,9 @@ export class Twitter extends TileBaseComponent {
 
   ngOnInit(): void {
     this.events.subscribe('data:ready', data => {
-      if (data)
+      if (data) {
         this.data = data.twitter;
+      }
     });
   }
 }

@@ -1,9 +1,13 @@
-grid-wiewarm ion-col {
-  background-color: aliceblue;
-  color: black;
+.grid-item-wiewarm {
+  height: 230px;
+  width: 360px;
 }
 
-grid-wiewarm ion-card-content {
+ion-card > ion-card-content {
   background-color: aliceblue;
-  color: black;
+  color: #000;
+}
+
+ion-card-header {
+  color: #000;
 }

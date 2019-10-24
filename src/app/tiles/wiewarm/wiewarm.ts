@@ -1,21 +1,22 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Events } from 'ionic-angular';
+import { Events } from '@ionic/angular';
 
-import { Setting } from '../../../shared/setting.model';
-import { TileBaseComponent } from '../../../shared/shared.tile';
+import { Setting } from 'src/app/shared/setting.model';
+import { TileBaseComponent } from 'src/app/shared/shared.tile';
 
 @Component({
   selector: 'grid-wiewarm',
-  templateUrl: 'wiewarm.html'
+  templateUrl: 'wiewarm.html',
+  styleUrls: ['wiewarm.scss'],
 })
 
 /**
  * Represents a Wiewarm.ch tile.
  */
-export class Wiewarm extends TileBaseComponent {
-  @Input('tile') tile: Setting;
-  @Output() notify: EventEmitter<Object> = new EventEmitter<Object>();
-  data: Object;
+export class WiewarmTileComponent extends TileBaseComponent {
+  @Input() tile: Setting;
+  @Output() notify: EventEmitter<object> = new EventEmitter<object>();
+  data: object;
 
   /**
    * Create the Wiewarm.ch tile
@@ -28,8 +29,9 @@ export class Wiewarm extends TileBaseComponent {
 
   ngOnInit(): void {
     this.events.subscribe('data:ready', data => {
-      if (data)
+      if (data) {
         this.data = data.wiewarm;
+      }
     });
   }
 }

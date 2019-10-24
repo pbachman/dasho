@@ -1,7 +1,16 @@
+$colors: (
+  primary:    #7b23a7, //387ef5
+  secondary:  #32db64,
+  danger:     #f53d3d,
+  light:      #f4f4f4,
+  dark:       #222,
+  favorite:   #69bb7b
+);
+
 .grid-item-news {
-  height: grid-unit(3);
   overflow: hidden;
-  width: grid-unit(3);
+  height: 360px;
+  width: 360px;
 
   > .content {
     background: none;
@@ -16,12 +25,13 @@
   }
 
   &.nodata {
-    height: grid-unit(2);
-    width: grid-unit(2);
+    height: 230px;
+    width: 230px;
+    background-color: white;
 
     > .card-content {
       background: #fff;
-      height: grid-unit(2);
+      height: 230px;
     }
   }
 
