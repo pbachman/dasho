@@ -24,13 +24,13 @@ export class LoginService {
    * @return {Promise}
    */
   login(username: string, password: string): Observable<string> {
-    const body = {
-      grant_type: 'password',
-      client_id: 'dasho',
-      client_secret: '$ecret',
-      username,
-      password
-    };
+    const urlSearchParams = new URLSearchParams();
+    urlSearchParams.append('grant_type', 'password');
+    urlSearchParams.append('client_id', 'dasho');
+    urlSearchParams.append('client_secret', '$ecret');
+    urlSearchParams.append('username', username);
+    urlSearchParams.append('password', password);
+    const BODY = urlSearchParams.toString();
 
     const httpOptions = {
       headers: new HttpHeaders({
@@ -38,7 +38,7 @@ export class LoginService {
       })
     };
 
-    return this.http.post<string>(`${environment.BASE_URI}oauth/token`, body, httpOptions);
+    return this.http.post<string>(`${environment.BASE_URI}oauth/token`, BODY, httpOptions);
   }
 
   /**
