@@ -26,7 +26,7 @@ npm install -g ionic mocha
 ```
 
 ```
-npm install
+yarn install
 ```
 
 ## How to start
@@ -51,6 +51,7 @@ node server
 * News (from **[NewsApi](https://newsapi.org)**)
 * Twitter
 * Weather (from **[OpenWeatherMap](https://openweathermap.org)**)
+* Water Temperature (from **[Wiewarm.ch](https://www.wiewarm.ch)**)
 
 ## Missing a Tile ? How to add your own Tile(s) ?
 
