@@ -79,7 +79,7 @@
       "mobileUsability": "Usability for mobile devices"
     },
     "news": {
-      "header": "News from {{source}}"
+      "header": "News"
     },
     "currency": {
       "header": "Reference currency:"

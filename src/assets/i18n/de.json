@@ -79,7 +79,7 @@
       "mobileUsability": "Benutzerfreundlichkeit Mobilegeräte"
     },
     "news": {
-      "header": "Nachrichten von {{source}}"
+      "header": "Nachrichten"
     },
     "currency": {
       "header": "Referenzwährung:"

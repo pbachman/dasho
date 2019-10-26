@@ -32,10 +32,6 @@ let NewsArticleApiServiceDataType = new graphql.GraphQLObjectType({
 let NewsApiServiceDataType = new graphql.GraphQLObjectType({
   name: 'NewsApi',
   fields: () => ({
-    source: {
-      type: graphql.GraphQLString,
-      resolve: news => news.source,
-    },
     articles: {
       type: new graphql.GraphQLList(NewsArticleApiServiceDataType),
       resolve: news => news.articles,
