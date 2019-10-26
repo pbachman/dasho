@@ -78,12 +78,11 @@ export class MenuComponent implements OnInit {
                   buttons: ['OK']
                 });
                 await alert.present();
-
                 return true;
               }, async (error: HttpErrorResponse) => {
                 const alert = await this.alertCtrl.create({
                   header: 'Error!',
-                  message: error.error,
+                  message: (error.status === 0) ? 'No Connection to the Backend!' : error.message,
                   backdropDismiss: false,
                   buttons: ['OK']
                 });
@@ -144,7 +143,7 @@ export class MenuComponent implements OnInit {
               }, async (error: HttpErrorResponse) => {
                 const alert = await this.alertCtrl.create({
                   header: 'Error!',
-                  message: error.error,
+                  message: (error.status === 0) ? 'No Connection to the Backend!' : error.message,
                   backdropDismiss: false,
                   buttons: ['OK']
                 });

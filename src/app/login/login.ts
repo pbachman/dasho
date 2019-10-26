@@ -162,7 +162,7 @@ export class LoginPage {
               }, async (error: HttpErrorResponse) => {
                 const alert = await this.alertCtrl.create({
                   header: 'Error',
-                  subHeader: error.error.text ? error.error.text : error.error,
+                  subHeader: (error.status === 0) ? 'No Connection to the Backend!' : error.message,
                   buttons: ['OK']
                 });
                 await alert.present();
@@ -242,7 +242,7 @@ export class LoginPage {
               }, async (error: HttpErrorResponse) => {
                 const errorDialog = await this.alertCtrl.create({
                   header: 'Error',
-                  subHeader: error.error.text ? error.error.text : error.error,
+                  subHeader: (error.status === 0) ? 'No Connection to the Backend!' : error.message,
                   buttons: ['OK']
                 });
                 await errorDialog.present();
