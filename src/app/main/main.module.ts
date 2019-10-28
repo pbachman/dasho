@@ -16,10 +16,9 @@ import { TwitterTileComponent } from '../tiles/twitter/twitter';
 import { TranslateModule } from '@ngx-translate/core';
 import { MomentModule } from 'angular2-moment';
 import { HighchartsChartModule } from 'highcharts-angular';
-import { SettingService } from '../admin/setting/setting.service';
 import { LoginService } from '../login/login.service';
 import { DashboardService } from './main.service';
-import { UserService } from '../shared/user.service';
+import { SettingService } from '../admin/setting/setting.service';
 
 @NgModule({
   imports: [
@@ -50,9 +49,8 @@ import { UserService } from '../shared/user.service';
   ],
   providers: [
     DashboardService,
-    SettingService,
     LoginService,
-    UserService
+    SettingService
   ],
 })
 export class MainPageModule { }

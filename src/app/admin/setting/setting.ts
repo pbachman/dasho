@@ -8,7 +8,7 @@ import { SettingService } from './setting.service';
 import { UserService } from 'src/app/shared/user.service';
 import { DashboardService } from 'src/app/main/main.service';
 import { AlertController } from '@ionic/angular';
-import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'page-setting',
@@ -24,10 +24,10 @@ export class SettingPage implements OnInit {
   hasChanged: boolean;
 
   constructor(
-    public location: Location,
     private dashboardService: DashboardService,
     private settingService: SettingService,
     private userprovider: UserService,
+    private router: Router,
     private alertCtrl: AlertController) {
   }
 
@@ -96,6 +96,10 @@ export class SettingPage implements OnInit {
           await alert.present();
         }
       }, (error: HttpErrorResponse) => this.errorHandling(error));
+  }
+
+  back(): void {
+    this.router.navigateByUrl('/main');
   }
 
   async deleteItem(setting: Setting): Promise<void> {

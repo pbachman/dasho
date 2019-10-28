@@ -47,7 +47,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         deps: [HttpClient]
       }
     }),
-    MomentModule,
     MainPageModule,
     AdminPageModule,
     AppRoutingModule
