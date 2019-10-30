@@ -1,0 +1,42 @@
+<ion-menu side="start" menuId="menu" contentId="content">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>
+        <ion-icon name="person" item-left></ion-icon> {{currentUser?.username}}
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <ion-item (click)="showChangeLanguage()">
+        <ion-icon name="globe" slot="start"></ion-icon>
+        <ion-label>{{'general.language' | translate}}</ion-label>
+        <ion-select name="language" [(ngModel)]="languageService.currentLanguage" (ionChange)="changeLanguage()" okText="{{'general.ok' | translate}}"
+          cancelText="{{'general.cancel' | translate}}">
+          <ion-select-option value="de">Deutsch</ion-select-option>
+          <ion-select-option value="en">English</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item (click)="showChangePasswortPrompt()">
+        <ion-icon name="key" slot="start"></ion-icon>
+        <ion-label>{{'menu.changePassword' | translate}}</ion-label>
+      </ion-item>
+      <ion-item (click)="inviteFriendPrompt()" *ngIf="currentUser?.caninvite">
+        <ion-icon name="person-add" slot="start"></ion-icon>
+        <ion-label>{{'menu.inviteFriend' | translate}}</ion-label>
+      </ion-item>
+      <ion-item (click)="configureTileSettings()">
+        <ion-icon name="settings" slot="start"></ion-icon>
+        <ion-label>{{'menu.configureTileSetting' | translate}}</ion-label>
+      </ion-item>
+      <ion-item (click)="configureTiles()" *ngIf="currentUser?.isAdmin">
+        <ion-icon name="cog" slot="start"></ion-icon>
+        <ion-label>{{'menu.configureTiles' | translate}}</ion-label>
+      </ion-item>
+      <ion-item (click)="logout()">
+        <ion-icon name="log-out" slot="start"></ion-icon>
+        <ion-label>{{'menu.logout' | translate}}</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>

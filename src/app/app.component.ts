@@ -4,8 +4,8 @@ import { Platform, Events } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { TranslateService } from '@ngx-translate/core';
-import { LanguageService } from './shared/language.service';
-import { UserService } from './shared/user.service';
+import { LanguageService } from './core/services/language.service';
+import { UserService } from './core/services/user.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -22,10 +22,10 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private translate: TranslateService,
-    private languageProvider: LanguageService,
+    private languageService: LanguageService,
     private events: Events,
     private router: Router,
-    private userprovider: UserService
+    private userService: UserService
     ) {
     this.initializeApp();
     this.listenToLoginEvents();
@@ -33,7 +33,7 @@ export class AppComponent {
     this.menuEnable = false;
 
     // decide which menu items should be hidden by current login status stored in local storage
-    this.userprovider.hasLoggedIn()
+    this.userService.hasLoggedIn()
       .subscribe((hasLoggedIn: boolean) => {
         if (hasLoggedIn) {
           this.router.navigateByUrl('/main');
@@ -42,7 +42,7 @@ export class AppComponent {
 
     // this language will be used as a fallback when a translation isn't found in the current language
     this.translate.setDefaultLang('en');
-    languageProvider.initialLanguage();
+    languageService.initialLanguage();
 
     // the lang to use, if the lang isn't available, it will use the current loader to get them
     this.translate.use('en');
