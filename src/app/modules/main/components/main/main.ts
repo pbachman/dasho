@@ -55,7 +55,9 @@ export class MainPage implements OnInit, AfterViewInit {
       if (val instanceof NavigationEnd && val.url === '/main') {
         setTimeout(() => {
           if (this.pckry) {
-            this.pckry.layout();
+            document.body.classList.add('body-loading');
+            this.isGridInitialized = false;
+            this.loadData();
           }
         }, 500);
       }
