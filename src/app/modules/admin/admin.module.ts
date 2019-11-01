@@ -20,8 +20,7 @@ import { SettingService } from './setting/setting.service';
   declarations: [SettingPage, TilePage],
   providers: [
     SettingService,
-    TileService,
-    Location
+    TileService
   ]
 })
 export class AdminModule {}

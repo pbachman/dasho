@@ -46,7 +46,6 @@ import { CoreModule } from 'src/app/core/core.module';
     WiewarmTileComponent
   ],
   providers: [
-    Location
   ]
 })
 export class TilesModule {}

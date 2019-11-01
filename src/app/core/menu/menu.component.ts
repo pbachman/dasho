@@ -18,7 +18,7 @@ export class MenuComponent implements OnInit {
   settings: any;
 
   constructor(
-    private languageService: LanguageService,
+    public languageService: LanguageService,
     private alertCtrl: AlertController,
     private userService: UserService,
     private dashboardService: DashboardService,
