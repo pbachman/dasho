@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Setting } from '../../tiles/models/setting.model';
 import { TileService } from './tile.service';
-import { AlertController } from '@ionic/angular';
+import { AlertController, Events } from '@ionic/angular';
 import { UserService } from 'src/app/core/services/user.service';
 import { Tile } from '../models/tile.model';
 import { Router } from '@angular/router';
@@ -24,6 +24,7 @@ export class TilePage implements OnInit {
     private tileService: TileService,
     private userService: UserService,
     private router: Router,
+    private events: Events,
     private alertCtrl: AlertController) {
   }
 
@@ -61,6 +62,7 @@ export class TilePage implements OnInit {
               {
                 text: 'OK',
                 handler: () => {
+                  this.events.publish('data:changed');
                   this.getTiles();
                 }
               }

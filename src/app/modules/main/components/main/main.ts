@@ -19,12 +19,14 @@ declare const Draggabilly: any;
  * Represents the main page.
  */
 export class MainPage implements OnInit, AfterViewInit {
+
   pckry: any;
   settings: Array<Setting>;
   isGridInitialized: boolean;
   dataobject: object;
   error: string;
   currentUser: User;
+  hasChanged: boolean;
 
   /**
    * Create the main page
@@ -52,7 +54,7 @@ export class MainPage implements OnInit, AfterViewInit {
       });
 
     this.router.events.subscribe((val) => {
-      if (val instanceof NavigationEnd && val.url === '/main') {
+      if (val instanceof NavigationEnd && val.url === '/main' && this.hasChanged) {
         setTimeout(() => {
           if (this.pckry) {
             document.body.classList.add('body-loading');
@@ -78,6 +80,11 @@ export class MainPage implements OnInit, AfterViewInit {
           this.pckry.layout();
         }
       }, 500);
+    });
+
+    this.events.subscribe('data:changed', () => {
+      console.log('data:changed');
+      this.hasChanged = true;
     });
   }
 
@@ -134,6 +141,7 @@ export class MainPage implements OnInit, AfterViewInit {
   }
 
   menuopen(): void {
+    this.hasChanged = false;
     this.menu.enable(true, 'menu');
     this.menu.open('start');
   }
