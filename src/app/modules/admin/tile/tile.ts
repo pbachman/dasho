@@ -5,6 +5,7 @@ import { TileService } from './tile.service';
 import { AlertController } from '@ionic/angular';
 import { UserService } from 'src/app/core/services/user.service';
 import { Tile } from '../models/tile.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'tile-setting',
@@ -22,6 +23,7 @@ export class TilePage implements OnInit {
   constructor(
     private tileService: TileService,
     private userService: UserService,
+    private router: Router,
     private alertCtrl: AlertController) {
   }
 
@@ -40,6 +42,10 @@ export class TilePage implements OnInit {
       .subscribe((tiles: Array<Tile>) => {
         this.tiles = tiles;
       }, (error: HttpErrorResponse) => this.errorHandling(error));
+  }
+
+  back(): void {
+    this.router.navigateByUrl('/main');
   }
 
   saveItem(tile: Tile): void {
