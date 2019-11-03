@@ -180,9 +180,9 @@ let serverRoutes = (function () {
               if (checkPassword) {
                 return settingsloader.setsPassword(user, req.body.newpassword);
               }
-              throw new Error('Login failed!');
+              throw new Error('Password is wrong!');
             }
-            throw new Error('Password and Confirm Password not equal!');
+            throw new Error('Password and Confirm Password are not equal!');
           }
           throw new Error('Unknown User!');
         })
