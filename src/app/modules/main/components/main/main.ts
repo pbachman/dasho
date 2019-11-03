@@ -220,7 +220,7 @@ export class MainPage implements OnInit, AfterViewInit {
    * Error Handler
    */
   private async errorHandling(error: HttpErrorResponse): Promise<void> {
-    (error.status === 0) ? this.error = 'No Connection to the Backend!' : this.error = error.message;
+    (error.status === 0) ? this.error = 'No Connection to the Backend!' : this.error = error.error;
 
     const alert = await this.alertCtrl.create({
       header: 'Error!',
