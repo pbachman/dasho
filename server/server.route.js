@@ -69,7 +69,6 @@ let serverRoutes = (function () {
               "isAdmin": user.isAdmin
             });
           }
-          throw new Error('User already exists!');
         })
         .catch((err) => {
           res.status(400).send(err.message);
