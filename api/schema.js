@@ -10,14 +10,25 @@ const fetch = require('./apifetch');
 const btoa = require('btoa');
 
 const settingsloader = require('../loaders/settingsloader');
-const schemaloader = require('../loaders/schemaloader');
+
+/**
+ * Schema References.
+ */
+const googleApiServiceDataType = require('../api/schema-googleapi');
+const githubApiServiceDataType = require('../api/schema-github');
+const clockDataType = require('../api/schema-clock');
+const openWeatherApiServiceDataType = require('../api/schema-openweather');
+const twitterApiServiceDataType = require('../api/schema-twitter');
+const fixerApiServiceDataType = require('../api/schema-fixer');
+const newsApiServiceDataType = require('../api/schema-news');
+const wiewarmApiServiceDataType = require('../api/schema-wiewarm');
 
 const settingsType = new graphql.GraphQLObjectType({
   name: 'Settings',
   description: 'Settings Type for DashO',
   fields: () => ({
     googleapi: {
-      type: schemaloader.getSchemaByName('googleapi'),
+      type: googleApiServiceDataType,
       args: {
         user: {
           type: graphql.GraphQLString
@@ -51,7 +62,7 @@ const settingsType = new graphql.GraphQLObjectType({
       }
     },
     github: {
-      type: schemaloader.getSchemaByName('github'),
+      type: githubApiServiceDataType,
       resolve: (source, args, context, info) => {
         let user = context.body.user;
 
@@ -82,7 +93,7 @@ const settingsType = new graphql.GraphQLObjectType({
       }
     },
     openweather: {
-      type: schemaloader.getSchemaByName('openweather'),
+      type: openWeatherApiServiceDataType,
       resolve: (root, args, context) => {
         let user = context.body.user;
 
@@ -111,7 +122,7 @@ const settingsType = new graphql.GraphQLObjectType({
       }
     },
     twitter: {
-      type: schemaloader.getSchemaByName('twitter'),
+      type: twitterApiServiceDataType,
       resolve: (root, args, context) => {
         let user = context.body.user;
         return settingsloader.getTileConfig(user, 'twitter')
@@ -163,7 +174,7 @@ const settingsType = new graphql.GraphQLObjectType({
       }
     },
     fixer: {
-      type: schemaloader.getSchemaByName('fixer'),
+      type: fixerApiServiceDataType,
       resolve: (root, args, context) => {
         let user = context.body.user;
 
@@ -191,7 +202,7 @@ const settingsType = new graphql.GraphQLObjectType({
       }
     },
     news: {
-      type: schemaloader.getSchemaByName('news'),
+      type: newsApiServiceDataType,
       resolve: (root, args, context) => {
         let user = context.body.user;
 
@@ -219,7 +230,7 @@ const settingsType = new graphql.GraphQLObjectType({
       }
     },
     wiewarm: {
-      type: schemaloader.getSchemaByName('wiewarm'),
+      type: wiewarmApiServiceDataType,
       resolve: (root, args, context) => {
         let user = context.body.user;
 
@@ -247,7 +258,7 @@ const settingsType = new graphql.GraphQLObjectType({
       }
     },
     clock: {
-      type: schemaloader.getSchemaByName('clock'),
+      type: clockDataType,
       resolve: clock => clock
     }
   })

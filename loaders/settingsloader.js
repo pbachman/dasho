@@ -6,7 +6,6 @@
  */
 module.exports = (function () {
   const passwordHash = require('password-hash');
-  const schemaloader = require('./schemaloader');
 
   // Create NeDb Datastore
   let Datastore = require('nedb'),
