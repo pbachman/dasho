@@ -58,7 +58,7 @@ module.exports = (function () {
           { userid: "6kO2i9Wt2ElAjvdl", tileid: "ZkNW1xMuVq7B1rn5", position: 0, visible: true, querystring: '?url=http://www.phil.ch&strategy=${strategy}' },
           { userid: "6kO2i9Wt2ElAjvdl", tileid: "8vJH0MaIin7KDpUY", position: 1, visible: true, querystring: '/repos/pbachman/dasho?client_id=${apikey}&client_secret=${apisecret}' },
           { userid: "6kO2i9Wt2ElAjvdl", tileid: "mB2wXblzppRSnewm", position: 2, visible: true, querystring: '?q=Zug,CHE&appid=${apiKey}&units=metric' },
-          { userid: "6kO2i9Wt2ElAjvdl", tileid: "JyVSFAw0ygrFphVp", position: 3, visible: true, querystring: '/1.1/users/lookup.json?screen_name=pbachman_ch' },
+          { userid: "6kO2i9Wt2ElAjvdl", tileid: "JyVSFAw0ygrFphVp", position: 3, visible: true, querystring: '/1.1/users/lookup.json?screen_name=dasho_co' },
           { userid: "6kO2i9Wt2ElAjvdl", tileid: "tuAPdN68QwtG4Aha", position: 4, visible: true, querystring: '?access_key=${apiKey}&format=1&base=EUR' },
           { userid: "6kO2i9Wt2ElAjvdl", tileid: "d3THA4b9mkxhqVQ3", position: 5, visible: true, querystring: '?q=software&apiKey=${apiKey}' },
           { userid: "6kO2i9Wt2ElAjvdl", tileid: "88MjFRnZnNrVYKsI", position: 6, visible: true, querystring: '' },
