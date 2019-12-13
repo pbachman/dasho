@@ -36,30 +36,11 @@ describe('Dash0 backend/middleware', function () {
     server.close();
   });
 
-  it('Login_WithMissingCredentials_ShouldFailWith400', function method(done) {
-    request(server)
-      .post('/api/login/')
-      .expect(400, done);
-  });
-
-  it('Login_WithWrongCredentials_ShouldFailWith401', function method(done) {
-    request(server)
-      .post('/api/login/')
-      .send({ username: 'hi@dasho.co', password: 'wrong' })
-      .expect(401, done);
-  });
-
-  it('Login_WithCorrectCredentials_ShouldGet200', function method(done) {
-    request(server)
-      .post('/api/login/')
-      .send({ username: 'hi@dasho.co', password: 'test1234' })
-      .expect(200, done);
-  });
-
   it('AccountCurrent_GetProfile_ShouldGet200', function method(done) {
     request(server)
       .get('/api/account/current')
       .set('Authorization', 'Bearer ' + token)
+      .expect('Content-Type', /json/)
       .expect(200, done);
   });
 

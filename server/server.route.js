@@ -26,31 +26,6 @@ let serverRoutes = (function () {
     return text;
   }
 
-  /**
-   * Verifying Login
-   * @function
-   * @param {req} req - Request object.
-   * @param {res} res - Response object.
-   */
-  router.post('/login', (req, res) => {
-    if (req.body.username !== undefined && req.body.password !== undefined) {
-      return settingsloader.getUserByName(req.body.username)
-        .then(function (user) {
-          if (user) {
-            const checkPassword = passwordHash.verify(req.body.password, user.password);
-            if (checkPassword) {
-              res.status(200);
-            }
-          }
-          throw new Error('Login failed!');
-        })
-        .catch(err => {
-          res.status(401).send('Login failed!');
-        });
-    }
-    res.status(400).send('Required fields missing!');
-  });
-
  /**
    * Gets the current Userprofile
    * @function
