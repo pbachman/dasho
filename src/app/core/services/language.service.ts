@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import * as moment from 'moment';
-import { Events } from '@ionic/angular';
+import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
 
 /**
  * Represents the language provider
@@ -15,17 +15,19 @@ export class LanguageService {
   /**
    * Create the language provider
    * @constructor
-   * @param {Events} events Used to subscribe to the `user:language`
+   * @param {pubSub} NgxPubSubService Used to subscribe to the `user:language`
    * @param {TranslateService} translate The service from ng2-translate
    * @param {Storage} storage The storage from @ionic/storage
    */
   constructor(
-    private events: Events,
+    private pubSub: NgxPubSubService,
     private translate: TranslateService,
     private storage: Storage) {
 
-    this.events.subscribe('user:language', data => {
-      this.setLanguage(data.key);
+    this.pubSub.subscribe('user:language', data => {
+      if (data) {
+        this.setLanguage(data.key);
+      }
     });
   }
 

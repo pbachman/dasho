@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 
-import { Platform, Events } from '@ionic/angular';
+import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from './core/services/language.service';
 import { UserService } from './core/services/user.service';
 import { Router } from '@angular/router';
+import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
 
 @Component({
   selector: 'app-root',
@@ -23,10 +24,10 @@ export class AppComponent {
     private statusBar: StatusBar,
     private translate: TranslateService,
     private languageService: LanguageService,
-    private events: Events,
+    private pubSub: NgxPubSubService,
     private router: Router,
     private userService: UserService
-    ) {
+  ) {
     this.initializeApp();
     this.listenToLoginEvents();
 
@@ -59,11 +60,11 @@ export class AppComponent {
    * Handle the menu visability and headline. Subscribe to the user events
    */
   private listenToLoginEvents(): void {
-    this.events.subscribe('user:login', user => {
+    this.pubSub.subscribe('user:login', () => {
       this.enableMenu(true);
     });
 
-    this.events.subscribe('user:logout', () => {
+    this.pubSub.subscribe('user:logout', () => {
       this.enableMenu(false);
     });
   }

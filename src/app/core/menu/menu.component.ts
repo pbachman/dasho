@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { LanguageService } from '../services/language.service';
-import { AlertController, MenuController, Events } from '@ionic/angular';
+import { AlertController, MenuController } from '@ionic/angular';
 import { UserService } from '../services/user.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DashboardService } from '../services/dashboard.service';
 import { User } from '../models/user.model';
+import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
 
 @Component({
   selector: 'dasho-menu',
@@ -24,11 +25,9 @@ export class MenuComponent implements OnInit {
     private dashboardService: DashboardService,
     private router: Router,
     private menuCtrl: MenuController,
-    private events: Events
+    private pubSub: NgxPubSubService
   ) {
-    this.events.subscribe('user:login', user => {
-      this.currentUser = user;
-    });
+    this.pubSub.subscribe('user:login', user => this.currentUser = user);
   }
 
   ngOnInit() { }
@@ -193,7 +192,7 @@ export class MenuComponent implements OnInit {
     const data = {
       key: this.languageService.currentLanguage
     };
-    this.events.publish('user:language', data);
+    this.pubSub.publishEvent('user:language', data);
   }
 
   /**

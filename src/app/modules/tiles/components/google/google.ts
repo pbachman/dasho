@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Events } from '@ionic/angular';
 import * as ChartModuleMore from 'highcharts/highcharts-more.js';
 import HCSoldGauge from 'highcharts/modules/solid-gauge';
 import Highcharts from 'highcharts';
 import { LanguageService } from 'src/app/core/services/language.service';
 import { TileBaseComponent } from '../../models/basetile.model';
 import { Setting } from '../../models/setting.model';
+import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
 
 ChartModuleMore(Highcharts);
 HCSoldGauge(Highcharts);
@@ -29,23 +29,23 @@ export class GoogleTileComponent extends TileBaseComponent {
   /**
    * Create the pagespeed tile
    * @constructor
-   * @param  {Events} privateevents used to subscribe to the `data:ready` and the `user:language` event
+   * @param  {pubSub} NgxPubSubService used to subscribe to the `data:ready` and the `user:language` event
    */
   constructor(
-    private events: Events,
+    private pubSub: NgxPubSubService,
     private languageService: LanguageService) {
     super();
   }
 
   ngOnInit(): void {
-    this.events.subscribe('data:ready', data => {
+    this.pubSub.subscribe('data:ready', data => {
       if (data) {
         this.data = data.googleapi;
       }
       this.setOptions();
     });
 
-    this.events.subscribe('user:language', data => {
+    this.pubSub.subscribe('user:language', data => {
       setTimeout(() => {
         this.setOptions();
       }, 100);

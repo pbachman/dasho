@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Setting } from '../../tiles/models/setting.model';
 import { TileService } from './tile.service';
-import { AlertController, Events } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { UserService } from 'src/app/core/services/user.service';
 import { Tile } from '../models/tile.model';
 import { Router } from '@angular/router';
+import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
 
 @Component({
   selector: 'tile-setting',
@@ -24,7 +25,7 @@ export class TilePage implements OnInit {
     private tileService: TileService,
     private userService: UserService,
     private router: Router,
-    private events: Events,
+    private pubSub: NgxPubSubService,
     private alertCtrl: AlertController) {
   }
 
@@ -62,7 +63,7 @@ export class TilePage implements OnInit {
               {
                 text: 'OK',
                 handler: () => {
-                  this.events.publish('data:changed');
+                  this.pubSub.publishEvent('data:changed', null);
                   this.getTiles();
                 }
               }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import { Storage } from '@ionic/storage';
-import { Events } from '@ionic/angular';
 import { User } from '../models/user.model';
+import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
 
 /**
  * Represents the user provider
@@ -14,11 +14,11 @@ export class UserService {
 
   /**
    * Create the user data provider
-   * @param  {Events}  privateevents  Used to publish to the users events
+   * @param  {pubSub}  NgxPubSubService  Used to publish to the users events
    * @param  {Storage} privatestorage Used to store the user data
    */
   constructor(
-    private events: Events,
+    private pubSub: NgxPubSubService,
     private storage: Storage) { }
 
   /**
@@ -40,7 +40,7 @@ export class UserService {
     this.storage.remove(this.HAS_LOGGED_IN);
     this.storage.remove('user');
     this.storage.remove('token');
-    this.events.publish('user:logout');
+    this.pubSub.publishEvent('user:logout', null);
   }
 
   /**

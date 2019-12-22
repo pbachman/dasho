@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Events } from '@ionic/angular';
 import { TileBaseComponent } from '../../models/basetile.model';
 import { Setting } from '../../models/setting.model';
+import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
 
 @Component({
   selector: 'grid-news',
@@ -20,12 +20,12 @@ export class NewsTileComponent extends TileBaseComponent {
   /**
    * Create the news tile
    */
-  constructor(private events: Events) {
+  constructor(private pubSub: NgxPubSubService) {
     super();
   }
 
   ngOnInit(): void {
-    this.events.subscribe('data:ready', data => {
+    this.pubSub.subscribe('data:ready', data => {
       if (data) {
         const news = data.news;
         if (news && news.articles) {
@@ -40,7 +40,7 @@ export class NewsTileComponent extends TileBaseComponent {
       }
     });
 
-    this.events.subscribe('user:language', data => {
+    this.pubSub.subscribe('user:language', data => {
       if (data) {
         const store = this.data;
         this.data = {};

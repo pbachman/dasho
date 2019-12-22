@@ -3,10 +3,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Setting } from '../../tiles/models/setting.model';
 import { SettingService } from './setting.service';
 import { UserService } from 'src/app/core/services/user.service';
-import { AlertController, Events } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { DashboardService } from 'src/app/core/services/dashboard.service';
 import { Tile } from '../models/tile.model';
+import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
 
 @Component({
   selector: 'page-setting',
@@ -26,7 +27,7 @@ export class SettingPage implements OnInit {
     private settingService: SettingService,
     private userService: UserService,
     private router: Router,
-    private events: Events,
+    private pubSub: NgxPubSubService,
     private alertCtrl: AlertController) {
   }
 
@@ -64,7 +65,7 @@ export class SettingPage implements OnInit {
               {
                 text: 'OK',
                 handler: () => {
-                  this.events.publish('data:changed');
+                  this.pubSub.publishEvent('data:changed', null);
                   this.loadSettings();
                 }
               }
@@ -88,7 +89,7 @@ export class SettingPage implements OnInit {
               {
                 text: 'OK',
                 handler: () => {
-                  this.events.publish('data:changed');
+                  this.pubSub.publishEvent('data:changed', null);
                   this.loadSettings();
                 }
               }
@@ -116,7 +117,7 @@ export class SettingPage implements OnInit {
             this.dashboardService.deleteSetting(this.currentUser, setting)
               .subscribe((deleted: boolean) => {
                 if (deleted) {
-                  this.events.publish('data:changed');
+                  this.pubSub.publishEvent('data:changed', null);
                   this.loadSettings();
                 }
               });

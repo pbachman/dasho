@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
-import { Events } from '@ionic/angular';
 import * as moment from 'moment';
 import * as Highcharts from 'highcharts';
 import { TileBaseComponent } from '../../models/basetile.model';
 import { Setting } from '../../models/setting.model';
+import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
 
 @Component({
   selector: 'grid-clock',
@@ -24,16 +24,16 @@ export class ClockTileComponent extends TileBaseComponent implements OnInit, OnD
   /**
    * Create the clock tile
    * @constructor
-   * @param  {Events} privateevents used to subscribe to the `data:ready` event
+   * @param  {pubSub} NgxPubSubService used to subscribe to the `data:ready` event
    */
-  constructor(private events: Events) {
+  constructor(private pubSub: NgxPubSubService) {
     super();
 
     this.setMathBounce();
   }
 
   ngOnInit(): void {
-    this.events.subscribe('data:ready', data => {
+    this.pubSub.subscribe('data:ready', () => {
       this.onReady();
     });
   }

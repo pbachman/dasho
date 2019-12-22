@@ -412,6 +412,13 @@
   dependencies:
     tslib "^1.9.0"
 
+"@pscoped/ngx-pub-sub@^2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@pscoped/ngx-pub-sub/-/ngx-pub-sub-2.0.3.tgz#c5655538567f67d5d37f5952213cf1c109e1b3c2"
+  integrity sha512-gOlPsU/zfhK1fEK9Z7uzigRMn+Coz85YKLiAyF5pCFnfGWPLjHm0uCpgs8JZE1JUy/uyzg3ADBeDNKkXIEQSeg==
+  dependencies:
+    tslib "^1.9.0"
+
 "@schematics/angular@8.3.20":
   version "8.3.20"
   resolved "https://registry.yarnpkg.com/@schematics/angular/-/angular-8.3.20.tgz#737d0a73e891446899a2267c4cc348b6c5a78ca8"

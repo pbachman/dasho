@@ -29,6 +29,7 @@
     "@ionic/storage": "^2.2.0",
     "@ngx-translate/core": "^11.0.1",
     "@ngx-translate/http-loader": "^4.0.0",
+    "@pscoped/ngx-pub-sub": "^2.0.3",
     "angular2-moment": "^1.9.0",
     "body-parser": "^1.15.2",
     "btoa": "^1.1.2",

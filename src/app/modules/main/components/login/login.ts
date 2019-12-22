@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { LoginService } from '../../../../core/services/login.service';
-import { AlertController, Events } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { LanguageService } from '../../../../core/services/language.service';
 import { UserService } from '../../../../core/services/user.service';
 import { DashboardService } from '../../../../core/services/dashboard.service';
+import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
 
 @Component({
   selector: 'page-login',
@@ -33,7 +34,7 @@ export class LoginPage {
    * @param  {userService} userService
    * @param  {LoginService} loginService
    * @param  {DashboardService} mainService
-   * @param  {Events} events
+   * @param  {pubSub} NgxPubSubService
    */
   constructor(
     private alertCtrl: AlertController,
@@ -42,10 +43,10 @@ export class LoginPage {
     private loginService: LoginService,
     private mainService: DashboardService,
     private router: Router,
-    private events: Events
+    private pubSub: NgxPubSubService
   ) {
     this.showError = false;
-    this.events.subscribe('user:logout', () => {
+    this.pubSub.subscribe('user:logout', () => {
       this.user = {
         username: '',
         password: ''
@@ -99,7 +100,7 @@ export class LoginPage {
                       .subscribe(() => {
                         this.showError = false;
                         this.userService.setsUserdata(user);
-                        this.events.publish('user:login', user);
+                        this.pubSub.publishEvent('user:login', user);
                         this.router.navigateByUrl('/main');
                       });
                   });

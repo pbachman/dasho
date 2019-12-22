@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Events } from '@ionic/angular';
 import { TileBaseComponent } from '../../models/basetile.model';
 import { Setting } from '../../models/setting.model';
+import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
 
 @Component({
   selector: 'grid-weather',
@@ -20,14 +20,14 @@ export class WeatherTileComponent extends TileBaseComponent {
   /**
    * Create the weather tile
    * @constructor
-   * @param  {Events} privatevents used to subscribe to the `data:ready` event
+   * @param  {pubSub} NgxPubSubService used to subscribe to the `data:ready` event
    */
-  constructor(private events: Events) {
+  constructor(private pubSub: NgxPubSubService) {
     super();
   }
 
   ngOnInit(): void {
-    this.events.subscribe('data:ready', data => {
+    this.pubSub.subscribe('data:ready', data => {
       if (data) {
         this.data = data.openweather;
       }
