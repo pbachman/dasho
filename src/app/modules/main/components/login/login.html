@@ -1,5 +1,5 @@
 <ion-content class="ion-padding login-bg">
-  <div class="login-box" middle>
+  <div class="login-box ion-text-center">
     <ion-card max-width>
       <img class="login-logo" src="assets/imgs/logo.png" [attr.alt]="'login.title' | translate">
       <form #form="ngForm" (ngSubmit)="loginForm(form)" novalidate>
@@ -32,7 +32,7 @@
         <br><i class="icon ion-refreshing"></i>
 
         <ion-button type="submit" expand="block" [disabled]="!form.valid || isLoginIn">
-          <span *ngIf="!isLoginIn"><ion-icon name="log-in"></ion-icon> {{'login.send' | translate}}</span>
+          <span *ngIf="!isLoginIn"><ion-icon name="enter-outline"></ion-icon> {{'login.send' | translate}}</span>
           <ion-spinner *ngIf="isLoginIn"></ion-spinner>
         </ion-button>
       </form>
