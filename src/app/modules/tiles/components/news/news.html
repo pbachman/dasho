@@ -4,7 +4,7 @@
   </button>
   <ion-content *ngIf="data && data.articles">
     <ion-card-header>
-      <ion-icon name="paper" item-left></ion-icon> {{ 'tiles.news.header' | translate:data }}
+      <ion-icon name="newspaper-outline" item-left></ion-icon> {{ 'tiles.news.header' | translate:data }}
     </ion-card-header>
     <ion-card *ngFor="let news of data.articles" class="grid-item-news-text" [ngStyle]="{backgroundImage: 'url(' + news.image + ')'}">
       <a href="{{news.url}}" target="_blank" class="grid-item-news-title">{{ news.title }}</a>
