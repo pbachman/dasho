@@ -16,10 +16,8 @@ const server = (function () {
   const cors = require('cors');
   const router = require('./server.route');
   const oauthServer = require('./server.oauth');
-  const config = require('../config.json');
   const helmet = require('helmet');
   const compression = require('compression')
-  const fs = require('fs');
   const dotenv = require('dotenv');
 
   dotenv.config();
