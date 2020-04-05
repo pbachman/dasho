@@ -36,12 +36,6 @@ export class SettingPage implements OnInit {
       .subscribe((username: string) => {
         this.currentUser = username;
         this.loadSettings();
-
-        // get all tiles.
-        this.settingService.getUnassignedTiles(this.currentUser)
-          .subscribe((tiles: Array<Tile>) => {
-            this.tiles = tiles;
-          }, (error: HttpErrorResponse) => this.errorHandling(error));
       }, (error: HttpErrorResponse) => this.errorHandling(error));
   }
 
@@ -50,6 +44,13 @@ export class SettingPage implements OnInit {
     this.dashboardService.getSettings(this.currentUser)
       .subscribe((settings: Array<Setting>) => {
         this.settings = settings;
+
+        // get all unassigned tiles.
+        this.settingService.getUnassignedTiles(this.currentUser)
+          .subscribe((tiles: Array<Tile>) => {
+            this.tiles = tiles;
+          }, (error: HttpErrorResponse) => this.errorHandling(error));
+
       }, (error: HttpErrorResponse) => this.errorHandling(error));
   }
 
