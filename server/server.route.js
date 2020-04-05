@@ -147,7 +147,7 @@ let serverRoutes = (function () {
             if (req.body.newpassword === req.body.newpasswordconfirm) {
               const checkPassword = passwordHash.verify(req.body.password, user.password);
               if (checkPassword) {
-                return settingsloader.setsPassword(user, req.body.newpassword);
+                return settingsloader.setPassword(user, req.body.newpassword);
               }
               throw new Error('Password is wrong!');
             }

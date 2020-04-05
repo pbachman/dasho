@@ -199,7 +199,7 @@ module.exports = (function () {
    */
   function setPassword(user, newpassword) {
     return new Promise((resolve, reject) => {
-      db.users.update(user, { $set: { password: passwordHash.generate(newpassword) } }, { multi: true }, function (err, numReplaced) {
+      db.users.update({ _id: user._id }, { $set: { password: passwordHash.generate(newpassword) } }, { multi: true }, function (err, numReplaced) {
         if (err) {
           return reject(err);
         } else {
