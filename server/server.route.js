@@ -116,17 +116,15 @@ let serverRoutes = (function () {
           throw new Error('User already exists!');
         })
         .then(function (user) {
-          // Adds new User and assign Clock Tile to User.
-          return settingsloader.assignTile(user._id, 'clock');
+          // Assign Clock Tile to the new User.
+          return settingsloader.assignTile(user, 'clock');
         })
-        .then(function () {
-          sendMailer.sendMail(user.email, 'Welcome to Dasho ✔', `<b>Hello User!</b> Welcome to <a href="https://dasho.herokuapp.com">dasho</a>. Please login with your E-mail address. Your Password is ${password}`, function (error, info) {
-            if (error) {
-              throw new Error(`Couldn't send Invitation Mail ${error}`);
-            } else {
-              res.send(info);
-            }
-          });
+        .then(function (user) {
+          return sendMailer.sendMail(user.email, 'Welcome to Dasho ✔', `<b>Hello User!</b> Welcome to <a href="https://dasho.herokuapp.com">dasho</a>. Please login with your E-mail address.`);
+        })
+        .then(function (info) {
+          console.log(info);
+          res.send(JSON.stringify('User successfully added.'));
         })
         .catch(err => {
           res.status(400).send(err.message);
