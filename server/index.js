@@ -23,7 +23,7 @@ const server = (function () {
   dotenv.config();
   const result = dotenv.config();
   if (result.error) {
-    throw result.error;
+    console.warn('no .env file found!');
   }
 
   /** Use Body Parser */
