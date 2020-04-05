@@ -114,21 +114,18 @@ export class SettingPage implements OnInit {
         {
           text: 'Yes',
           handler: () => {
-            alert.present();
             this.dashboardService.deleteSetting(this.currentUser, setting)
               .subscribe((deleted: boolean) => {
                 if (deleted) {
                   this.pubSub.publishEvent('data:changed', null);
                   this.loadSettings();
                 }
-              });
+              }, (error: HttpErrorResponse) => this.errorHandling(error));
           }
         },
         {
           text: 'No',
           handler: async () => {
-            await alert.present();
-
             return true;
           }
         }
@@ -149,10 +146,7 @@ export class SettingPage implements OnInit {
       backdropDismiss: false,
       buttons: [
         {
-          text: 'OK',
-          handler: async () => {
-            await alert.present();
-          }
+          text: 'OK'
         }
       ]
     });
