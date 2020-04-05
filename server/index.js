@@ -19,6 +19,14 @@ const server = (function () {
   const config = require('../config.json');
   const helmet = require('helmet');
   const compression = require('compression')
+  const fs = require('fs');
+  const dotenv = require('dotenv');
+
+  dotenv.config();
+  const result = dotenv.config();
+  if (result.error) {
+    throw result.error;
+  }
 
   /** Use Body Parser */
   app.use(bodyParser.urlencoded({ extended: false }))
@@ -26,7 +34,7 @@ const server = (function () {
 
   /** Cross origin configuration */
   app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', config.corsalloworigin);
+    res.header('Access-Control-Allow-Origin', process.env.CORSALLOWORIGIN);
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Authorization, Origin, X-Requested-With, Content-Type, Accept');
     next();
@@ -50,7 +58,7 @@ const server = (function () {
   /** Graphql */
   app.use('/graphql', cors(), graphqlHTTP({
     schema: schema,
-    graphiql: !config.production  // set it to false in the production
+    graphiql: !process.env.PRODUCTION  // set it to false in the production
   }));
 
   /** Use Helmet to secure REST API */
