@@ -36,13 +36,14 @@ module.exports = (function () {
     // Tiles
     db.tiles.count({}, function (err, count) {
       // Insert Tiles, if not exists.
+      // Use ApiKeys and ApiSecret, if available.
       if (count == 0) {
         db.tiles.insert([
           { _id: "ZkNW1xMuVq7B1rn5", name: 'googleapi', baseUrl: 'https://www.googleapis.com/pagespeedonline/v2/runPagespeed', apikey: '', apisecret: '', schema: 'googleapi { url, desktop { speed }, mobile { speed usability } }' },
           { _id: "8vJH0MaIin7KDpUY", name: 'github', baseUrl: 'https://api.github.com', apikey: '', apisecret: '', schema: 'github { watchers forks stars user repository }' },
-          { _id: "mB2wXblzppRSnewm", name: 'openweather', baseUrl: 'http://api.openweathermap.org/data/2.5/weather', apikey: '', apisecret: '', schema: 'openweather { location unit latitude longitude, today { temp, icon } }' },
-          { _id: "JyVSFAw0ygrFphVp", name: 'twitter', baseUrl: 'https://api.twitter.com', apikey: '', apisecret: '', schema: 'twitter { user followers following tweets likes backgroundimage profileimage }' },
-          { _id: "tuAPdN68QwtG4Aha", name: 'fixer', baseUrl: 'http://data.fixer.io/api/latest', apikey: '', apisecret: '', schema: 'fixer { currency CHF USD EUR GBP }' },
+          { _id: "mB2wXblzppRSnewm", name: 'openweather', baseUrl: 'http://api.openweathermap.org/data/2.5/weather', apikey: process.env.APIKEYOPENWEATHER, apisecret: '', schema: 'openweather { location unit latitude longitude, today { temp, icon } }' },
+          { _id: "JyVSFAw0ygrFphVp", name: 'twitter', baseUrl: 'https://api.twitter.com', apikey: process.env.APIKEYTWITTER, apisecret: process.env.APISECRETTWITTER, schema: 'twitter { user followers following tweets likes backgroundimage profileimage }' },
+          { _id: "tuAPdN68QwtG4Aha", name: 'fixer', baseUrl: 'http://data.fixer.io/api/latest', apikey: process.env.APIKEYFIXER, apisecret: '', schema: 'fixer { currency CHF USD EUR GBP }' },
           { _id: "d3THA4b9mkxhqVQ3", name: 'news', baseUrl: 'https://newsapi.org/v2/everything', apikey: '', apisecret: '', schema: 'news { articles { title image publishedAt url }}' },
           { _id: "88MjFRnZnNrVYKsI", name: 'clock', baseUrl: '', apikey: '', apisecret: '', schema: 'clock { datetime totalSeconds }' },
           { _id: "JyVSFAw0ygrFphVx", name: 'wiewarm', baseUrl: 'https://www.wiewarm.ch:443/api/v1/bad.json', apikey: '', apisecret: '', schema: 'wiewarm { lake name temp status }' }
