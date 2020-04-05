@@ -58,6 +58,10 @@ node server
 * Create a new Tile Component, extends the Component with TileBaseComponent and add it to the TilesModules (under src\app\modules\tiles)
 * Create a new GraphQL Schema File (under api) and define your own Resolve Logic (in schema.js)
 
+## Configuration
+
+All important settings like ApiKeys, Mailserver Settings, etc. are contained in the .env file. Please look at the .env.example file.
+
 ## Running the tests
 
 ```
