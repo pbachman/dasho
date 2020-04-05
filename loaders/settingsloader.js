@@ -164,7 +164,7 @@ module.exports = (function () {
     return new Promise((resolve, reject) => {
       db.users.findOne({ email: user, caninvite: true }, function (err, user) {
         if (err) {
-          return reject(err);
+          return reject(`Couldn't send Invitation Mail ${err}`);
         }
         return resolve(user);
       });
@@ -290,18 +290,18 @@ module.exports = (function () {
   /**
    * Adds a new User Config Item (Assignment Tile -> User).
    * @function
-   * @param {string} userid
+   * @param {string} user
    * @param {string} tile
    * @return {promise} promise
    */
-  function assignTile(userid, tile) {
+  function assignTile(user, tile) {
     return new Promise((resolve, reject) => {
       return getTileByName(tile).then((tile) => {
-        db.configs.insert({ userid: userid, tileid: tile._id, position: 1, visible: true }, (err, config) => {
+        db.configs.insert({ userid: user._id, tileid: tile._id, position: 1, visible: true }, (err, config) => {
           if (err) {
             return reject(err);
           }
-          return resolve(config);
+          return resolve(user);
         });
       }, (err) => {
         return reject(err);
