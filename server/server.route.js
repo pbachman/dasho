@@ -184,13 +184,11 @@ let serverRoutes = (function () {
             throw new Error('Unknown User!');
           })
           .then(function (user) {
-            sendMailer.sendMail(user.user, 'DashO', `<b>Hello ${user.user}!</b> Your new Password is ${user.newpassword}`, function (error, info) {
-              if (error) {
-                throw new Error(error.message);
-              } else {
-                res.send(info);
-              }
-            });
+            return sendMailer.sendMail(user.user, 'DashO', `<b>Hello ${user.user}!</b> Your new Password is ${user.newpassword}`);
+          })
+          .then(function (info) {
+            console.log(info);
+            res.send(JSON.stringify('Password successfully reset.'));
           })
           .catch(err => {
             res.status(400).send(err.message);
