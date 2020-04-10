@@ -105,9 +105,9 @@ export class CurrencyTileComponent extends TileBaseComponent {
    * @return {Array} Values from the service, formated for the highchart.
    */
   generateDataForSeries(): any {
-    const array = [];
+    const array = [] = new Array();
     for (const key in this.data) {
-      if (key !== 'currency') {
+      if (key as string !== 'currency') {
         array.push([key, this.data[key]]);
       }
     }
