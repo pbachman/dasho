@@ -47,11 +47,12 @@ node server
 
 * Clock
 * Currency (from **[Fixer](https://fixer.io)**)
+* Github
 * Google Pagespeed
 * News (from **[NewsApi](https://newsapi.org)**)
 * Twitter
-* Weather (from **[OpenWeatherMap](https://openweathermap.org)**)
 * Water Temperature (from **[Wiewarm.ch](https://www.wiewarm.ch)**)
+* Weather (from **[OpenWeatherMap](https://openweathermap.org)**)
 
 ## Missing a Tile ? How to add your own Tile(s) ?
 
