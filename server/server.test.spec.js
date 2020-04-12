@@ -72,12 +72,12 @@ describe('Dash0 backend/middleware', function () {
       .expect(400, done);
   });
 
-  it('PwdChange_WithWrongUser_ShouldFailWith400', function method(done) {
+  it('PwdChange_WithWrongUser_ShouldFailWith401', function method(done) {
     request(server)
       .put('/api/changepassword/')
       .set('Authorization', 'Bearer ' + token)
       .send({ username: 'wrong@user.com', password: 'wrong', newpassword: 'wrong', newpasswordconfirm: 'wrong' })
-      .expect(400, done);
+      .expect(401, done);
   });
 
   it('PwdChange_WithWrongPassword_ShouldFailWith400', function method(done) {
@@ -103,25 +103,25 @@ describe('Dash0 backend/middleware', function () {
       .expect(400, done);
   });
 
-  it('ChangeUserSettings_WithWrongUser_ShouldFailWith400', function method(done) {
+  it('ChangeUserSettings_WithWrongUser_ShouldFailWith401', function method(done) {
     request(server)
       .put('/api/settings/wrong@user.com')
       .set('Authorization', 'Bearer ' + token)
-      .expect(400, done);
+      .expect(401, done);
   });
 
-  it('AssignTitleToUser_WithWrongUser_ShouldFailWith400', function method(done) {
+  it('AssignTitleToUser_WithWrongUser_ShouldFailWith401', function method(done) {
     request(server)
       .post('/api/settings/wrong@user.com/clock')
       .set('Authorization', 'Bearer ' + token)
-      .expect(400, done);
+      .expect(401, done);
   });
 
-  it('UserSettings_WithWrongUser_ShouldFailWith400', function method(done) {
+  it('UserSettings_WithWrongUser_ShouldFailWith401', function method(done) {
     request(server)
       .get('/api/settings/wrong@user.com')
       .set('Authorization', 'Bearer ' + token)
-      .expect(400, done);
+      .expect(401, done);
   });
 
   it('UserSettings_WithCorrectUser_ShouldGet200', function method(done) {
@@ -132,11 +132,11 @@ describe('Dash0 backend/middleware', function () {
       .expect(200, done);
   });
 
-  it('UserSettings_WithWrongUser_ShouldGet400', function method(done) {
+  it('UserSettings_WithWrongUser_ShouldGet401', function method(done) {
     request(server)
       .get('/api/settings/wrong@user.com')
       .set('Authorization', 'Bearer ' + token)
-      .expect(400, done);
+      .expect(401, done);
   });
 
   it('UserSettings_WithCorrectUser_ShouldGet200', function method(done) {
@@ -147,11 +147,11 @@ describe('Dash0 backend/middleware', function () {
       .expect(200, done);
   });
 
-  it('UserUnassignedSettings_WithWrongUser_ShouldGet400', function method(done) {
+  it('UserUnassignedSettings_WithWrongUser_ShouldGet401', function method(done) {
     request(server)
       .get('/api/settings/unassigned/wrong@user.com')
       .set('Authorization', 'Bearer ' + token)
-      .expect(400, done);
+      .expect(401, done);
   });
 
   it('UserUnassignedSettings_WithCorrectUser_ShouldGet200', function method(done) {
