@@ -9,7 +9,7 @@
     <ion-list>
       <ion-item>
         <select [(ngModel)]="selectedTile">
-          <option [value]="tile._id" *ngFor="let tile of tiles">{{ tile.name }}</option>
+          <option [value]="tile.name" *ngFor="let tile of tiles">{{ tile.name }}</option>
         </select>
       </ion-item>
       <ion-item>

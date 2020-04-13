@@ -294,12 +294,12 @@ module.exports = (function () {
    * Adds a new User Config Item (Assignment Tile -> User).
    * @function
    * @param {string} user
-   * @param {string} tile
+   * @param {string} tile (name)
    * @return {promise} promise
    */
   function assignTile(user, tile) {
     return new Promise((resolve, reject) => {
-      return getTileById(tile).then((tile) => {
+      return getTileByName(tile).then((tile) => {
         db.configs.insert({ userid: user, tileid: tile._id, position: 1, visible: true }, (err, config) => {
           if (err) {
             return reject(err);
