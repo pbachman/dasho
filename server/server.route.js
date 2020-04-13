@@ -222,7 +222,7 @@ let serverRoutes = (function () {
       // check if the user is allowed to make this request
       if (req.params.username === req.oauth.bearerToken.user) {
         let setting = req.body.setting;
-        settingsloader.saveSetting(setting)
+        return settingsloader.saveSetting(setting)
           .then(function () {
             res.status(200).send(true);
           }).catch(err => {
