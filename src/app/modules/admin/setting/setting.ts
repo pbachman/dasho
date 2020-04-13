@@ -56,24 +56,22 @@ export class SettingPage implements OnInit {
 
   addItem(): void {
     this.settingService.addConfigs(this.currentUser, this.selectedTile)
-      .subscribe(async (saved: boolean) => {
-        if (saved) {
-          const alert = await this.alertCtrl.create({
-            header: 'Info!',
-            message: 'Successfully saved!',
-            backdropDismiss: false,
-            buttons: [
-              {
-                text: 'OK',
-                handler: () => {
-                  this.pubSub.publishEvent('data:changed', null);
-                  this.loadSettings();
-                }
+      .subscribe(async () => {
+        const alert = await this.alertCtrl.create({
+          header: 'Info!',
+          message: 'Successfully saved!',
+          backdropDismiss: false,
+          buttons: [
+            {
+              text: 'OK',
+              handler: () => {
+                this.pubSub.publishEvent('data:changed', null);
+                this.loadSettings();
               }
-            ]
-          });
-          await alert.present();
-        }
+            }
+          ]
+        });
+        await alert.present();
       }, (error: HttpErrorResponse) => this.errorHandling(error));
   }
 

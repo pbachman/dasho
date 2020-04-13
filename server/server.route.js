@@ -241,16 +241,16 @@ let serverRoutes = (function () {
    * @param {req} req - Request object.
    * @param {res} res - Response object.
    */
-  router.post('/settings/:username/:tile', oauthServer.authorise(), (req, res) => {
-    if (req.params.username !== undefined && req.params.tile) {
+  router.post('/settings/:username', oauthServer.authorise(), (req, res) => {
+    if (req.params.username !== undefined && req.body.tile !== undefined) {
       // check if the user is allowed to make this request
       if (req.params.username === req.oauth.bearerToken.user) {
         return settingsloader.getUserByName(req.params.username)
           .then(function (user) {
-            return settingsloader.assignTile(user._id, req.params.tile);
+            return settingsloader.assignTile(user._id, req.body.tile);
           })
-          .then(function () {
-            res.send(true);
+          .then(function (config) {
+            res.send(config);
           })
           .catch(err => {
             res.status(400).send(err.message);

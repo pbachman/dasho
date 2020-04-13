@@ -227,20 +227,22 @@ module.exports = (function () {
             // extends the current config with the graphql query.
             var promises = [];
             configs.forEach((configItem) => {
-              promises.push(
-                getTileById(configItem.tileid).then((tile) => {
-                  const userConfig = {
-                    id: configItem._id,
-                    tile: tile.name,
-                    baseUrl: tile.baseUrl,
-                    querystring: configItem.querystring,
-                    position: configItem.position,
-                    schemas: tile.schema,
-                    visible: configItem.visible,
-                  };
-                  userconfigs.push(userConfig);
-                })
-              );
+              if (configItem.tileid) {
+                promises.push(
+                  getTileById(configItem.tileid).then((tile) => {
+                    const userConfig = {
+                      id: configItem._id,
+                      tile: tile.name,
+                      baseUrl: tile.baseUrl,
+                      querystring: configItem.querystring,
+                      position: configItem.position,
+                      schemas: tile.schema,
+                      visible: configItem.visible,
+                    };
+                    userconfigs.push(userConfig);
+                  })
+                );
+              }
             });
 
             return Promise.all(promises).then(() => {
@@ -297,12 +299,12 @@ module.exports = (function () {
    */
   function assignTile(user, tile) {
     return new Promise((resolve, reject) => {
-      return getTileByName(tile).then((tile) => {
-        db.configs.insert({ userid: user._id, tileid: tile._id, position: 1, visible: true }, (err, config) => {
+      return getTileById(tile).then((tile) => {
+        db.configs.insert({ userid: user, tileid: tile._id, position: 1, visible: true }, (err, config) => {
           if (err) {
             return reject(err);
           }
-          return resolve(user);
+          return resolve(config);
         });
       }, (err) => {
         return reject(err);

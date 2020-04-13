@@ -45,7 +45,7 @@ export class SettingService {
    * Add new Config Item
    * @return {Promise}
    */
-  addConfigs(username: string, tile: string): Observable<boolean> {
+  addConfigs(username: string, tile: string): Observable<string> {
     return this.userService.getAccessToken()
       .pipe(mergeMap((token: string) => {
         const httpOptions = {
@@ -55,7 +55,7 @@ export class SettingService {
           })
         };
 
-        return this.http.post<boolean>(`${this.apiUrl}/settings/${username}/${tile}`, httpOptions);
+        return this.http.post<string>(`${this.apiUrl}/settings/${username}`, { tile }, httpOptions);
       }));
   }
 
