@@ -47,14 +47,22 @@ describe('Dash0 backend/middleware', function () {
   it('AccountCurrent_WithoutAuthorizedGetProfile_ShouldGet401', function method(done) {
     request(server)
       .get('/api/account/current')
+      .set('Authorization', 'Bearer wrong')
       .expect(500, done);
   });
 
-  it('Account_AlreadyExists_ShouldFailWith400', function method(done) {
+  it('Account_RequiredFieldsMissing_ShouldFailWith400', function method(done) {
+    request(server)
+      .post('/api/account/')
+      .send({})
+      .expect(400, 'Required fields missing!', done);
+  });
+
+  it('Account_UserAlreadyExists_ShouldFailWith400', function method(done) {
     request(server)
       .post('/api/account/')
       .send({ email: 'hi@dasho.co', password: 'test1234' })
-      .expect(400, done);
+      .expect(400, 'User already exists!', done);
   });
 
   it('InviteFriend_WithAlreadyExistUser_ShouldFailWith400', function method(done) {
@@ -62,14 +70,22 @@ describe('Dash0 backend/middleware', function () {
       .post('/api/invite/')
       .set('Authorization', 'Bearer ' + token)
       .send({ username: 'hi@dasho.co', friend: 'hi@dasho.co' })
-      .expect(400, done);
+      .expect(400, 'User already exists!', done);
   });
 
   it('InviteFriend_RequiredFieldsMissing_ShouldFailWith400', function method(done) {
     request(server)
       .post('/api/invite/')
       .set('Authorization', 'Bearer ' + token)
-      .expect(400, done);
+      .expect(400, 'Required fields missing!', done);
+  });
+
+  it('PwdChange_RequiredFieldsMissing_ShouldFailWith400', function method(done) {
+    request(server)
+      .put('/api/changepassword/')
+      .set('Authorization', 'Bearer ' + token)
+      .send({})
+      .expect(400, 'Required fields missing!', done);
   });
 
   it('PwdChange_WithWrongUser_ShouldFailWith401', function method(done) {
@@ -85,46 +101,113 @@ describe('Dash0 backend/middleware', function () {
       .put('/api/changepassword/')
       .set('Authorization', 'Bearer ' + token)
       .send({ username: 'hi@dasho.co', password: 'wrong', newpassword: 'wrong', newpasswordconfirm: 'wrong' })
-      .expect(400, done);
+      .expect(400, 'Password is wrong!', done);
   });
 
-  it('PwdChange_WithWrongNewPassword_ShouldFailWith400', function method(done) {
+  it('PwdChange_NotEqualPassword_ShouldFailWith400', function method(done) {
     request(server)
       .put('/api/changepassword/')
       .set('Authorization', 'Bearer ' + token)
       .send({ username: 'hi@dasho.co', password: 'test1234', newpassword: '1234', newpasswordconfirm: '5678' })
-      .expect(400, done);
+      .expect(400, 'Password and Confirm Password are not equal!', done);
+  });
+
+  it('PwdReset_RequiredFieldsMissing_ShouldFailWith400', function method(done) {
+    request(server)
+      .post('/api/pwdreset')
+      .send({})
+      .expect(400, 'Required fields missing!', done);
+  });
+
+  it('PwdReset_WithAdminUser_ShouldFailWith400', function method(done) {
+    request(server)
+      .post('/api/pwdreset')
+      .send({ username: 'hi@dasho.co' })
+      .expect(400, 'Is not allowed to reset this E-mail address!', done);
   });
 
   it('PwdReset_WithWrongUser_ShouldFailWith400', function method(done) {
     request(server)
       .post('/api/pwdreset')
       .send({ username: 'wrong@user.com' })
-      .expect(400, done);
+      .expect(400, 'Unknown User!', done);
   });
 
-  it('ChangeUserSettings_WithWrongUser_ShouldFailWith401', function method(done) {
+  it('ChangeUserSettings_RequiredFieldsMissing_ShouldFailWith400', function method(done) {
+    request(server)
+      .put('/api/settings/hi@dasho.co')
+      .set('Authorization', 'Bearer ' + token)
+      .send({})
+      .expect(400, 'Required fields missing!', done);
+  });
+
+  it('ChangeUserSettings_WithoutAccess_ShouldFailWith401', function method(done) {
     request(server)
       .put('/api/settings/wrong@user.com')
       .set('Authorization', 'Bearer ' + token)
+      .send({"setting":{"id":"6VCBtKRtdvC0iB4A","tile":"clock","baseUrl":"","position":1,"schemas":"clock { datetime totalSeconds }"}})
+      .expect(401, 'Access denied!', done);
+  });
+
+  it('ChangeUserSettings_UserSettings_ShouldGet200', function method(done) {
+    request(server)
+      .put('/api/settings/hi@dasho.co')
+      .set('Authorization', 'Bearer ' + token)
+      .send({"setting":{"id":"6VCBtKRtdvC0iB4A","tile":"clock","baseUrl":"","position":1,"schemas":"clock { datetime totalSeconds }"}})
+      .expect(200, done);
+  });
+
+  it('AssignTileToUser_RequiredFieldsMissing_ShouldFailWith400', function method(done) {
+    request(server)
+      .post('/api/settings/hi@dasho.co')
+      .set('Authorization', 'Bearer ' + token)
+      .send({})
+      .expect(400, 'Required fields missing!', done);
+  });
+
+  it('AssignTileToUser_WithoutAccess_ShouldFailWith401', function method(done) {
+    request(server)
+      .post('/api/settings/wrong@user.com')
+      .set('Authorization', 'Bearer ' + token)
+      .send({
+        tile: 'clock'
+      })
       .expect(401, done);
   });
 
-  it('AssignTitleToUser_WithWrongUser_ShouldFailWith401', function method(done) {
+  it('AssignTileToUser_AssignClockTileToExistingUser_ShouldGet200', function method(done) {
     request(server)
-      .post('/api/settings/wrong@user.com/clock')
+      .post('/api/settings/hi@dasho.co')
       .set('Authorization', 'Bearer ' + token)
-      .expect(401, done);
+      .send({
+        tile: 'clock'
+      })
+      .expect(200, done);
+  });
+
+  it('DeletesUserSetting_AssignClockTileToExistingUser_ShouldGet200', function method(done) {
+    request(server)
+      .delete('/api/settings/hi@dasho.co/clock')
+      .set('Authorization', 'Bearer ' + token)
+      .expect(200, done);
+  });
+
+  it('DeletesUserSetting_WithoutAccess_ShouldFailWith401', function method(done) {
+    request(server)
+      .delete('/api/settings/wrong@user.com/clock')
+      .set('Authorization', 'Bearer ' + token)
+      .send()
+      .expect(401, 'Access denied!', done);
   });
 
   it('UserSettings_WithWrongUser_ShouldFailWith401', function method(done) {
     request(server)
       .get('/api/settings/wrong@user.com')
       .set('Authorization', 'Bearer ' + token)
-      .expect(401, done);
+      .expect(401, 'Access denied!', done);
   });
 
-  it('UserSettings_WithCorrectUser_ShouldGet200', function method(done) {
+  it('UserSettings_Settings_ShouldGet200', function method(done) {
     request(server)
       .get('/api/settings/hi@dasho.co')
       .set('Authorization', 'Bearer ' + token)
@@ -132,31 +215,24 @@ describe('Dash0 backend/middleware', function () {
       .expect(200, done);
   });
 
-  it('UserSettings_WithWrongUser_ShouldGet401', function method(done) {
-    request(server)
-      .get('/api/settings/wrong@user.com')
-      .set('Authorization', 'Bearer ' + token)
-      .expect(401, done);
-  });
-
-  it('UserSettings_WithCorrectUser_ShouldGet200', function method(done) {
-    request(server)
-      .get('/api/settings/hi@dasho.co')
-      .set('Authorization', 'Bearer ' + token)
-      .expect('Content-Type', /json/)
-      .expect(200, done);
-  });
-
-  it('UserUnassignedSettings_WithWrongUser_ShouldGet401', function method(done) {
+  it('UnassignedSettings_WithoutAccess_ShouldGet401', function method(done) {
     request(server)
       .get('/api/settings/unassigned/wrong@user.com')
       .set('Authorization', 'Bearer ' + token)
-      .expect(401, done);
+      .expect(401, 'Access denied!', done);
   });
 
-  it('UserUnassignedSettings_WithCorrectUser_ShouldGet200', function method(done) {
+  it('UnassignedSettings_UnassignedSettingFromUser_ShouldGet200', function method(done) {
     request(server)
       .get('/api/settings/unassigned/hi@dasho.co')
+      .set('Authorization', 'Bearer ' + token)
+      .expect('Content-Type', /json/)
+      .expect(200, done);
+  });
+
+  it('Tiles_AllTiles_ShouldGet200', function method(done) {
+    request(server)
+      .get('/api/tiles')
       .set('Authorization', 'Bearer ' + token)
       .expect('Content-Type', /json/)
       .expect(200, done);
