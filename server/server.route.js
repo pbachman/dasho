@@ -218,7 +218,7 @@ let serverRoutes = (function () {
    * @param {res} res - Response object.
    */
   router.put('/settings/:username', oauthServer.authorise(), (req, res) => {
-    if (req.params.username !== undefined) {
+    if (req.params.username !== undefined && req.body.setting) {
       // check if the user is allowed to make this request
       if (req.params.username === req.oauth.bearerToken.user) {
         let setting = req.body.setting;
