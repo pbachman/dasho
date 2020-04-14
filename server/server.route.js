@@ -191,7 +191,7 @@ let serverRoutes = (function () {
           .then(function (user) {
             if (user) {
               const password = generateRandomPassword();
-              return settingsloader.setPassword(user.email, password);
+              return settingsloader.setPassword(user, password);
             }
             throw new Error('Unknown User!');
           })
