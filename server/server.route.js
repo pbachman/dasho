@@ -74,11 +74,8 @@ let serverRoutes = (function () {
           throw new Error('User already exists!');
         })
         .then(function (user) {
-          // Add new User and assign Clock Tile to User.
-          return settingsloader.assignTile(user, 'clock');
-        })
-        .then(function (user) {
-          return sendMailer.sendMail(user.email, 'Welcome to Dasho ✔', `<b>Hello User!</b> Welcome to <a href="https://dasho.herokuapp.com">dasho</a>. Please login with your E-mail address.`);
+          // Assign Clock Tile to the new User.
+          return Promise.all([settingsloader.assignTile(user.email, 'clock'), sendMailer.sendMail(user.email, 'Welcome to Dasho ✔', `<b>Hello User!</b> Welcome to <a href="https://dasho.herokuapp.com">dasho</a>. Please login with your E-mail address.`)]);
         })
         .then(function (info) {
           console.log(info);
@@ -123,10 +120,7 @@ let serverRoutes = (function () {
           })
           .then(function (user) {
             // Assign Clock Tile to the new User.
-            return settingsloader.assignTile(user, 'clock');
-          })
-          .then(function (user) {
-            return sendMailer.sendMail(user.email, 'Welcome to Dasho ✔', `<b>Hello User!</b> Welcome to <a href="https://dasho.herokuapp.com">dasho</a>. Please login with your E-mail address.`);
+            return Promise.all([settingsloader.assignTile(user.email, 'clock'), sendMailer.sendMail(user.email, 'Welcome to Dasho ✔', `<b>Hello User!</b> Welcome to <a href="https://dasho.herokuapp.com">dasho</a>. Please login with your E-mail address.`)]);
           })
           .then(function (info) {
             console.log(info);
@@ -247,7 +241,7 @@ let serverRoutes = (function () {
       if (req.params.username === req.oauth.bearerToken.user) {
         return settingsloader.getUserByName(req.params.username)
           .then(function (user) {
-            return settingsloader.assignTile(user._id, req.body.tile);
+            return settingsloader.assignTile(user.email, req.body.tile);
           })
           .then(function (config) {
             res.send(config);

@@ -293,25 +293,28 @@ module.exports = (function () {
   /**
    * Adds a new User Config Item (Assignment Tile -> User).
    * @function
-   * @param {string} user
+   * @param {string} user (email)
    * @param {string} tile (name)
    * @return {promise} promise
    */
   function assignTile(user, tile) {
     return new Promise((resolve, reject) => {
       return getTileByName(tile).then((tile) => {
-        // checks if Tile is already assigned
-        db.configs.find({ userid: user, tileid: tile._id }).exec((err, configs) => {
-          if (!configs) {
-            db.configs.insert({ userid: user, tileid: tile._id, position: 1, visible: true }, (err, config) => {
-              if (err) {
-                return reject(err);
-              }
-              return resolve(config);
-            });
-          }
-          return reject(`${tile.name} already assigned`);
-        });
+        return getUserByName(user).then((user) => {
+          // checks if Tile is already assigned
+          db.configs.find({ userid: user._id, tileid: tile._id }).exec((err, configs) => {
+            if (configs && configs.length === 0) {
+              db.configs.insert({ userid: user, tileid: tile._id, position: 1, visible: true }, (err, config) => {
+                if (err) {
+                  return reject(err);
+                }
+                return resolve(config);
+              });
+            } else {
+              return reject(`${tile.name} already assigned`);
+            }
+          });
+        })
       }, (err) => {
         return reject(err);
       });
