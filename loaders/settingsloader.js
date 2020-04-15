@@ -300,11 +300,17 @@ module.exports = (function () {
   function assignTile(user, tile) {
     return new Promise((resolve, reject) => {
       return getTileByName(tile).then((tile) => {
-        db.configs.insert({ userid: user, tileid: tile._id, position: 1, visible: true }, (err, config) => {
-          if (err) {
-            return reject(err);
+        // checks if Tile is already assigned
+        db.configs.find({ userid: user, tileid: tile._id }).exec((err, configs) => {
+          if (!configs) {
+            db.configs.insert({ userid: user, tileid: tile._id, position: 1, visible: true }, (err, config) => {
+              if (err) {
+                return reject(err);
+              }
+              return resolve(config);
+            });
           }
-          return resolve(config);
+          return reject(`${tile.name} already assigned`);
         });
       }, (err) => {
         return reject(err);

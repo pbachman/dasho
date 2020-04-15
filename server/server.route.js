@@ -253,7 +253,7 @@ let serverRoutes = (function () {
             res.send(config);
           })
           .catch(err => {
-            res.status(400).send(err.message);
+            res.status(400).send(err);
           });
       }
       res.status(401).send('Access denied!');

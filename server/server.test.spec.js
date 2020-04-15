@@ -175,14 +175,14 @@ describe('Dash0 backend/middleware', function () {
       .expect(401, done);
   });
 
-  it('AssignTileToUser_AssignClockTileToExistingUser_ShouldGet200', function method(done) {
+  it('AssignTileToUser_AssignExistingTile_ShouldGet400', function method(done) {
     request(server)
       .post('/api/settings/hi@dasho.co')
       .set('Authorization', 'Bearer ' + token)
       .send({
         tile: 'clock'
       })
-      .expect(200, done);
+      .expect(400, 'clock already assigned', done);
   });
 
   it('DeletesUserSetting_AssignClockTileToExistingUser_ShouldGet200', function method(done) {
