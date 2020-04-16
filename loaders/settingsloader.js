@@ -156,23 +156,6 @@ module.exports = (function () {
   }
 
   /**
-   * Checks if a User is allowed to invite.
-   * @function
-   * @param {string} user.
-   * @return {promise} promise
-   */
-  function isUserAllowed(user) {
-    return new Promise((resolve, reject) => {
-      db.users.findOne({ email: user, caninvite: true }, function (err, user) {
-        if (err) {
-          return reject(`Couldn't send Invitation Mail ${err}`);
-        }
-        return resolve(user);
-      });
-    });
-  }
-
-  /**
    * Adds a new User.
    * @function
    * @param {object} user
@@ -444,7 +427,6 @@ module.exports = (function () {
     getAccessToken: getAccessToken,
     saveAccessToken: saveAccessToken,
     setPassword: setPassword,
-    isUserAllowed: isUserAllowed,
     getSettings: getSettings,
     deleteSetting: deleteSetting,
     saveSetting: saveSetting,
