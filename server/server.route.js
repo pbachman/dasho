@@ -189,8 +189,8 @@ let serverRoutes = (function () {
             }
             throw new Error('Unknown User!');
           })
-          .then(function (user) {
-            return sendMailer.sendMail(user.user, 'DashO', `<b>Hello ${user.user}!</b> Your new Password is ${user.newpassword}`);
+          .then(function (userinfo) {
+            return sendMailer.sendMail(userinfo.user.email, 'DashO', `<b>Hello ${userinfo.user.email}!</b> Your new Password is ${userinfo.newpassword}`);
           })
           .then(function (info) {
             console.log(info);
