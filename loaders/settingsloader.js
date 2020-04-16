@@ -284,10 +284,11 @@ module.exports = (function () {
     return new Promise((resolve, reject) => {
       return getTileByName(tile).then((tile) => {
         return getUserByName(user).then((user) => {
-          // checks if Tile is already assigned
-          db.configs.find({ userid: user._id, tileid: tile._id }).exec((err, configs) => {
-            if (configs && configs.length === 0) {
-              db.configs.insert({ userid: user._id, tileid: tile._id, position: 1, visible: true }, (err, config) => {
+          // gets all tiles by user
+          db.configs.find({ userid: user._id }).exec((err, configs) => {
+            // checks if Tile is already assigned
+            if (configs && !configs.some(config => config.tileid === tile._id)) {
+              db.configs.insert({ userid: user._id, tileid: tile._id, position: configs.length + 1, visible: true }, (err, config) => {
                 if (err) {
                   return reject(err);
                 }
