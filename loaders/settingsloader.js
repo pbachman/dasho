@@ -304,7 +304,7 @@ module.exports = (function () {
           // checks if Tile is already assigned
           db.configs.find({ userid: user._id, tileid: tile._id }).exec((err, configs) => {
             if (configs && configs.length === 0) {
-              db.configs.insert({ userid: user, tileid: tile._id, position: 1, visible: true }, (err, config) => {
+              db.configs.insert({ userid: user._id, tileid: tile._id, position: 1, visible: true }, (err, config) => {
                 if (err) {
                   return reject(err);
                 }
