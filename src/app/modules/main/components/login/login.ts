@@ -122,6 +122,7 @@ export class LoginPage {
     const prompt = await this.alertCtrl.create({
       header: i18n.forgetPassword.title,
       message: i18n.forgetPassword.message,
+      backdropDismiss: false,
       inputs: [
         {
           name: 'email',
@@ -136,11 +137,12 @@ export class LoginPage {
         },
         {
           text: i18n.forgetPassword.send,
-          handler: async data => {
+          handler: async data => {           
             if (this.userService.isMailInvalid(data.email)) {
               const alert = await this.alertCtrl.create({
                 header: i18n.forgetPassword.alertInvalidTitle,
                 subHeader: i18n.forgetPassword.alertInvalid,
+                backdropDismiss: false,
                 buttons: ['OK']
               });
               await alert.present();
@@ -153,6 +155,7 @@ export class LoginPage {
                 const alert = await this.alertCtrl.create({
                   header: i18n.forgetPassword.alertTitle,
                   subHeader: i18n.forgetPassword.alertSubTitle,
+                  backdropDismiss: false,
                   buttons: ['OK']
                 });
                 await alert.present();
@@ -162,6 +165,7 @@ export class LoginPage {
                 const alert = await this.alertCtrl.create({
                   header: 'Error',
                   subHeader: (error.status === 0) ? 'No Connection to the Backend!' : error.error,
+                  backdropDismiss: false,
                   buttons: ['OK']
                 });
                 await alert.present();
@@ -180,6 +184,7 @@ export class LoginPage {
     const prompt = await this.alertCtrl.create({
       header: i18n.signup.title,
       message: i18n.signup.message,
+      backdropDismiss: false,
       inputs: [
         {
           name: 'email',
@@ -209,6 +214,7 @@ export class LoginPage {
               const invalidEmailAlert = await this.alertCtrl.create({
                 header: i18n.forgetPassword.alertInvalidTitle,
                 subHeader: i18n.forgetPassword.alertInvalid,
+                backdropDismiss: false,
                 buttons: ['OK']
               });
               await invalidEmailAlert.present();
@@ -221,6 +227,7 @@ export class LoginPage {
               const invalidPasswordAlert = await this.alertCtrl.create({
                 header: i18n.signup.alertInvalidPasswordTitle,
                 subHeader: i18n.signup.alertInvalidPassword,
+                backdropDismiss: false,
                 buttons: ['OK']
               });
               await invalidPasswordAlert.present();
@@ -233,6 +240,7 @@ export class LoginPage {
                 const infoDialog = await this.alertCtrl.create({
                   header: i18n.signup.alertTitle,
                   subHeader: i18n.signup.alertSubTitle,
+                  backdropDismiss: false,
                   buttons: ['OK']
                 });
                 await infoDialog.present();
@@ -242,6 +250,7 @@ export class LoginPage {
                 const errorDialog = await this.alertCtrl.create({
                   header: 'Error',
                   subHeader: (error.status === 0) ? 'No Connection to the Backend!' : error.error,
+                  backdropDismiss: false,
                   buttons: ['OK']
                 });
                 await errorDialog.present();

@@ -41,6 +41,7 @@ export class MenuComponent implements OnInit {
     const prompt = await this.alertCtrl.create({
       header: i18n.changePassword.title,
       message: i18n.changePassword.message,
+      backdropDismiss: false,
       inputs: [
         {
           name: 'passwordOld',
@@ -74,6 +75,7 @@ export class MenuComponent implements OnInit {
                 const alert = await this.alertCtrl.create({
                   header: i18n.changePassword.alertTitle,
                   subHeader: i18n.changePassword.alertSubTitle,
+                  backdropDismiss: false,
                   buttons: ['OK']
                 });
                 await alert.present();
@@ -104,6 +106,7 @@ export class MenuComponent implements OnInit {
     const prompt = await this.alertCtrl.create({
       header: i18n.invite.title,
       message: i18n.invite.message,
+      backdropDismiss: false,
       inputs: [
         {
           name: 'email',
@@ -123,6 +126,7 @@ export class MenuComponent implements OnInit {
               const alert = await this.alertCtrl.create({
                 header: i18n.forgetPassword.alertInvalidTitle,
                 subHeader: i18n.forgetPassword.alertInvalid,
+                backdropDismiss: false,
                 buttons: ['OK']
               });
               await alert.present();
@@ -135,6 +139,7 @@ export class MenuComponent implements OnInit {
                   header: i18n.invite.alertTitle,
                   subHeader: i18n.invite.alertSubTitle.replace('%email%', data.email),
                   translucent: true,
+                  backdropDismiss: false,
                   buttons: ['OK']
                 });
                 await alert.present();
