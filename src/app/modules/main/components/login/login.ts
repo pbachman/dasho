@@ -137,7 +137,7 @@ export class LoginPage {
         },
         {
           text: i18n.forgetPassword.send,
-          handler: async data => {           
+          handler: async data => {
             if (this.userService.isMailInvalid(data.email)) {
               const alert = await this.alertCtrl.create({
                 header: i18n.forgetPassword.alertInvalidTitle,
