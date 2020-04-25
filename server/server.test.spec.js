@@ -252,7 +252,7 @@ describe('Dash0 backend/middleware', function () {
     request(server)
       .put('/api/tiles/fixer')
       .set('Authorization', 'Bearer ' + token)
-      .send({ "tile": { "_id": "tuAPdN68QwtG4Aha", "name": "fixer", "baseUrl": "http://data.fixer.io/api/latest", "apikey": "5f16297cc8f23f3f8671b1648edaee39", "apisecret": "", "schema": "fixer { currency CHF USD EUR GBP }" } })
+      .send({ "tile": { "_id": "tuAPdN68QwtG4Aha", "name": "fixer", "baseUrl": "http://data.fixer.io/api/latest", "apikey": "", "apisecret": "", "schema": "fixer { currency CHF USD EUR GBP }" } })
       .expect(200, done);
   });
 });
