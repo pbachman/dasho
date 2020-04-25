@@ -19,13 +19,13 @@ module.exports = (function () {
     db.tokens = new Datastore({ filename: 'api/data/tokens.db', autoload: true });
 
   /**
-   * Initialize SettingsLoader, creates if not exists all datastores.
+   * Initialize the SettingsLoader, creates all datastores if not exists.
    * @function
    */
   function init() {
     // Clients OAuth Configuration
     db.clients.count({}, function (err, count) {
-      // Insert Client, if not exists.
+      // Insert Clients, if not exists.
       if (count == 0) {
         db.clients.insert([
           { clientId: 'dasho', clientSecret: '$ecret', redirectUris: [''] }
@@ -36,7 +36,7 @@ module.exports = (function () {
     // Tiles
     db.tiles.count({}, function (err, count) {
       // Insert Tiles, if not exists.
-      // Use ApiKeys and ApiSecret, if available.
+      // Use ApiKeys and ApiSecrets, if available.
       if (count == 0) {
         db.tiles.insert([
           { _id: "ZkNW1xMuVq7B1rn5", name: 'googleapi', baseUrl: 'https://www.googleapis.com/pagespeedonline/v2/runPagespeed', apikey: '', apisecret: '', schema: 'googleapi { url, desktop { speed }, mobile { speed usability } }' },
@@ -70,7 +70,7 @@ module.exports = (function () {
 
     // Users
     db.users.count({}, function (err, count) {
-      // Insert Standard User, if not exists.
+      // Insert Standard Users, if not exists.
       if (count == 0) {
         db.users.insert([
           { _id: "6kO2i9Wt2ElAjvdl", email: 'hi@dasho.co', password: passwordHash.generate('test1234'), caninvite: true, isAdmin: false },
@@ -113,7 +113,7 @@ module.exports = (function () {
   }
 
   /**
-   * Saves a oAuth Token.
+   * Saves an oAuth Token.
    * @function
    * @param {string} accessToken.
    * @param {string} clientId.
@@ -174,7 +174,7 @@ module.exports = (function () {
   }
 
   /**
-   * Sets a Password.
+   * Sets a Password for a specific user.
    * @function
    * @param {object} user
    * @param {string} newpassword
@@ -193,7 +193,7 @@ module.exports = (function () {
   }
 
   /**
-   * Returns a List of Configurations by User.
+   * Returns a List of Userconfigs for a specific user.
    * @function
    * @param {object} user
    * @return {promise} promise
@@ -240,7 +240,7 @@ module.exports = (function () {
   }
 
   /**
-   * Saves a User Config Item.
+   * Updates a Userconfig Item.
    * @function
    * @param {object} setting
    * @return {promise} promise
@@ -257,7 +257,7 @@ module.exports = (function () {
   }
 
   /**
-   * Deletes a User Config Item.
+   * Deletes a Userconfig Item.
    * @function
    * @param {string} id
    * @return {promise} promise
@@ -274,7 +274,7 @@ module.exports = (function () {
   }
 
   /**
-   * Adds a new User Config Item (Assignment Tile -> User).
+   * Adds a new Userconfig Item (Assignment Tile -> User).
    * @function
    * @param {string} user (email)
    * @param {string} tile (name)

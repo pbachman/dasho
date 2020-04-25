@@ -206,7 +206,7 @@ let serverRoutes = (function () {
   });
 
   /**
-   * Save User Settings
+   * Updates an Userconfig Item
    * @function
    * @param {req} req - Request object.
    * @param {res} res - Response object.
@@ -230,7 +230,7 @@ let serverRoutes = (function () {
   });
 
   /**
-   * Adds User Setting
+   * Adds a new Userconfig Item
    * @function
    * @param {req} req - Request object.
    * @param {res} res - Response object.
@@ -256,7 +256,7 @@ let serverRoutes = (function () {
   });
 
   /**
-   * Deletes User Setting
+   * Deletes an Userconfig Item
    * @function
    * @param {req} req - Request object.
    * @param {res} res - Response object.
@@ -278,7 +278,7 @@ let serverRoutes = (function () {
   });
 
   /**
-   * Gets User Settings
+   * Gets all Userconfigs for a specific User
    * @function
    * @param {req} req - Request object.
    * @param {res} res - Response object.
@@ -353,7 +353,7 @@ let serverRoutes = (function () {
   });
 
   /**
-   * Gets Tiles
+   * Gets all Tiles
    * @function
    * @param {req} req - Request object.
    * @param {res} res - Response object.
@@ -369,7 +369,7 @@ let serverRoutes = (function () {
   });
 
   /**
-   * Saves a Tiles
+   * Updates a Tile
    * @function
    * @param {req} req - Request object.
    * @param {res} res - Response object.
