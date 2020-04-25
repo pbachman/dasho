@@ -231,7 +231,6 @@ export class MainPage implements OnInit, AfterViewInit {
         {
           text: 'OK',
           handler: async () => {
-            await alert.present();
             this.router.navigateByUrl('/login');
             document.body.classList.remove('body-loading');
 
