@@ -375,7 +375,8 @@ let serverRoutes = (function () {
    * @param {res} res - Response object.
    */
   router.put('/tiles/:tile', oauthServer.authorise(), (req, res) => {
-    if (req.params.tile !== undefined) {
+    if (req.params.tile !== undefined && 
+      req.body.tile.baseUrl !== undefined && req.body.tile.schema !== undefined) {
       let tile = req.body.tile;
       settingsloader.saveTile(tile)
         .then(function () {

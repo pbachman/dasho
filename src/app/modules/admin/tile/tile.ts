@@ -50,28 +50,43 @@ export class TilePage implements OnInit {
     this.router.navigateByUrl('/main');
   }
 
-  saveItem(tile: Tile): void {
+  async saveItem(tile: Tile): Promise<void> {
     this.hasChanged = true;
-    this.tileService.saveTile(tile)
-      .subscribe(async (saved: boolean) => {
-        if (saved) {
-          const alert = await this.alertCtrl.create({
-            header: 'Info!',
-            message: 'Successfully saved!',
-            backdropDismiss: false,
-            buttons: [
-              {
-                text: 'OK',
-                handler: () => {
-                  this.pubSub.publishEvent('data:changed', null);
-                  this.getTiles();
+
+    if (tile.baseUrl && tile.schema) {
+      this.tileService.saveTile(tile)
+        .subscribe(async (saved: boolean) => {
+          if (saved) {
+            const alert = await this.alertCtrl.create({
+              header: 'Info!',
+              message: 'Successfully saved!',
+              backdropDismiss: false,
+              buttons: [
+                {
+                  text: 'OK',
+                  handler: () => {
+                    this.pubSub.publishEvent('data:changed', null);
+                    this.getTiles();
+                  }
                 }
-              }
-            ]
-          });
-          await alert.present();
-        }
-      }, (error: HttpErrorResponse) => this.errorHandling(error));
+              ]
+            });
+            await alert.present();
+          }
+        }, (error: HttpErrorResponse) => this.errorHandling(error));
+    } else {
+      const alert = await this.alertCtrl.create({
+        header: 'Warning!',
+        message: 'BaseUrl and Schema are mandatory!',
+        backdropDismiss: false,
+        buttons: [
+          {
+            text: 'OK'
+          }
+        ]
+      });
+      await alert.present();
+    }
   }
 
   /**
@@ -87,10 +102,7 @@ export class TilePage implements OnInit {
       backdropDismiss: false,
       buttons: [
         {
-          text: 'OK',
-          handler: async () => {
-            await alert.present();
-          }
+          text: 'OK'
         }
       ]
     });

@@ -145,7 +145,7 @@ describe('Dash0 backend/middleware', function () {
     request(server)
       .put('/api/settings/wrong@user.com')
       .set('Authorization', 'Bearer ' + token)
-      .send({"setting":{"id":"6VCBtKRtdvC0iB4A","tile":"clock","baseUrl":"","position":1,"schemas":"clock { datetime totalSeconds }"}})
+      .send({ "setting": { "id": "6VCBtKRtdvC0iB4A", "tile": "clock", "baseUrl": "", "position": 1, "schemas": "clock { datetime totalSeconds }" } })
       .expect(401, 'Access denied!', done);
   });
 
@@ -153,7 +153,7 @@ describe('Dash0 backend/middleware', function () {
     request(server)
       .put('/api/settings/hi@dasho.co')
       .set('Authorization', 'Bearer ' + token)
-      .send({"setting":{"id":"6VCBtKRtdvC0iB4A","tile":"clock","baseUrl":"","position":1,"schemas":"clock { datetime totalSeconds }"}})
+      .send({ "setting": { "id": "6VCBtKRtdvC0iB4A", "tile": "clock", "baseUrl": "", "position": 1, "schemas": "clock { datetime totalSeconds }" } })
       .expect(200, done);
   });
 
@@ -235,6 +235,24 @@ describe('Dash0 backend/middleware', function () {
       .get('/api/tiles')
       .set('Authorization', 'Bearer ' + token)
       .expect('Content-Type', /json/)
+      .expect(200, done);
+  });
+
+  it('UpdateTile_RequiredFieldsMissing_ShouldFailWith400', function method(done) {
+    request(server)
+      .put('/api/tiles/fixer')
+      .set('Authorization', 'Bearer ' + token)
+      .send({
+        tile: ''
+      })
+      .expect(400, 'Required fields missing!', done);
+  });
+
+  it('UpdateTile_ValidTile_ShouldGet200', function method(done) {
+    request(server)
+      .put('/api/tiles/fixer')
+      .set('Authorization', 'Bearer ' + token)
+      .send({ "tile": { "_id": "tuAPdN68QwtG4Aha", "name": "fixer", "baseUrl": "http://data.fixer.io/api/latest", "apikey": "5f16297cc8f23f3f8671b1648edaee39", "apisecret": "", "schema": "fixer { currency CHF USD EUR GBP }" } })
       .expect(200, done);
   });
 });
