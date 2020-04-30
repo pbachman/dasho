@@ -248,7 +248,32 @@ const settingsType = new graphql.GraphQLObjectType({
     clock: {
       type: require('../api/schema-clock'),
       resolve: clock => clock
-    }
+    },
+    facebook: {
+      type: require('../api/schema-facebook'),
+      resolve: (root, args, context) => {
+        let user = context.body.user;
+        return settingsloader.getTileConfig(user, 'facebook')
+          .then(function (tileConfig) {
+            if (tileConfig) {
+              return fetch.get(tileConfig.baseUrl, tileConfig.querystring)
+                .then((response) => {
+                  if (response.errors && response.errors.length > 0) {
+                    return null;
+                  } else {
+                    return response;
+                  }
+                }, function (error) {
+                  throw new Error(error);
+                });
+            }
+            return null;
+          }, function (error) {
+            console.log('Error: ' + error);
+            throw new Error(error);
+          });
+      }
+    },
   })
 });
 

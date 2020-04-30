@@ -46,7 +46,8 @@ module.exports = (function () {
           { _id: "tuAPdN68QwtG4Aha", name: 'fixer', baseUrl: 'http://data.fixer.io/api/latest', apikey: process.env.APIKEYFIXER, apisecret: '', schema: 'fixer { currency CHF USD EUR GBP }' },
           { _id: "d3THA4b9mkxhqVQ3", name: 'news', baseUrl: 'https://newsapi.org/v2/everything', apikey: process.env.APIKEYNEWS, apisecret: '', schema: 'news { articles { title image publishedAt url }}' },
           { _id: "88MjFRnZnNrVYKsI", name: 'clock', baseUrl: '', apikey: '', apisecret: '', schema: 'clock { datetime totalSeconds }' },
-          { _id: "JyVSFAw0ygrFphVx", name: 'wiewarm', baseUrl: 'https://www.wiewarm.ch:443/api/v1/bad.json', apikey: '', apisecret: '', schema: 'wiewarm { lake name temp status }' }
+          { _id: "JyVSFAw0ygrFphVx", name: 'wiewarm', baseUrl: 'https://www.wiewarm.ch:443/api/v1/bad.json', apikey: '', apisecret: '', schema: 'wiewarm { lake name temp status }' },
+          { _id: "tuAPdN68QwtG4AhX", name: 'facebook', baseUrl: 'https://graph.facebook.com', apikey: process.env.APIKEYFACEBOOK, apisecret: '', schema: 'facebook { name }' }
         ]);
       }
     });
@@ -63,7 +64,8 @@ module.exports = (function () {
           { userid: "6kO2i9Wt2ElAjvdl", tileid: "tuAPdN68QwtG4Aha", position: 4, visible: true, querystring: '?access_key=${apiKey}&format=1&base=EUR' },
           { userid: "6kO2i9Wt2ElAjvdl", tileid: "d3THA4b9mkxhqVQ3", position: 5, visible: true, querystring: '?q=software&apiKey=${apiKey}' },
           { userid: "6kO2i9Wt2ElAjvdl", tileid: "88MjFRnZnNrVYKsI", position: 6, visible: true, querystring: '' },
-          { userid: "6kO2i9Wt2ElAjvdl", tileid: "JyVSFAw0ygrFphVx", position: 7, visible: true, querystring: '?search=Zug' }
+          { userid: "6kO2i9Wt2ElAjvdl", tileid: "JyVSFAw0ygrFphVx", position: 7, visible: true, querystring: '?search=Zug' },
+          { userid: "6kO2i9Wt2ElAjvdl", tileid: "tuAPdN68QwtG4AhX", position: 8, visible: true, querystring: '?me?fields=name,hometown,website' }          
         ]);
       }
     });
