@@ -39,7 +39,7 @@ module.exports = (function () {
       // Use ApiKeys and ApiSecrets, if available.
       if (count == 0) {
         db.tiles.insert([
-          { _id: "ZkNW1xMuVq7B1rn5", name: 'googleapi', baseUrl: 'https://www.googleapis.com/pagespeedonline/v2/runPagespeed', apikey: '', apisecret: '', schema: 'googleapi { url, desktop { speed }, mobile { speed usability } }' },
+          { _id: "ZkNW1xMuVq7B1rn5", name: 'googleapi', baseUrl: 'https://www.googleapis.com/pagespeedonline/v4/runPagespeed', apikey: '', apisecret: '', schema: 'googleapi { url, desktop { speed }, mobile { speed usability } }' },
           { _id: "8vJH0MaIin7KDpUY", name: 'github', baseUrl: 'https://api.github.com', apikey: '', apisecret: '', schema: 'github { watchers forks stars user repository }' },
           { _id: "mB2wXblzppRSnewm", name: 'openweather', baseUrl: 'http://api.openweathermap.org/data/2.5/weather', apikey: process.env.APIKEYOPENWEATHER, apisecret: '', schema: 'openweather { location unit latitude longitude, today { temp, icon } }' },
           { _id: "JyVSFAw0ygrFphVp", name: 'twitter', baseUrl: 'https://api.twitter.com', apikey: process.env.APIKEYTWITTER, apisecret: process.env.APISECRETTWITTER, schema: 'twitter { user followers following tweets likes backgroundimage profileimage }' },
@@ -65,7 +65,7 @@ module.exports = (function () {
           { userid: "6kO2i9Wt2ElAjvdl", tileid: "d3THA4b9mkxhqVQ3", position: 5, visible: true, querystring: '?q=software&apiKey=${apiKey}' },
           { userid: "6kO2i9Wt2ElAjvdl", tileid: "88MjFRnZnNrVYKsI", position: 6, visible: true, querystring: '' },
           { userid: "6kO2i9Wt2ElAjvdl", tileid: "JyVSFAw0ygrFphVx", position: 7, visible: true, querystring: '?search=Zug' },
-          { userid: "6kO2i9Wt2ElAjvdl", tileid: "tuAPdN68QwtG4AhX", position: 8, visible: true, querystring: '?me?fields=name,hometown,website' }          
+          { userid: "6kO2i9Wt2ElAjvdl", tileid: "tuAPdN68QwtG4AhX", position: 8, visible: true, querystring: '?me?fields=name,hometown,website' }
         ]);
       }
     });
