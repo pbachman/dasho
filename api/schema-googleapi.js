@@ -6,40 +6,43 @@
  */
 
 const graphql = require('graphql');
-const fetch = require('./apifetch');
 
-function fetchData(user) {
-  let settingsloader = require('../loaders/settingsloader');
-
-  return settingsloader.getTileConfig(user,'googleapi')
-  .then(function(tileConfig){
-    let querystring = tileConfig.querystring.replace('${strategy}', 'mobile');
-    if (tileConfig) {
-      return fetch.get(tileConfig.baseUrl,querystring);
-    }
-    return null;
-  });
-}
-
-let GoogleDesktopApiSubType = new graphql.GraphQLObjectType({
-  name: 'Desktop',
+let GoogleAuditsApiSubType = new graphql.GraphQLObjectType({
+  name: 'Audits',
   fields: () => ({
-    speed: {
-      type: graphql.GraphQLInt,
-      resolve: desktop => desktop.SPEED.score | 0,
-    }
+    firstcontentfulpaint: {
+      type: graphql.GraphQLString,
+      resolve: audits => audits['first-contentful-paint'].displayValue,
+    },
+    speedindex: {
+      type: graphql.GraphQLString,
+      resolve: audits => audits['speed-index'].displayValue,
+    },
+    largestcontentfulpaint: {
+      type: graphql.GraphQLString,
+      resolve: audits => audits['largest-contentful-paint'].displayValue,
+    },
+    interactive: {
+      type: graphql.GraphQLString,
+      resolve: audits => audits.interactive.displayValue,
+    },
+    totalblockingtime: {
+      type: graphql.GraphQLString,
+      resolve: audits => audits['total-blocking-time'].displayValue,
+    },
+    cumulativelayoutshift: {
+      type: graphql.GraphQLString,
+      resolve: audits => audits['cumulative-layout-shift'].displayValue,
+    },
   })
 });
 
-let GoogleMobileApiSubType = new graphql.GraphQLObjectType({
-  name: 'Mobile',
+let GooglePerformanceApiSubType = new graphql.GraphQLObjectType({
+  name: 'Performance',
   fields: () => ({
-    speed: {
-      type: graphql.GraphQLInt,
-      resolve: mobile => mobile.ruleGroups.SPEED.score | 0,
-    }, usability: {
-      type: graphql.GraphQLInt,
-      resolve: mobile => mobile.ruleGroups.USABILITY.score | 0,
+    performance: {
+      type: graphql.GraphQLString,
+      resolve: categories => categories.performance.score,
     }
   })
 });
@@ -47,20 +50,17 @@ let GoogleMobileApiSubType = new graphql.GraphQLObjectType({
 let GoogleApiServiceDataType = new graphql.GraphQLObjectType({
   name: 'GoogleApi',
   fields: () => ({
-    url: {
+    finalUrl: {
       type: graphql.GraphQLString,
-      resolve: googleapi => googleapi.id.replace(/.*?:\/\//g, "").replace(/\/$/, ""),
+      resolve: googleapi => googleapi.lighthouseResult.finalUrl,
     },
-    desktop: {
-      type: GoogleDesktopApiSubType,
-      resolve: googleapi => googleapi.ruleGroups,
+    audits: {
+      type: GoogleAuditsApiSubType,
+      resolve: googleapi => googleapi.lighthouseResult.audits,
     },
-    mobile: {
-      type: GoogleMobileApiSubType,
-      resolve: (root, args, context) => {
-        let user = context.body.user;
-        return fetchData(user);
-      }
+    categories: {
+      type: GooglePerformanceApiSubType,
+      resolve: googleapi => googleapi.lighthouseResult.categories,
     }
   })
 });
