@@ -1,11 +1,9 @@
 import { Component, EventEmitter, Input, Output, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 import * as Highcharts from 'highcharts';
 import { TileBaseComponent } from '../../models/basetile.model';
 import { Setting } from '../../models/setting.model';
 import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
-
-
 
 @Component({
   selector: 'grid-clock',
@@ -45,17 +43,17 @@ export class ClockTileComponent extends TileBaseComponent implements OnInit, OnD
               const second = chart.get('second');
 
               // run animation unless we're wrapping around from 59 to 0
-              const animation = moment()
-                .seconds() === 0 ? false : { easing: 'easeOutBounce' };
+              const animation = dayjs()
+                .second() === 0 ? false : { easing: 'easeOutBounce' };
 
-              hour.update(moment()
-                .hours() + moment()
-                  .minutes() / 60, true, animation);
-              minute.update(moment()
-                .minutes() * 12 / 60 + moment()
-                  .seconds() * 12 / 3600, true, animation);
-              second.update(moment()
-                .seconds() * 12 / 60, true, animation);
+              hour.update(dayjs()
+                .hour() + dayjs()
+                  .minute() / 60, true, animation);
+              minute.update(dayjs()
+                .minute() * 12 / 60 + dayjs()
+                  .second() * 12 / 3600, true, animation);
+              second.update(dayjs()
+                .second() * 12 / 60, true, animation);
             }
           }, 1000);
         }
@@ -113,7 +111,7 @@ export class ClockTileComponent extends TileBaseComponent implements OnInit, OnD
     series: [{
       data: [{
         id: 'hour',
-        y: moment().hours() + moment().minutes() / 60,
+        y: dayjs().hour() + dayjs().minute() / 60,
         dial: {
           radius: '60%',
           baseWidth: 4,
@@ -122,14 +120,14 @@ export class ClockTileComponent extends TileBaseComponent implements OnInit, OnD
         }
       }, {
         id: 'minute',
-        y: moment().minutes() * 12 / 60 + moment().seconds() * 12 / 3600,
+        y: dayjs().minute() * 12 / 60 + dayjs().second() * 12 / 3600,
         dial: {
           baseLength: '95%',
           rearLength: 0
         }
       }, {
         id: 'second',
-        y: moment().seconds() * 12 / 60,
+        y: dayjs().second() * 12 / 60,
         dial: {
           radius: '100%',
           baseWidth: 1,

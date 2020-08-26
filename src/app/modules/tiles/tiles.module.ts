@@ -12,7 +12,6 @@ import { WeatherTileComponent } from './components/weather/weather';
 import { WiewarmTileComponent } from './components/wiewarm/wiewarm';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { MomentModule } from 'angular2-moment';
 import { CoreModule } from 'src/app/core/core.module';
 
 @NgModule({
@@ -21,7 +20,6 @@ import { CoreModule } from 'src/app/core/core.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    MomentModule,
     HighchartsChartModule,
     TranslateModule.forRoot(),
   ],

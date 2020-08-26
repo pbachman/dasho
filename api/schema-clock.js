@@ -6,14 +6,14 @@
  */
 
 const graphql = require('graphql');
-const moment = require('moment');
+const dayjs = require('dayjs');
 
 let ClockDataType = new graphql.GraphQLObjectType({
   name: 'Clock',
   fields: () => ({
     datetime: {
       type: graphql.GraphQLString,
-      resolve: clock => moment().format(), // returns the current Date in ISO 8601
+      resolve: clock => dayjs().format(), // returns the current Date in ISO 8601
     },
     totalSeconds: {
       type: graphql.GraphQLInt,

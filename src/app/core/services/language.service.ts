@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
 
 /**
@@ -75,7 +75,7 @@ export class LanguageService {
    * @param {string} languageKey The language key
    */
   setLanguage(languageKey: string = this.translate.currentLang): void {
-    moment.locale(languageKey);
+    dayjs.locale(languageKey);
     this.translate.use(languageKey);
     this.currentLanguage = languageKey;
     this.storage.set('language', languageKey);
