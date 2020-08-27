@@ -212,7 +212,7 @@ module.exports = (function () {
             // extends the current config with the graphql query.
             var promises = [];
             configs.forEach((configItem) => {
-              if (configItem.tileid) {
+              if (configItem.tileid && configItem.visible) {
                 promises.push(
                   getTileById(configItem.tileid).then((tile) => {
                     const userConfig = {
