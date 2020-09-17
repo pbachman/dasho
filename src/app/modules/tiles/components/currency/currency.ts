@@ -18,7 +18,7 @@ export class CurrencyTileComponent extends TileBaseComponent {
   @Output() notify: EventEmitter<object> = new EventEmitter<object>();
 
   Highcharts: typeof Highcharts = Highcharts;
-  options: Highcharts.options;
+  options: any;
   data: any;
   currency: string;
 

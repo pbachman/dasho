@@ -19,7 +19,7 @@ export class ClockTileComponent extends TileBaseComponent implements OnInit, OnD
   @Output() notify: EventEmitter<object> = new EventEmitter<object>();
   Highcharts: typeof Highcharts = Highcharts;
   interval: any;
-  public options: Highcharts.Options = {
+  public options = {
     credits: {
       enabled: false
     },
