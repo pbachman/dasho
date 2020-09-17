@@ -1,9 +1,14 @@
-import { Component, EventEmitter, Input, Output, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
 import * as dayjs from 'dayjs';
+import ChartModuleMore from 'highcharts/highcharts-more';
 import * as Highcharts from 'highcharts';
+import HCSoldGauge from 'highcharts/modules/solid-gauge';
 import { TileBaseComponent } from '../../models/basetile.model';
 import { Setting } from '../../models/setting.model';
 import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
+
+ChartModuleMore(Highcharts);
+HCSoldGauge(Highcharts);
 
 @Component({
   selector: 'grid-clock',
