@@ -1,14 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import * as ChartModuleMore from 'highcharts/highcharts-more.js';
-import HCSoldGauge from 'highcharts/modules/solid-gauge';
-import Highcharts from 'highcharts';
+import * as Highcharts from 'highcharts';
 import { LanguageService } from 'src/app/core/services/language.service';
 import { TileBaseComponent } from '../../models/basetile.model';
 import { Setting } from '../../models/setting.model';
 import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
-
-ChartModuleMore(Highcharts);
-HCSoldGauge(Highcharts);
 
 @Component({
   selector: 'grid-google',
@@ -24,7 +19,7 @@ export class GoogleTileComponent extends TileBaseComponent {
   @Output() notify: EventEmitter<object> = new EventEmitter<object>();
   data: { desktop: { speed: number }, mobile: { speed: number, usability: number } };
   options: object;
-  Highcharts = Highcharts;
+  Highcharts: typeof Highcharts = Highcharts;
 
   /**
    * Create the pagespeed tile
