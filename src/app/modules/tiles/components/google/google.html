@@ -8,15 +8,7 @@
   <div *ngIf="data">
     <highcharts-chart class="grid-item-google-chart" [Highcharts]="Highcharts" [options]="options"></highcharts-chart>
     <ion-card-content class="grid-item-google-content">
-      <strong>{{data.url}}</strong>
-      <ion-row>
-        <ion-col width-10>
-          <ion-icon name="desktop"></ion-icon> <span class="grid-item-value">{{ data.desktop.speed }}</span>
-        </ion-col>
-        <ion-col width-10>
-          <ion-icon name="phone-portrait"></ion-icon> <span class="grid-item-value">{{ data.mobile.speed }} | {{ data.mobile.usability }}</span>
-        </ion-col>
-      </ion-row>
+      <a href="{{'https://developers.google.com/speed/pagespeed/insights/?&url=' + data.finalUrl}}"><strong>Details</strong></a>
     </ion-card-content>
   </div>
   <div *ngIf="!data">

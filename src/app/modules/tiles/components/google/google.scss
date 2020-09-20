@@ -8,7 +8,7 @@
 }
 
 .grid-item-google-content {
-  padding-top: 0;
+  text-align: center;
 
   strong {
     display: block;
@@ -23,7 +23,7 @@
   text-align: center;
 
   div {
-    font-size: 18px;
+    font-size: 24px;
     font-weight: bold;
     line-height: 1;
   }
@@ -33,6 +33,7 @@ ion-icon + span {
   margin-left: 15px;
 }
 
-ion-card-content > ion-row > ion-col:nth-child(2) {
-  margin-top: -25px;
+.card-content-md {
+  font-size: 14px;
+  padding-top: 0px;
 }

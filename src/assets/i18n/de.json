@@ -74,9 +74,7 @@
     "noContent": "No Content available! Please check your Settings!",
     "pagespeed": {
       "header": "Seitengeschwindigkeit",
-      "desktopSpeed": "Geschwindigkeit Desktopcomputer",
-      "mobileSpeed": "Geschwindigkeit Mobilegeräte",
-      "mobileUsability": "Benutzerfreundlichkeit Mobilegeräte"
+      "performance": "Performance"
     },
     "news": {
       "header": "Nachrichten"

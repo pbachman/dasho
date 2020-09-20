@@ -17,7 +17,7 @@ import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
 export class GoogleTileComponent extends TileBaseComponent {
   @Input() tile: Setting;
   @Output() notify: EventEmitter<object> = new EventEmitter<object>();
-  data: { desktop: { speed: number }, mobile: { speed: number, usability: number } };
+  data: { categories: { performance: number } };
   options: object;
   Highcharts: typeof Highcharts = Highcharts;
 
@@ -53,15 +53,11 @@ export class GoogleTileComponent extends TileBaseComponent {
   setOptions(): void {
     if (this.data) {
       this.options = this.pageSpeedValues({
-        speedDesktop: this.data.desktop.speed,
-        speedMobile: this.data.mobile.speed,
-        usabilityMobile: this.data.mobile.usability
+        performance: this.data.categories?.performance,
       });
     } else {
       this.options = this.pageSpeedValues({
-        speedDesktop: 0,
-        speedMobile: 0,
-        usabilityMobile: 0
+        performance: 0,
       });
     }
   }
@@ -73,7 +69,7 @@ export class GoogleTileComponent extends TileBaseComponent {
    * @param  {number} usabilityMobile The value for the desktop usability
    * @return {Object} Represents the options for the highchart
    */
-  pageSpeedValues({ speedDesktop, speedMobile, usabilityMobile }): any {
+  pageSpeedValues({ performance }): any {
     const i18n = this.languageService.getLanguageStrings().tiles.pagespeed;
 
     return {
@@ -88,43 +84,31 @@ export class GoogleTileComponent extends TileBaseComponent {
         backgroundColor: 'transparent',
         plotBorderWidth: 0,
         plotShadow: false,
-        height: 120,
+        height: 145,
         width: 230
       },
       tooltip: {
-        animation: false,
         borderWidth: 0,
         backgroundColor: 'none',
         shadow: false,
-        useHTML: true,
-        pointFormat: '<div class="grid-item-google-tooltip"><div style="color:{point.color};">{point.y}%</div>{series.name}</div>',
-        positioner: (labelWidth: number) => {
+        style: {
+          fontSize: '12px'
+        },
+        valueSuffix: '%',
+        pointFormat: '<span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}</span>',
+        positioner: function (labelWidth) {
           return {
-            x: 115 - labelWidth / 2,
-            y: 73
+            x: (this.chart.chartWidth - labelWidth) / 2,
+            y: (this.chart.plotHeight / 2)
           };
         }
       },
       pane: {
-        startAngle: -90,
-        endAngle: 90,
-        center: ['50%', '85%'],
-        size: '150%',
+        startAngle: 0,
+        endAngle: 360,
         background: [{
           outerRadius: '112%',
           innerRadius: '88%',
-          backgroundColor: '#eee',
-          borderWidth: 0,
-          shape: 'arc'
-        }, {
-          outerRadius: '87%',
-          innerRadius: '63%',
-          backgroundColor: '#eee',
-          borderWidth: 0,
-          shape: 'arc'
-        }, {
-          outerRadius: '62%',
-          innerRadius: '38%',
           backgroundColor: '#eee',
           borderWidth: 0,
           shape: 'arc'
@@ -132,9 +116,7 @@ export class GoogleTileComponent extends TileBaseComponent {
       },
       yAxis: {
         stops: [
-          [0.3, '#DF5353'], // red
-          [0.6, '#DDDF0D'], // yellow
-          [0.9, '#55BF3B'] // green
+          [0.5, '#0cce6b'], // green
         ],
         min: 0,
         max: 100,
@@ -149,28 +131,12 @@ export class GoogleTileComponent extends TileBaseComponent {
         }
       },
       series: [{
-        name: i18n.desktopSpeed,
-        id: 'desktop-speed',
+        name: i18n.performance,
+        id: 'performance',
         data: [{
           radius: '112%%',
           innerRadius: '88%',
-          y: speedDesktop || 0
-        }]
-      }, {
-        name: i18n.mobileSpeed,
-        id: 'mobile-speed',
-        data: [{
-          radius: '87%',
-          innerRadius: '63%',
-          y: speedMobile || 0
-        }]
-      }, {
-        name: i18n.mobileUsability,
-        id: 'mobile-usability',
-        data: [{
-          radius: '62%',
-          innerRadius: '38%',
-          y: usabilityMobile || 0
+          y: performance || 0
         }]
       }]
     };
