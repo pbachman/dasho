@@ -17,7 +17,7 @@ import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
 export class GoogleTileComponent extends TileBaseComponent {
   @Input() tile: Setting;
   @Output() notify: EventEmitter<object> = new EventEmitter<object>();
-  data: { categories: { performance: number } };
+  data: { finalUrl, categories: { performance: number } };
   options: object;
   Highcharts: typeof Highcharts = Highcharts;
 
@@ -96,7 +96,7 @@ export class GoogleTileComponent extends TileBaseComponent {
         },
         valueSuffix: '%',
         pointFormat: '<span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}</span>',
-        positioner: function (labelWidth) {
+        positioner(labelWidth) {
           return {
             x: (this.chart.chartWidth - labelWidth) / 2,
             y: (this.chart.plotHeight / 2)
