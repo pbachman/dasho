@@ -10,7 +10,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { AdminModule } from './modules/admin/admin.module';
 import { FormsModule } from '@angular/forms';
 import { MainModule } from './modules/main/main.module';
 import { CoreModule } from './core/core.module';
@@ -44,9 +43,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
       }
     }),
     NgxPubSubModule,
-    CoreModule,
     MainModule,
-    AdminModule,
+    CoreModule,
     TilesModule,
     AppRoutingModule
   ],

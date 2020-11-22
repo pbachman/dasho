@@ -169,7 +169,7 @@ export class MenuComponent implements OnInit {
       .subscribe((settings: any) => {
         this.settings = settings;
         this.menuCtrl.close();
-        this.router.navigateByUrl('/setting');
+        this.router.navigateByUrl('/admin/setting');
       });
   }
 
@@ -178,7 +178,7 @@ export class MenuComponent implements OnInit {
    */
   configureTiles(): void {
     this.menuCtrl.close();
-    this.router.navigateByUrl('/tile');
+    this.router.navigateByUrl('/admin/tile');
   }
 
   /**

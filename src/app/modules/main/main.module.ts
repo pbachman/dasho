@@ -16,7 +16,7 @@ import { LoginPage } from './components/login/login';
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forRoot([
+    RouterModule.forChild([
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'main', component: MainPage },
       { path: 'login', component: LoginPage },
