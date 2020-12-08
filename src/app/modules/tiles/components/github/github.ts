@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { TileBaseComponent } from '../../models/basetile.model';
+import { TileBaseDirective } from '../../models/basetile.model';
 import { Setting } from '../../models/setting.model';
 import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
 
@@ -12,7 +12,7 @@ import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
 /**
  * Represents a GitHub tile.
  */
-export class GithubTileComponent extends TileBaseComponent {
+export class GithubTileComponent extends TileBaseDirective {
   @Input() tile: Setting;
   @Output() notify: EventEmitter<object> = new EventEmitter<object>();
   data: object;

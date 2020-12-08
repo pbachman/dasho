@@ -1,17 +1,14 @@
-import { EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Directive, EventEmitter, Input, Output } from '@angular/core';
 import { Setting } from './setting.model';
 
 /**
  * The Base Tile
  */
-export class TileBaseComponent implements OnInit {
+@Directive()
+export class TileBaseDirective {
 
   @Input() protected tile: Setting;
   @Output() protected notify: EventEmitter<object> = new EventEmitter<object>();
-
-  ngOnInit(): void {
-    // do nothing
-  }
 
   /**
    * Function to remove the tile from the screen

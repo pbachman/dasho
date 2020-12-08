@@ -3,7 +3,7 @@ import * as dayjs from 'dayjs';
 import ChartModuleMore from 'highcharts/highcharts-more';
 import * as Highcharts from 'highcharts';
 import HCSoldGauge from 'highcharts/modules/solid-gauge';
-import { TileBaseComponent } from '../../models/basetile.model';
+import { TileBaseDirective } from '../../models/basetile.model';
 import { Setting } from '../../models/setting.model';
 import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
 
@@ -19,7 +19,7 @@ HCSoldGauge(Highcharts);
 /**
  * Represents a clock tile.
  */
-export class ClockTileComponent extends TileBaseComponent implements OnInit, OnDestroy {
+export class ClockTileComponent extends TileBaseDirective implements OnInit, OnDestroy {
   @Input() tile: Setting;
   @Output() notify: EventEmitter<object> = new EventEmitter<object>();
   Highcharts: typeof Highcharts = Highcharts;

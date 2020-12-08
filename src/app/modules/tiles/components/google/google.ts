@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import * as Highcharts from 'highcharts';
 import { LanguageService } from 'src/app/core/services/language.service';
-import { TileBaseComponent } from '../../models/basetile.model';
+import { TileBaseDirective } from '../../models/basetile.model';
 import { Setting } from '../../models/setting.model';
 import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
 
@@ -14,7 +14,7 @@ import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
 /**
  * Represents a Google tile.
  */
-export class GoogleTileComponent extends TileBaseComponent {
+export class GoogleTileComponent extends TileBaseDirective {
   @Input() tile: Setting;
   @Output() notify: EventEmitter<object> = new EventEmitter<object>();
   data: { finalUrl, categories: { performance: number } };
