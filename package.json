@@ -42,7 +42,7 @@
     "graphql": "^14.0.0",
     "graphql-tag": "^2.0.0",
     "helmet": "^3.21.1",
-    "highcharts": "^8.2.0",
+    "highcharts": "^9.0.0",
     "highcharts-angular": "^2.8.0",
     "ionicons": "^5.0.0",
     "nedb": "^1.8.0",
