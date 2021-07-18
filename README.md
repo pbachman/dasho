@@ -1,6 +1,6 @@
 # Dasho
 
-Simple and customizable Dashboard, made with Ionic, angular5, Node.JS and GraphQL (former [CAS_FEE@HSR](https://www.hsr.ch) Diploma thesis 2016).
+Simple and customizable Dashboard, made with Ionic, angular, Node.JS and GraphQL (former [CAS_FEE@HSR](https://www.hsr.ch) Diploma thesis 2016).
 
 ![Heroku](http://heroku-badge.herokuapp.com/?app=dasho&style=flat&svg=1) <img src="https://github.com/pbachman/dasho/workflows/Node%20CI/badge.svg" />
 
