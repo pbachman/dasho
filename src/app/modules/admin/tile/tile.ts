@@ -10,10 +10,9 @@ import { PubsubService } from '@fsms/angular-pubsub';
 
 @Component({
   selector: 'tile-setting',
-  templateUrl: 'tile.html'
+  templateUrl: 'tile.html',
 })
 export class TilePage implements OnInit {
-
   currentUser: string;
   error: string;
   tiles: Array<Tile>;
@@ -26,24 +25,27 @@ export class TilePage implements OnInit {
     private userService: UserService,
     private router: Router,
     private pubSub: PubsubService,
-    private alertCtrl: AlertController) {
-  }
+    private alertCtrl: AlertController,
+  ) {}
 
   ngOnInit(): void {
-    this.userService.getUsername()
-      .subscribe((username: string) => {
+    this.userService.getUsername().subscribe(
+      (username: string) => {
         this.currentUser = username;
         this.getTiles();
-
-      }, (error: HttpErrorResponse) => this.errorHandling(error));
+      },
+      (error: HttpErrorResponse) => this.errorHandling(error),
+    );
   }
 
   getTiles(): void {
     // get all tiles.
-    this.tileService.getTiles()
-      .subscribe((tiles: Array<Tile>) => {
+    this.tileService.getTiles().subscribe(
+      (tiles: Array<Tile>) => {
         this.tiles = tiles;
-      }, (error: HttpErrorResponse) => this.errorHandling(error));
+      },
+      (error: HttpErrorResponse) => this.errorHandling(error),
+    );
   }
 
   back(): void {
@@ -54,8 +56,8 @@ export class TilePage implements OnInit {
     this.hasChanged = true;
 
     if (tile.baseUrl && tile.schema) {
-      this.tileService.saveTile(tile)
-        .subscribe(async (saved: boolean) => {
+      this.tileService.saveTile(tile).subscribe(
+        async (saved: boolean) => {
           if (saved) {
             const alert = await this.alertCtrl.create({
               header: 'Info!',
@@ -65,15 +67,20 @@ export class TilePage implements OnInit {
                 {
                   text: 'OK',
                   handler: () => {
-                    this.pubSub.publish({ messageType: "data:changed", payload: null });
+                    this.pubSub.publish({
+                      messageType: 'data:changed',
+                      payload: null,
+                    });
                     this.getTiles();
-                  }
-                }
-              ]
+                  },
+                },
+              ],
             });
             await alert.present();
           }
-        }, (error: HttpErrorResponse) => this.errorHandling(error));
+        },
+        (error: HttpErrorResponse) => this.errorHandling(error),
+      );
     } else {
       const alert = await this.alertCtrl.create({
         header: 'Warning!',
@@ -81,9 +88,9 @@ export class TilePage implements OnInit {
         backdropDismiss: false,
         buttons: [
           {
-            text: 'OK'
-          }
-        ]
+            text: 'OK',
+          },
+        ],
       });
       await alert.present();
     }
@@ -94,7 +101,9 @@ export class TilePage implements OnInit {
    * @param {HttpErrorResponse} error
    */
   private async errorHandling(error: HttpErrorResponse): Promise<void> {
-    (error.status === 0) ? this.error = 'No Connection to the Backend!' : this.error = error.error;
+    error.status === 0
+      ? (this.error = 'No Connection to the Backend!')
+      : (this.error = error.error);
 
     const alert = await this.alertCtrl.create({
       header: 'Error!',
@@ -102,9 +111,9 @@ export class TilePage implements OnInit {
       backdropDismiss: false,
       buttons: [
         {
-          text: 'OK'
-        }
-      ]
+          text: 'OK',
+        },
+      ],
     });
     await alert.present();
   }

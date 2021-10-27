@@ -11,10 +11,9 @@ import { PubsubService } from '@fsms/angular-pubsub';
 
 @Component({
   selector: 'page-setting',
-  templateUrl: 'setting.html'
+  templateUrl: 'setting.html',
 })
 export class SettingPage implements OnInit {
-
   currentUser: string;
   error: string;
   tiles: Array<Tile>;
@@ -28,57 +27,69 @@ export class SettingPage implements OnInit {
     private userService: UserService,
     private router: Router,
     private pubSub: PubsubService,
-    private alertCtrl: AlertController) {
-  }
+    private alertCtrl: AlertController,
+  ) {}
 
   ngOnInit(): void {
-    this.userService.getUsername()
-      .subscribe((username: string) => {
+    this.userService.getUsername().subscribe(
+      (username: string) => {
         this.currentUser = username;
         this.loadSettings();
-      }, (error: HttpErrorResponse) => this.errorHandling(error));
+      },
+      (error: HttpErrorResponse) => this.errorHandling(error),
+    );
   }
 
   loadSettings(): void {
     // get all Settings for the current User
-    this.dashboardService.getSettings(this.currentUser)
-      .subscribe((settings: Array<Setting>) => {
+    this.dashboardService.getSettings(this.currentUser).subscribe(
+      (settings: Array<Setting>) => {
         this.settings = settings;
 
         // get all unassigned tiles.
-        this.settingService.getUnassignedTiles(this.currentUser)
-          .subscribe((tiles: Array<Tile>) => {
+        this.settingService.getUnassignedTiles(this.currentUser).subscribe(
+          (tiles: Array<Tile>) => {
             this.tiles = tiles;
-          }, (error: HttpErrorResponse) => this.errorHandling(error));
-
-      }, (error: HttpErrorResponse) => this.errorHandling(error));
+          },
+          (error: HttpErrorResponse) => this.errorHandling(error),
+        );
+      },
+      (error: HttpErrorResponse) => this.errorHandling(error),
+    );
   }
 
   addItem(): void {
-    this.settingService.addConfigs(this.currentUser, this.selectedTile)
-      .subscribe(async () => {
-        const alert = await this.alertCtrl.create({
-          header: 'Info!',
-          message: 'Successfully saved!',
-          backdropDismiss: false,
-          buttons: [
-            {
-              text: 'OK',
-              handler: () => {
-                this.pubSub.publish({ messageType: "data:changed", payload: null });
-                this.loadSettings();
-              }
-            }
-          ]
-        });
-        await alert.present();
-      }, (error: HttpErrorResponse) => this.errorHandling(error));
+    this.settingService
+      .addConfigs(this.currentUser, this.selectedTile)
+      .subscribe(
+        async () => {
+          const alert = await this.alertCtrl.create({
+            header: 'Info!',
+            message: 'Successfully saved!',
+            backdropDismiss: false,
+            buttons: [
+              {
+                text: 'OK',
+                handler: () => {
+                  this.pubSub.publish({
+                    messageType: 'data:changed',
+                    payload: null,
+                  });
+                  this.loadSettings();
+                },
+              },
+            ],
+          });
+          await alert.present();
+        },
+        (error: HttpErrorResponse) => this.errorHandling(error),
+      );
   }
 
   saveItem(setting: Setting): void {
     this.hasChanged = true;
-    this.dashboardService.saveSetting(this.currentUser, setting)
-      .subscribe(async (saved: boolean) => {
+    this.dashboardService.saveSetting(this.currentUser, setting).subscribe(
+      async (saved: boolean) => {
         if (saved) {
           const alert = await this.alertCtrl.create({
             header: 'Info!',
@@ -88,15 +99,20 @@ export class SettingPage implements OnInit {
               {
                 text: 'OK',
                 handler: () => {
-                  this.pubSub.publish({ messageType: "data:changed", payload: null });
+                  this.pubSub.publish({
+                    messageType: 'data:changed',
+                    payload: null,
+                  });
                   this.loadSettings();
-                }
-              }
-            ]
+                },
+              },
+            ],
           });
           await alert.present();
         }
-      }, (error: HttpErrorResponse) => this.errorHandling(error));
+      },
+      (error: HttpErrorResponse) => this.errorHandling(error),
+    );
   }
 
   back(): void {
@@ -112,22 +128,29 @@ export class SettingPage implements OnInit {
         {
           text: 'Yes',
           handler: () => {
-            this.dashboardService.deleteSetting(this.currentUser, setting)
-              .subscribe((deleted: boolean) => {
-                if (deleted) {
-                  this.pubSub.publish({ messageType: "data:changed", payload: null });
-                  this.loadSettings();
-                }
-              }, (error: HttpErrorResponse) => this.errorHandling(error));
-          }
+            this.dashboardService
+              .deleteSetting(this.currentUser, setting)
+              .subscribe(
+                (deleted: boolean) => {
+                  if (deleted) {
+                    this.pubSub.publish({
+                      messageType: 'data:changed',
+                      payload: null,
+                    });
+                    this.loadSettings();
+                  }
+                },
+                (error: HttpErrorResponse) => this.errorHandling(error),
+              );
+          },
         },
         {
           text: 'No',
           handler: async () => {
             return true;
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     await alert.present();
   }
@@ -136,7 +159,9 @@ export class SettingPage implements OnInit {
    * Error Handler
    */
   private async errorHandling(error: HttpErrorResponse): Promise<void> {
-    (error.status === 0) ? this.error = 'No Connection to the Backend!' : this.error = error.error;
+    error.status === 0
+      ? (this.error = 'No Connection to the Backend!')
+      : (this.error = error.error);
 
     const alert = await this.alertCtrl.create({
       header: 'Error!',
@@ -144,9 +169,9 @@ export class SettingPage implements OnInit {
       backdropDismiss: false,
       buttons: [
         {
-          text: 'OK'
-        }
-      ]
+          text: 'OK',
+        },
+      ],
     });
     await alert.present();
   }

@@ -17,9 +17,7 @@ export class UserService {
    * @param  {pubSub}  NgxPubSubService  Used to publish to the users events
    * @param  {Storage} privatestorage Used to store the user data
    */
-  constructor(
-    private pubSub: PubsubService,
-    private storage: Storage) { }
+  constructor(private pubSub: PubsubService, private storage: Storage) {}
 
   /**
    * Checks if is the string a invalid email address
@@ -28,7 +26,9 @@ export class UserService {
    */
   isMailInvalid(value: string): boolean {
     // tslint:disable-next-line:max-line-length
-    const emailRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    const emailRegex = new RegExp(
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    );
 
     return !emailRegex.test(value);
   }
@@ -40,7 +40,7 @@ export class UserService {
     this.storage.remove(this.HAS_LOGGED_IN);
     this.storage.remove('user');
     this.storage.remove('token');
-    this.pubSub.publish({ messageType: "user:logout", payload: null });
+    this.pubSub.publish({ messageType: 'user:logout', payload: null });
   }
 
   /**
@@ -48,10 +48,11 @@ export class UserService {
    * @param {User} user
    */
   setsUserdata(user: User): Observable<void> {
-    return from(this.storage.set('user', user)
-      .then(() => {
+    return from(
+      this.storage.set('user', user).then(() => {
         return this.storage.set(this.HAS_LOGGED_IN, true);
-      }));
+      }),
+    );
   }
 
   /**
@@ -67,10 +68,11 @@ export class UserService {
    * @return {Promise}
    */
   getAccessToken(): Observable<string> {
-    return from(this.storage.get('token')
-      .then(value => {
+    return from(
+      this.storage.get('token').then((value) => {
         return value;
-      }));
+      }),
+    );
   }
 
   /**
@@ -78,10 +80,11 @@ export class UserService {
    * @return {Promise}
    */
   getUsername(): Observable<string> {
-    return from(this.storage.get('user')
-      .then(value => {
+    return from(
+      this.storage.get('user').then((value) => {
         return value && value.username;
-      }));
+      }),
+    );
   }
 
   /**
@@ -89,10 +92,11 @@ export class UserService {
    * @return {Promise}
    */
   getUser(): Observable<User> {
-    return from(this.storage.get('user')
-      .then(value => {
+    return from(
+      this.storage.get('user').then((value) => {
         return value;
-      }));
+      }),
+    );
   }
 
   /**
@@ -100,9 +104,10 @@ export class UserService {
    * @return {Promise}
    */
   hasLoggedIn(): Observable<boolean> {
-    return from(this.storage.get(this.HAS_LOGGED_IN)
-      .then(value => {
+    return from(
+      this.storage.get(this.HAS_LOGGED_IN).then((value) => {
         return value === true;
-      }));
+      }),
+    );
   }
 }
