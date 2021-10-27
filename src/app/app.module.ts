@@ -14,7 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { MainModule } from './modules/main/main.module';
 import { CoreModule } from './core/core.module';
 import { TilesModule } from './modules/tiles/tiles.module';
-import { NgxPubSubModule } from '@pscoped/ngx-pub-sub';
+import { PubsubModule } from '@fsms/angular-pubsub';
 
 /**
  * Set the paths for the tranlsations
@@ -42,7 +42,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         deps: [HttpClient]
       }
     }),
-    NgxPubSubModule,
+    PubsubModule.forRoot(),
     MainModule,
     CoreModule,
     TilesModule,

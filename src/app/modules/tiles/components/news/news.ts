@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TileBaseDirective } from '../../models/basetile.model';
 import { Setting } from '../../models/setting.model';
-import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
+import { PubsubService } from '@fsms/angular-pubsub';
 
 @Component({
   selector: 'grid-news',
@@ -20,14 +20,14 @@ export class NewsTileComponent extends TileBaseDirective {
   /**
    * Create the news tile
    */
-  constructor(private pubSub: NgxPubSubService) {
+  constructor(private pubSub: PubsubService) {
     super();
   }
 
   ngOnInit(): void {
-    this.pubSub.subscribe('data:ready', data => {
-      if (data) {
-        const news = data.news;
+    this.pubSub.subscribe({ messageType: 'data:ready', callback: (response) => {
+      if (response) {
+        const news = response.message.payload.news;
         if (news && news.articles) {
           news.articles.sort((a, b) => {
             const dateB = new Date(b.publishedAt).getTime();
@@ -38,16 +38,16 @@ export class NewsTileComponent extends TileBaseDirective {
         }
         this.data = news;
       }
-    });
+    }});
 
-    this.pubSub.subscribe('user:language', data => {
-      if (data) {
+    this.pubSub.subscribe({ messageType: 'user:language', callback: (response) => {
+      if (response) {
         const store = this.data;
         this.data = {};
         setTimeout(() => {
           this.data = store;
         }, 100);
       }
-    });
+    }});
   }
 }

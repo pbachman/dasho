@@ -7,7 +7,7 @@ import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { DashboardService } from 'src/app/core/services/dashboard.service';
 import { Tile } from '../models/tile.model';
-import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
+import { PubsubService } from '@fsms/angular-pubsub';
 
 @Component({
   selector: 'page-setting',
@@ -27,7 +27,7 @@ export class SettingPage implements OnInit {
     private settingService: SettingService,
     private userService: UserService,
     private router: Router,
-    private pubSub: NgxPubSubService,
+    private pubSub: PubsubService,
     private alertCtrl: AlertController) {
   }
 
@@ -65,7 +65,7 @@ export class SettingPage implements OnInit {
             {
               text: 'OK',
               handler: () => {
-                this.pubSub.publishEvent('data:changed', null);
+                this.pubSub.publish({ messageType: "data:changed", payload: null });
                 this.loadSettings();
               }
             }
@@ -88,7 +88,7 @@ export class SettingPage implements OnInit {
               {
                 text: 'OK',
                 handler: () => {
-                  this.pubSub.publishEvent('data:changed', null);
+                  this.pubSub.publish({ messageType: "data:changed", payload: null });
                   this.loadSettings();
                 }
               }
@@ -115,7 +115,7 @@ export class SettingPage implements OnInit {
             this.dashboardService.deleteSetting(this.currentUser, setting)
               .subscribe((deleted: boolean) => {
                 if (deleted) {
-                  this.pubSub.publishEvent('data:changed', null);
+                  this.pubSub.publish({ messageType: "data:changed", payload: null });
                   this.loadSettings();
                 }
               }, (error: HttpErrorResponse) => this.errorHandling(error));
