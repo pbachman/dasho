@@ -3,7 +3,7 @@ import * as Highcharts from 'highcharts';
 import { LanguageService } from 'src/app/core/services/language.service';
 import { TileBaseDirective } from '../../models/basetile.model';
 import { Setting } from '../../models/setting.model';
-import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
+import { PubsubService } from '@fsms/angular-pubsub';
 
 @Component({
   selector: 'grid-google',
@@ -17,7 +17,7 @@ import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
 export class GoogleTileComponent extends TileBaseDirective {
   @Input() tile: Setting;
   @Output() notify: EventEmitter<object> = new EventEmitter<object>();
-  data: { finalUrl, categories: { performance: number } };
+  data: { finalUrl; categories: { performance: number } };
   options: object;
   Highcharts: typeof Highcharts = Highcharts;
 
@@ -27,23 +27,30 @@ export class GoogleTileComponent extends TileBaseDirective {
    * @param  {pubSub} NgxPubSubService used to subscribe to the `data:ready` and the `user:language` event
    */
   constructor(
-    private pubSub: NgxPubSubService,
-    private languageService: LanguageService) {
+    private pubSub: PubsubService,
+    private languageService: LanguageService,
+  ) {
     super();
   }
 
   ngOnInit(): void {
-    this.pubSub.subscribe('data:ready', data => {
-      if (data) {
-        this.data = data.googleapi;
-      }
-      this.setOptions();
+    this.pubSub.subscribe({
+      messageType: 'data:ready',
+      callback: (response) => {
+        if (response) {
+          this.data = response.message.payload.googleapi;
+        }
+        this.setOptions();
+      },
     });
 
-    this.pubSub.subscribe('user:language', data => {
-      setTimeout(() => {
-        this.setOptions();
-      }, 100);
+    this.pubSub.subscribe({
+      messageType: 'user:language',
+      callback: () => {
+        setTimeout(() => {
+          this.setOptions();
+        }, 100);
+      },
     });
   }
 
@@ -74,10 +81,10 @@ export class GoogleTileComponent extends TileBaseDirective {
 
     return {
       title: {
-        text: undefined
+        text: undefined,
       },
       credits: {
-        enabled: false
+        enabled: false,
       },
       chart: {
         type: 'solidgauge',
@@ -85,34 +92,37 @@ export class GoogleTileComponent extends TileBaseDirective {
         plotBorderWidth: 0,
         plotShadow: false,
         height: 145,
-        width: 230
+        width: 230,
       },
       tooltip: {
         borderWidth: 0,
         backgroundColor: 'none',
         shadow: false,
         style: {
-          fontSize: '12px'
+          fontSize: '12px',
         },
         valueSuffix: '%',
-        pointFormat: '<span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}</span>',
+        pointFormat:
+          '<span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}</span>',
         positioner(labelWidth) {
           return {
             x: (this.chart.chartWidth - labelWidth) / 2,
-            y: (this.chart.plotHeight / 2)
+            y: this.chart.plotHeight / 2,
           };
-        }
+        },
       },
       pane: {
         startAngle: 0,
         endAngle: 360,
-        background: [{
-          outerRadius: '112%',
-          innerRadius: '88%',
-          backgroundColor: '#eee',
-          borderWidth: 0,
-          shape: 'arc'
-        }]
+        background: [
+          {
+            outerRadius: '112%',
+            innerRadius: '88%',
+            backgroundColor: '#eee',
+            borderWidth: 0,
+            shape: 'arc',
+          },
+        ],
       },
       yAxis: {
         stops: [
@@ -121,24 +131,28 @@ export class GoogleTileComponent extends TileBaseDirective {
         min: 0,
         max: 100,
         lineWidth: 0,
-        tickPositions: []
+        tickPositions: [],
       },
       plotOptions: {
         solidgauge: {
           dataLabels: {
-            enabled: false
-          }
-        }
+            enabled: false,
+          },
+        },
       },
-      series: [{
-        name: i18n.performance,
-        id: 'performance',
-        data: [{
-          radius: '112%%',
-          innerRadius: '88%',
-          y: performance || 0
-        }]
-      }]
+      series: [
+        {
+          name: i18n.performance,
+          id: 'performance',
+          data: [
+            {
+              radius: '112%%',
+              innerRadius: '88%',
+              y: performance || 0,
+            },
+          ],
+        },
+      ],
     };
   }
 }

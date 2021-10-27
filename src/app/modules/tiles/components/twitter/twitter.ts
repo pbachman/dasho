@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TileBaseDirective } from '../../models/basetile.model';
 import { Setting } from '../../models/setting.model';
-import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
+import { PubsubService } from '@fsms/angular-pubsub';
 
 @Component({
   selector: 'grid-twitter',
@@ -22,15 +22,18 @@ export class TwitterTileComponent extends TileBaseDirective {
    * @constructor
    * @param  {pubSub} NgxPubSubService used to subscribe to the `data:ready` event
    */
-  constructor(private pubSub: NgxPubSubService) {
+  constructor(private pubSub: PubsubService) {
     super();
   }
 
   ngOnInit(): void {
-    this.pubSub.subscribe('data:ready', data => {
-      if (data) {
-        this.data = data.twitter;
-      }
+    this.pubSub.subscribe({
+      messageType: 'data:ready',
+      callback: (response) => {
+        if (response) {
+          this.data = response.message.payload.twitter;
+        }
+      },
     });
   }
 }

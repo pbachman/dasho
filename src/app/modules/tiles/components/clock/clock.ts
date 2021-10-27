@@ -1,11 +1,18 @@
-import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnInit,
+  OnDestroy,
+} from '@angular/core';
 import * as dayjs from 'dayjs';
 import ChartModuleMore from 'highcharts/highcharts-more';
 import * as Highcharts from 'highcharts';
 import HCSoldGauge from 'highcharts/modules/solid-gauge';
 import { TileBaseDirective } from '../../models/basetile.model';
 import { Setting } from '../../models/setting.model';
-import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
+import { PubsubService } from '@fsms/angular-pubsub';
 
 ChartModuleMore(Highcharts);
 HCSoldGauge(Highcharts);
@@ -19,17 +26,19 @@ HCSoldGauge(Highcharts);
 /**
  * Represents a clock tile.
  */
-export class ClockTileComponent extends TileBaseDirective implements OnInit, OnDestroy {
+export class ClockTileComponent
+  extends TileBaseDirective
+  implements OnInit, OnDestroy {
   @Input() tile: Setting;
   @Output() notify: EventEmitter<object> = new EventEmitter<object>();
   Highcharts: typeof Highcharts = Highcharts;
   interval: any;
   public options = {
     credits: {
-      enabled: false
+      enabled: false,
     },
     title: {
-      text: undefined
+      text: undefined,
     },
     chart: {
       type: 'gauge',
@@ -42,50 +51,58 @@ export class ClockTileComponent extends TileBaseDirective implements OnInit, OnD
         load() {
           const chart = this;
           this.interval = setInterval(() => {
-            if (chart.axes) { // not destroyed
+            if (chart.axes) {
+              // not destroyed
               const hour = chart.get('hour');
               const minute = chart.get('minute');
               const second = chart.get('second');
 
               // run animation unless we're wrapping around from 59 to 0
-              const animation = dayjs()
-                .second() === 0 ? false : { easing: 'easeOutBounce' };
+              const animation =
+                dayjs().second() === 0 ? false : { easing: 'easeOutBounce' };
 
-              hour.update(dayjs()
-                .hour() + dayjs()
-                  .minute() / 60, true, animation);
-              minute.update(dayjs()
-                .minute() * 12 / 60 + dayjs()
-                  .second() * 12 / 3600, true, animation);
-              second.update(dayjs()
-                .second() * 12 / 60, true, animation);
+              hour.update(
+                dayjs().hour() + dayjs().minute() / 60,
+                true,
+                animation,
+              );
+              minute.update(
+                (dayjs().minute() * 12) / 60 + (dayjs().second() * 12) / 3600,
+                true,
+                animation,
+              );
+              second.update((dayjs().second() * 12) / 60, true, animation);
             }
           }, 1000);
-        }
-      }
+        },
+      },
     },
     tooltip: {
-      enabled: false
+      enabled: false,
     },
     pane: {
-      background: [{
-      }, {
-        backgroundColor: 1 ? {
-          radialGradient: {
-            cx: 0.5,
-            cy: -0.4,
-            r: 1.9
-          },
-          stops: [
-            [0.5, 'rgba(255, 255, 255, 0.2)'],
-            [0.5, 'rgba(200, 200, 200, 0.2)']
-          ]
-        } : undefined
-      }]
+      background: [
+        {},
+        {
+          backgroundColor: 1
+            ? {
+              radialGradient: {
+                cx: 0.5,
+                cy: -0.4,
+                r: 1.9,
+              },
+              stops: [
+                [0.5, 'rgba(255, 255, 255, 0.2)'],
+                [0.5, 'rgba(200, 200, 200, 0.2)'],
+              ],
+            }
+            : undefined,
+        },
+      ],
     },
     yAxis: {
       labels: {
-        distance: -20
+        distance: -20,
       },
       min: 0,
       max: 12,
@@ -108,42 +125,48 @@ export class ClockTileComponent extends TileBaseDirective implements OnInit, OnD
           color: '#BBB',
           fontWeight: 'normal',
           fontSize: '8px',
-          lineHeight: '10px'
+          lineHeight: '10px',
         },
-        y: 10
-      }
+        y: 10,
+      },
     },
-    series: [{
-      data: [{
-        id: 'hour',
-        y: dayjs().hour() + dayjs().minute() / 60,
-        dial: {
-          radius: '60%',
-          baseWidth: 4,
-          baseLength: '95%',
-          rearLength: 0
-        }
-      }, {
-        id: 'minute',
-        y: dayjs().minute() * 12 / 60 + dayjs().second() * 12 / 3600,
-        dial: {
-          baseLength: '95%',
-          rearLength: 0
-        }
-      }, {
-        id: 'second',
-        y: dayjs().second() * 12 / 60,
-        dial: {
-          radius: '100%',
-          baseWidth: 1,
-          rearLength: '20%'
-        }
-      }],
-      animation: false,
-      dataLabels: {
-        enabled: false
-      }
-    }]
+    series: [
+      {
+        data: [
+          {
+            id: 'hour',
+            y: dayjs().hour() + dayjs().minute() / 60,
+            dial: {
+              radius: '60%',
+              baseWidth: 4,
+              baseLength: '95%',
+              rearLength: 0,
+            },
+          },
+          {
+            id: 'minute',
+            y: (dayjs().minute() * 12) / 60 + (dayjs().second() * 12) / 3600,
+            dial: {
+              baseLength: '95%',
+              rearLength: 0,
+            },
+          },
+          {
+            id: 'second',
+            y: (dayjs().second() * 12) / 60,
+            dial: {
+              radius: '100%',
+              baseWidth: 1,
+              rearLength: '20%',
+            },
+          },
+        ],
+        animation: false,
+        dataLabels: {
+          enabled: false,
+        },
+      },
+    ],
   };
 
   /**
@@ -151,15 +174,18 @@ export class ClockTileComponent extends TileBaseDirective implements OnInit, OnD
    * @constructor
    * @param  {pubSub} NgxPubSubService used to subscribe to the `data:ready` event
    */
-  constructor(private pubSub: NgxPubSubService) {
+  constructor(private pubSub: PubsubService) {
     super();
   }
 
   ngOnInit(): void {
     this.setMathBounce();
 
-    this.pubSub.subscribe('data:ready', () => {
-      this.onReady();
+    this.pubSub.subscribe({
+      messageType: 'data:ready',
+      callback: () => {
+        this.onReady();
+      },
     });
   }
 
@@ -180,20 +206,20 @@ export class ClockTileComponent extends TileBaseDirective implements OnInit, OnD
   setMathBounce(): void {
     Object.defineProperty(Math, 'easeOutBounce', {
       value: (pos: number) => {
-        if ((pos) < (1 / 2.75)) {
-          return (7.5625 * pos * pos);
+        if (pos < 1 / 2.75) {
+          return 7.5625 * pos * pos;
         }
 
-        if (pos < (2 / 2.75)) {
-          return (7.5625 * (pos -= (1.5 / 2.75)) * pos + 0.75);
+        if (pos < 2 / 2.75) {
+          return 7.5625 * (pos -= 1.5 / 2.75) * pos + 0.75;
         }
 
-        if (pos < (2.5 / 2.75)) {
-          return (7.5625 * (pos -= (2.25 / 2.75)) * pos + 0.9375);
+        if (pos < 2.5 / 2.75) {
+          return 7.5625 * (pos -= 2.25 / 2.75) * pos + 0.9375;
         }
 
-        return (7.5625 * (pos -= (2.625 / 2.75)) * pos + 0.984375);
-      }
+        return 7.5625 * (pos -= 2.625 / 2.75) * pos + 0.984375;
+      },
     });
   }
 }

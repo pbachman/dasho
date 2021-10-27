@@ -6,7 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DashboardService } from '../services/dashboard.service';
 import { User } from '../models/user.model';
-import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
+import { PubsubService } from '@fsms/angular-pubsub';
 
 @Component({
   selector: 'dasho-menu',
@@ -14,7 +14,6 @@ import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent implements OnInit {
-
   currentUser: User;
   settings: any;
 
@@ -25,12 +24,15 @@ export class MenuComponent implements OnInit {
     private dashboardService: DashboardService,
     private router: Router,
     private menuCtrl: MenuController,
-    private pubSub: NgxPubSubService
+    private pubSub: PubsubService,
   ) {
-    this.pubSub.subscribe('user:login', user => this.currentUser = user);
+    this.pubSub.subscribe({
+      messageType: 'user:login',
+      callback: (response) => (this.currentUser = response.message.payload),
+    });
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   /**
    * Shows the dialog to change the password
@@ -46,53 +48,70 @@ export class MenuComponent implements OnInit {
         {
           name: 'passwordOld',
           placeholder: i18n.changePassword.passwordOld,
-          type: 'password'
-        }, {
+          type: 'password',
+        },
+        {
           name: 'password',
           placeholder: i18n.changePassword.password,
-          type: 'password'
-        }, {
+          type: 'password',
+        },
+        {
           name: 'passwordConfirm',
           placeholder: i18n.changePassword.passwordConfirm,
-          type: 'password'
-        }
+          type: 'password',
+        },
       ],
       buttons: [
         {
           text: i18n.general.cancel,
-          role: 'cancel'
+          role: 'cancel',
         },
         {
           text: i18n.changePassword.change,
-          handler: data => {
-            if (!data.passwordOld || !data.password || data.password !== data.passwordConfirm) {
+          handler: (data) => {
+            if (
+              !data.passwordOld ||
+              !data.password ||
+              data.password !== data.passwordConfirm
+            ) {
               return false;
             }
 
-            this.dashboardService.changePassword(this.currentUser.username, data.passwordOld, data.password, data.passwordConfirm)
-              .subscribe(async () => {
-
-                const alert = await this.alertCtrl.create({
-                  header: i18n.changePassword.alertTitle,
-                  subHeader: i18n.changePassword.alertSubTitle,
-                  backdropDismiss: false,
-                  buttons: ['OK']
-                });
-                await alert.present();
-                return true;
-              }, async (error: HttpErrorResponse) => {
-                const alert = await this.alertCtrl.create({
-                  header: 'Error!',
-                  message: (error.status === 0) ? 'No Connection to the Backend!' : error.error,
-                  backdropDismiss: false,
-                  buttons: ['OK']
-                });
-                await alert.present();
-                return false;
-              });
-          }
-        }
-      ]
+            this.dashboardService
+              .changePassword(
+                this.currentUser.username,
+                data.passwordOld,
+                data.password,
+                data.passwordConfirm,
+              )
+              .subscribe(
+                async () => {
+                  const alert = await this.alertCtrl.create({
+                    header: i18n.changePassword.alertTitle,
+                    subHeader: i18n.changePassword.alertSubTitle,
+                    backdropDismiss: false,
+                    buttons: ['OK'],
+                  });
+                  await alert.present();
+                  return true;
+                },
+                async (error: HttpErrorResponse) => {
+                  const alert = await this.alertCtrl.create({
+                    header: 'Error!',
+                    message:
+                      error.status === 0
+                        ? 'No Connection to the Backend!'
+                        : error.error,
+                    backdropDismiss: false,
+                    buttons: ['OK'],
+                  });
+                  await alert.present();
+                  return false;
+                },
+              );
+          },
+        },
+      ],
     });
     await prompt.present();
   }
@@ -111,52 +130,62 @@ export class MenuComponent implements OnInit {
         {
           name: 'email',
           placeholder: i18n.general.email,
-          type: 'text'
-        }
+          type: 'text',
+        },
       ],
       buttons: [
         {
           text: i18n.general.cancel,
-          role: 'cancel'
+          role: 'cancel',
         },
         {
           text: i18n.invite.send,
-          handler: async data => {
+          handler: async (data) => {
             if (this.userService.isMailInvalid(data.email)) {
               const alert = await this.alertCtrl.create({
                 header: i18n.forgetPassword.alertInvalidTitle,
                 subHeader: i18n.forgetPassword.alertInvalid,
                 backdropDismiss: false,
-                buttons: ['OK']
+                buttons: ['OK'],
               });
               await alert.present();
               return false;
             }
 
-            this.dashboardService.inviteFriends(this.currentUser.username, data.email)
-              .subscribe(async () => {
-                const alert = await this.alertCtrl.create({
-                  header: i18n.invite.alertTitle,
-                  subHeader: i18n.invite.alertSubTitle.replace('%email%', data.email),
-                  translucent: true,
-                  backdropDismiss: false,
-                  buttons: ['OK']
-                });
-                await alert.present();
-                return true;
-              }, async (error: HttpErrorResponse) => {
-                const alert = await this.alertCtrl.create({
-                  header: 'Error!',
-                  message: (error.status === 0) ? 'No Connection to the Backend!' : error.error,
-                  backdropDismiss: false,
-                  buttons: ['OK']
-                });
-                await alert.present();
-                return false;
-              });
-          }
-        }
-      ]
+            this.dashboardService
+              .inviteFriends(this.currentUser.username, data.email)
+              .subscribe(
+                async () => {
+                  const alert = await this.alertCtrl.create({
+                    header: i18n.invite.alertTitle,
+                    subHeader: i18n.invite.alertSubTitle.replace(
+                      '%email%',
+                      data.email,
+                    ),
+                    translucent: true,
+                    backdropDismiss: false,
+                    buttons: ['OK'],
+                  });
+                  await alert.present();
+                  return true;
+                },
+                async (error: HttpErrorResponse) => {
+                  const alert = await this.alertCtrl.create({
+                    header: 'Error!',
+                    message:
+                      error.status === 0
+                        ? 'No Connection to the Backend!'
+                        : error.error,
+                    backdropDismiss: false,
+                    buttons: ['OK'],
+                  });
+                  await alert.present();
+                  return false;
+                },
+              );
+          },
+        },
+      ],
     });
     await prompt.present();
   }
@@ -165,7 +194,8 @@ export class MenuComponent implements OnInit {
    * Shows the Settings dialog
    */
   configureTileSettings(): void {
-    this.dashboardService.getSettings(this.currentUser.username)
+    this.dashboardService
+      .getSettings(this.currentUser.username)
       .subscribe((settings: any) => {
         this.settings = settings;
         this.menuCtrl.close();
@@ -195,9 +225,9 @@ export class MenuComponent implements OnInit {
    */
   changeLanguage(): void {
     const data = {
-      key: this.languageService.currentLanguage
+      key: this.languageService.currentLanguage,
     };
-    this.pubSub.publishEvent('user:language', data);
+    this.pubSub.publish({ messageType: 'user:language', payload: data });
   }
 
   /**

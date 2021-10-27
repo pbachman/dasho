@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import * as dayjs from 'dayjs';
-import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
+import { PubsubService } from '@fsms/angular-pubsub';
 
 /**
  * Represents the language provider
@@ -20,14 +20,17 @@ export class LanguageService {
    * @param {Storage} storage The storage from @ionic/storage
    */
   constructor(
-    private pubSub: NgxPubSubService,
+    private pubSub: PubsubService,
     private translate: TranslateService,
-    private storage: Storage) {
-
-    this.pubSub.subscribe('user:language', data => {
-      if (data) {
-        this.setLanguage(data.key);
-      }
+    private storage: Storage,
+  ) {
+    this.pubSub.subscribe({
+      messageType: 'user:language',
+      callback: (response) => {
+        if (response) {
+          this.setLanguage(response.message.payload.key);
+        }
+      },
     });
   }
 
@@ -37,18 +40,19 @@ export class LanguageService {
   initialLanguage(): void {
     const DEFAULT_LANGUAGE = 'en';
     const BROWSER_LANG = this.translate.getBrowserLang();
-    const choosenLanguage = BROWSER_LANG.match(/en|de/) ? BROWSER_LANG : DEFAULT_LANGUAGE;
+    const choosenLanguage = BROWSER_LANG.match(/en|de/)
+      ? BROWSER_LANG
+      : DEFAULT_LANGUAGE;
 
     this.translate.addLangs(['en', 'de']);
     this.translate.setDefaultLang(DEFAULT_LANGUAGE);
     this.translate.use(choosenLanguage);
 
-    this.getLanguage()
-      .then(value => {
-        if (value && value.match(/en|de/) && choosenLanguage !== value) {
-          this.setLanguage(value);
-        }
-      });
+    this.getLanguage().then((value) => {
+      if (value && value.match(/en|de/) && choosenLanguage !== value) {
+        this.setLanguage(value);
+      }
+    });
     this.setLanguage(choosenLanguage);
   }
 
@@ -80,10 +84,9 @@ export class LanguageService {
     this.currentLanguage = languageKey;
     this.storage.set('language', languageKey);
 
-    this.translate.getTranslation(languageKey)
-      .subscribe(data => {
-        this.keys = data;
-      });
+    this.translate.getTranslation(languageKey).subscribe((data) => {
+      this.keys = data;
+    });
   }
 
   /**

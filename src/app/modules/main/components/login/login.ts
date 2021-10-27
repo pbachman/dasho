@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { LanguageService } from '../../../../core/services/language.service';
 import { UserService } from '../../../../core/services/user.service';
 import { DashboardService } from '../../../../core/services/dashboard.service';
-import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
+import { PubsubService } from '@fsms/angular-pubsub';
 
 @Component({
   selector: 'page-login',
@@ -18,10 +18,10 @@ import { NgxPubSubService } from '@pscoped/ngx-pub-sub';
  * Represent the login page
  */
 export class LoginPage {
-  user: { username: string, password: string } = { username: '', password: '' };
+  user: { username: string; password: string } = { username: '', password: '' };
   formErrors = {
     username: false,
-    password: false
+    password: false,
   };
   showError: boolean;
   isLoginIn: boolean;
@@ -43,14 +43,17 @@ export class LoginPage {
     private loginService: LoginService,
     private mainService: DashboardService,
     private router: Router,
-    private pubSub: NgxPubSubService
+    private pubSub: PubsubService,
   ) {
     this.showError = false;
-    this.pubSub.subscribe('user:logout', () => {
-      this.user = {
-        username: '',
-        password: ''
-      };
+    this.pubSub.subscribe({
+      messageType: 'user:logout',
+      callback: () => {
+        this.user = {
+          username: '',
+          password: '',
+        };
+      },
     });
   }
 
@@ -85,32 +88,34 @@ export class LoginPage {
 
     if (form.valid) {
       this.isLoginIn = true;
-      this.loginService.login(this.user.username, this.user.password)
-        .subscribe((response: any) => {
+      this.loginService.login(this.user.username, this.user.password).subscribe(
+        (response: any) => {
           const token = response.access_token;
-          (token) ?
-            /**
-             * Sets the Token, loads the current Profile and store it locally.
-             */
-            this.userService.setsAccessToken(token)
-              .subscribe(() => {
-                this.mainService.getUserprofile()
-                  .subscribe(user => {
-                    this.userService.setsUserdata(user)
-                      .subscribe(() => {
-                        this.showError = false;
-                        this.userService.setsUserdata(user);
-                        this.pubSub.publishEvent('user:login', user);
-                        this.router.navigateByUrl('/main');
-                      });
+          token
+            ? /**
+               * Sets the Token, loads the current Profile and store it locally.
+               */
+              this.userService.setsAccessToken(token).subscribe(() => {
+                this.mainService.getUserprofile().subscribe((user) => {
+                  this.userService.setsUserdata(user).subscribe(() => {
+                    this.showError = false;
+                    this.userService.setsUserdata(user);
+                    this.pubSub.publish({
+                      messageType: 'user:login',
+                      payload: user,
+                    });
+                    this.router.navigateByUrl('/main');
                   });
+                });
               })
             : this.showErrorDialog(form.form.controls);
           this.isLoginIn = false;
-        }, err => {
+        },
+        (err) => {
           this.showErrorDialog(form.form.controls);
           this.isLoginIn = false;
-        });
+        },
+      );
     }
   }
 
@@ -127,54 +132,59 @@ export class LoginPage {
         {
           name: 'email',
           placeholder: i18n.general.emailExample,
-          type: 'email'
-        }
+          type: 'email',
+        },
       ],
       buttons: [
         {
           text: i18n.general.cancel,
-          role: 'cancel'
+          role: 'cancel',
         },
         {
           text: i18n.forgetPassword.send,
-          handler: async data => {
+          handler: async (data) => {
             if (this.userService.isMailInvalid(data.email)) {
               const alert = await this.alertCtrl.create({
                 header: i18n.forgetPassword.alertInvalidTitle,
                 subHeader: i18n.forgetPassword.alertInvalid,
                 backdropDismiss: false,
-                buttons: ['OK']
+                buttons: ['OK'],
               });
               await alert.present();
 
               return false;
             }
 
-            this.loginService.forgetPassword(data.email)
-              .subscribe(async () => {
+            this.loginService.forgetPassword(data.email).subscribe(
+              async () => {
                 const alert = await this.alertCtrl.create({
                   header: i18n.forgetPassword.alertTitle,
                   subHeader: i18n.forgetPassword.alertSubTitle,
                   backdropDismiss: false,
-                  buttons: ['OK']
+                  buttons: ['OK'],
                 });
                 await alert.present();
 
                 return true;
-              }, async (error: HttpErrorResponse) => {
+              },
+              async (error: HttpErrorResponse) => {
                 const alert = await this.alertCtrl.create({
                   header: 'Error',
-                  subHeader: (error.status === 0) ? 'No Connection to the Backend!' : error.error,
+                  subHeader:
+                    error.status === 0
+                      ? 'No Connection to the Backend!'
+                      : error.error,
                   backdropDismiss: false,
-                  buttons: ['OK']
+                  buttons: ['OK'],
                 });
                 await alert.present();
 
                 return false;
-              });
-          }
-        }
-      ]
+              },
+            );
+          },
+        },
+      ],
     });
     await prompt.present();
   }
@@ -189,77 +199,87 @@ export class LoginPage {
         {
           name: 'email',
           placeholder: i18n.general.emailExample,
-          type: 'email'
+          type: 'email',
         },
         {
           name: 'password',
           placeholder: i18n.signup.password,
-          type: 'password'
+          type: 'password',
         },
         {
           name: 'passwordconfirm',
           placeholder: i18n.signup.passwordconfirm,
-          type: 'password'
-        }
+          type: 'password',
+        },
       ],
       buttons: [
         {
           text: i18n.general.cancel,
-          role: 'cancel'
+          role: 'cancel',
         },
         {
           text: i18n.signup.send,
-          handler: async data => {
+          handler: async (data) => {
             if (this.userService.isMailInvalid(data.email)) {
               const invalidEmailAlert = await this.alertCtrl.create({
                 header: i18n.forgetPassword.alertInvalidTitle,
                 subHeader: i18n.forgetPassword.alertInvalid,
                 backdropDismiss: false,
-                buttons: ['OK']
+                buttons: ['OK'],
               });
               await invalidEmailAlert.present();
 
               return false;
             }
 
-            if (data.password.length < 8 || data.passwordconfirm.length < 8 || data.password === '' ||
-              data.passwordconfirm === '' || (data.password !== data.passwordconfirm)) {
+            if (
+              data.password.length < 8 ||
+              data.passwordconfirm.length < 8 ||
+              data.password === '' ||
+              data.passwordconfirm === '' ||
+              data.password !== data.passwordconfirm
+            ) {
               const invalidPasswordAlert = await this.alertCtrl.create({
                 header: i18n.signup.alertInvalidPasswordTitle,
                 subHeader: i18n.signup.alertInvalidPassword,
                 backdropDismiss: false,
-                buttons: ['OK']
+                buttons: ['OK'],
               });
               await invalidPasswordAlert.present();
 
               return false;
             }
 
-            this.loginService.signUp(data.email, data.password)
-              .subscribe(async () => {
+            this.loginService.signUp(data.email, data.password).subscribe(
+              async () => {
                 const infoDialog = await this.alertCtrl.create({
                   header: i18n.signup.alertTitle,
                   subHeader: i18n.signup.alertSubTitle,
                   backdropDismiss: false,
-                  buttons: ['OK']
+                  buttons: ['OK'],
                 });
                 await infoDialog.present();
 
                 return true;
-              }, async (error: HttpErrorResponse) => {
+              },
+              async (error: HttpErrorResponse) => {
                 const errorDialog = await this.alertCtrl.create({
                   header: 'Error',
-                  subHeader: (error.status === 0) ? 'No Connection to the Backend!' : error.error,
+                  subHeader:
+                    error.status === 0
+                      ? 'No Connection to the Backend!'
+                      : error.error,
                   backdropDismiss: false,
-                  buttons: ['OK']
+                  buttons: ['OK'],
                 });
                 await errorDialog.present();
 
                 return false;
-              });
-          }
-        }
-      ]
+              },
+            );
+          },
+        },
+      ],
     });
     await prompt.present();
   }
