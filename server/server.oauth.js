@@ -33,8 +33,7 @@ let serveroAuth = (function () {
       settingsloader.saveAccessToken(token, clientId, expires, userId, callback);
     },
   };
-  let oauth = new oauthServer({ model: model, grants: ['password'], accessTokenLifetime: null, refreshTokenLifetime: null });
-  return oauth;
+  return new oauthServer({ model: model, grants: ['password'], accessTokenLifetime: null, refreshTokenLifetime: null });
 });
 
 /**
