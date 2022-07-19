@@ -19,7 +19,6 @@ import { PubsubModule } from '@fsms/angular-pubsub';
 /**
  * Set the paths for the tranlsations
  */
-// tslint:disable-next-line:only-arrow-functions
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http);
 }
