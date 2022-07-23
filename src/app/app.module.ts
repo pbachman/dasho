@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { IonicStorageModule } from '@ionic/storage';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
@@ -14,7 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { MainModule } from './modules/main/main.module';
 import { CoreModule } from './core/core.module';
 import { TilesModule } from './modules/tiles/tiles.module';
-import { PubsubModule } from '@fsms/angular-pubsub';
+import { IonicStorageModule } from '@ionic/storage-angular';
 
 /**
  * Set the paths for the tranlsations
@@ -33,7 +32,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     HttpClientModule,
     FormsModule,
     IonicModule.forRoot(),
-    IonicStorageModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -41,7 +39,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         deps: [HttpClient]
       }
     }),
-    PubsubModule.forRoot(),
+    IonicStorageModule.forRoot(),
     MainModule,
     CoreModule,
     TilesModule,
