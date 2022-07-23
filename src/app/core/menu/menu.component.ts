@@ -6,7 +6,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DashboardService } from '../services/dashboard.service';
 import { User } from '../models/user.model';
-import { PubsubService } from '@fsms/angular-pubsub';
+import { Events } from '../services/events.service';
 
 @Component({
   selector: 'dasho-menu',
@@ -24,7 +24,7 @@ export class MenuComponent implements OnInit {
     private dashboardService: DashboardService,
     private router: Router,
     private menuCtrl: MenuController,
-    private pubSub: PubsubService,
+    private pubSub: Events,
   ) {
     this.pubSub.subscribe({
       messageType: 'user:login',
@@ -227,7 +227,7 @@ export class MenuComponent implements OnInit {
     const data = {
       key: this.languageService.currentLanguage,
     };
-    this.pubSub.publish({ messageType: 'user:language', payload: data });
+    this.pubSub.publish('user:language', data );
   }
 
   /**

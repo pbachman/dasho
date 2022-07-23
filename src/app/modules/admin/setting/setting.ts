@@ -7,7 +7,7 @@ import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { DashboardService } from 'src/app/core/services/dashboard.service';
 import { Tile } from '../models/tile.model';
-import { PubsubService } from '@fsms/angular-pubsub';
+import { Events } from 'src/app/core/services/events.service';
 
 @Component({
   selector: 'page-setting',
@@ -26,7 +26,7 @@ export class SettingPage implements OnInit {
     private settingService: SettingService,
     private userService: UserService,
     private router: Router,
-    private pubSub: PubsubService,
+    private events: Events,
     private alertCtrl: AlertController,
   ) {}
 
@@ -71,10 +71,7 @@ export class SettingPage implements OnInit {
               {
                 text: 'OK',
                 handler: () => {
-                  this.pubSub.publish({
-                    messageType: 'data:changed',
-                    payload: null,
-                  });
+                  this.events.publish('data:changed', null);
                   this.loadSettings();
                 },
               },
@@ -99,10 +96,7 @@ export class SettingPage implements OnInit {
               {
                 text: 'OK',
                 handler: () => {
-                  this.pubSub.publish({
-                    messageType: 'data:changed',
-                    payload: null,
-                  });
+                  this.events.publish('data:changed', null);
                   this.loadSettings();
                 },
               },
@@ -133,10 +127,7 @@ export class SettingPage implements OnInit {
               .subscribe(
                 (deleted: boolean) => {
                   if (deleted) {
-                    this.pubSub.publish({
-                      messageType: 'data:changed',
-                      payload: null,
-                    });
+                    this.events.publish('data:changed', null);
                     this.loadSettings();
                   }
                 },

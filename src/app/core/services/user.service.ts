@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Observable, from } from 'rxjs';
-import { Storage } from '@ionic/storage';
-import { User } from '../models/user.model';
-import { PubsubService } from '@fsms/angular-pubsub';
+import { Injectable } from "@angular/core";
+import { Observable, from } from "rxjs";
+import { Storage } from "@ionic/storage";
+import { User } from "../models/user.model";
+import { Events } from "./events.service";
 
 /**
  * Represents the user provider
@@ -10,14 +10,16 @@ import { PubsubService } from '@fsms/angular-pubsub';
 @Injectable()
 export class UserService {
   FAVORITES = [];
-  HAS_LOGGED_IN = 'hasLoggedIn';
+  HAS_LOGGED_IN = "hasLoggedIn";
 
   /**
    * Create the user data provider
    * @param  {pubSub}  NgxPubSubService  Used to publish to the users events
    * @param  {Storage} privatestorage Used to store the user data
    */
-  constructor(private pubSub: PubsubService, private storage: Storage) {}
+  constructor(private events: Events, private storage: Storage) {
+    this.storage.create();
+  }
 
   /**
    * Checks if is the string a invalid email address
@@ -26,7 +28,7 @@ export class UserService {
    */
   isMailInvalid(value: string): boolean {
     const emailRegex = new RegExp(
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
 
     return !emailRegex.test(value);
@@ -37,9 +39,9 @@ export class UserService {
    */
   logout(): void {
     this.storage.remove(this.HAS_LOGGED_IN);
-    this.storage.remove('user');
-    this.storage.remove('token');
-    this.pubSub.publish({ messageType: 'user:logout', payload: null });
+    this.storage.remove("user");
+    this.storage.remove("token");
+    this.events.publish("user:logout", null);
   }
 
   /**
@@ -48,9 +50,9 @@ export class UserService {
    */
   setsUserdata(user: User): Observable<void> {
     return from(
-      this.storage.set('user', user).then(() => {
+      this.storage.set("user", user).then(() => {
         return this.storage.set(this.HAS_LOGGED_IN, true);
-      }),
+      })
     );
   }
 
@@ -59,7 +61,7 @@ export class UserService {
    * @param {string} token
    */
   setsAccessToken(token: string): Observable<void> {
-    return from(this.storage.set('token', token));
+    return from(this.storage.set("token", token));
   }
 
   /**
@@ -68,9 +70,9 @@ export class UserService {
    */
   getAccessToken(): Observable<string> {
     return from(
-      this.storage.get('token').then((value) => {
+      this.storage.get("token").then((value) => {
         return value;
-      }),
+      })
     );
   }
 
@@ -80,9 +82,9 @@ export class UserService {
    */
   getUsername(): Observable<string> {
     return from(
-      this.storage.get('user').then((value) => {
+      this.storage.get("user").then((value) => {
         return value && value.username;
-      }),
+      })
     );
   }
 
@@ -92,9 +94,9 @@ export class UserService {
    */
   getUser(): Observable<User> {
     return from(
-      this.storage.get('user').then((value) => {
+      this.storage.get("user").then((value) => {
         return value;
-      }),
+      })
     );
   }
 
@@ -106,7 +108,7 @@ export class UserService {
     return from(
       this.storage.get(this.HAS_LOGGED_IN).then((value) => {
         return value === true;
-      }),
+      })
     );
   }
 }

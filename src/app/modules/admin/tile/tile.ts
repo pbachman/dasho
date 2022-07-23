@@ -6,7 +6,7 @@ import { AlertController } from '@ionic/angular';
 import { UserService } from 'src/app/core/services/user.service';
 import { Tile } from '../models/tile.model';
 import { Router } from '@angular/router';
-import { PubsubService } from '@fsms/angular-pubsub';
+import { Events } from 'src/app/core/services/events.service';
 
 @Component({
   selector: 'tile-setting',
@@ -24,7 +24,7 @@ export class TilePage implements OnInit {
     private tileService: TileService,
     private userService: UserService,
     private router: Router,
-    private pubSub: PubsubService,
+    private events: Events,
     private alertCtrl: AlertController,
   ) {}
 
@@ -67,10 +67,7 @@ export class TilePage implements OnInit {
                 {
                   text: 'OK',
                   handler: () => {
-                    this.pubSub.publish({
-                      messageType: 'data:changed',
-                      payload: null,
-                    });
+                    this.events.publish('data:changed', null);
                     this.getTiles();
                   },
                 },

@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from './core/services/language.service';
 import { UserService } from './core/services/user.service';
 import { Router } from '@angular/router';
-import { PubsubService } from '@fsms/angular-pubsub';
+import { Events } from './core/services/events.service';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +24,7 @@ export class AppComponent {
     private statusBar: StatusBar,
     private translate: TranslateService,
     private languageService: LanguageService,
-    private pubSub: PubsubService,
+    private events: Events,
     private router: Router,
     private userService: UserService
   ) {
@@ -60,11 +60,11 @@ export class AppComponent {
    * Handle the menu visability and headline. Subscribe to the user events
    */
   private listenToLoginEvents(): void {
-    this.pubSub.subscribe({ messageType: 'user:login', callback: () => {
+    this.events.subscribe({ messageType: 'user:login', callback: () => {
       this.enableMenu(true);
     }});
 
-    this.pubSub.subscribe({ messageType: 'user:logout', callback: () => {
+    this.events.subscribe({ messageType: 'user:logout', callback: () => {
       this.enableMenu(false);
     }});
   }

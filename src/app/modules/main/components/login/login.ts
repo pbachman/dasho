@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { LanguageService } from '../../../../core/services/language.service';
 import { UserService } from '../../../../core/services/user.service';
 import { DashboardService } from '../../../../core/services/dashboard.service';
-import { PubsubService } from '@fsms/angular-pubsub';
+import { Events } from 'src/app/core/services/events.service';
 
 @Component({
   selector: 'page-login',
@@ -43,18 +43,17 @@ export class LoginPage {
     private loginService: LoginService,
     private mainService: DashboardService,
     private router: Router,
-    private pubSub: PubsubService,
+    private events: Events,
   ) {
     this.showError = false;
-    this.pubSub.subscribe({
-      messageType: 'user:logout',
-      callback: () => {
+    this.events.subscribe('user:logout',
+      () => {
         this.user = {
           username: '',
           password: '',
         };
       },
-    });
+    );
   }
 
   /**
@@ -100,10 +99,7 @@ export class LoginPage {
                   this.userService.setsUserdata(user).subscribe(() => {
                     this.showError = false;
                     this.userService.setsUserdata(user);
-                    this.pubSub.publish({
-                      messageType: 'user:login',
-                      payload: user,
-                    });
+                    this.events.publish('user:login', user);
                     this.router.navigateByUrl('/main');
                   });
                 });

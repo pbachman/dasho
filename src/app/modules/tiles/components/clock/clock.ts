@@ -12,7 +12,7 @@ import * as Highcharts from 'highcharts';
 import HCSoldGauge from 'highcharts/modules/solid-gauge';
 import { TileBaseDirective } from '../../models/basetile.model';
 import { Setting } from '../../models/setting.model';
-import { PubsubService } from '@fsms/angular-pubsub';
+import { Events } from 'src/app/core/services/events.service';
 
 ChartModuleMore(Highcharts);
 HCSoldGauge(Highcharts);
@@ -174,14 +174,14 @@ export class ClockTileComponent
    * @constructor
    * @param  {pubSub} NgxPubSubService used to subscribe to the `data:ready` event
    */
-  constructor(private pubSub: PubsubService) {
+  constructor(private events: Events) {
     super();
   }
 
   ngOnInit(): void {
     this.setMathBounce();
 
-    this.pubSub.subscribe({
+    this.events.subscribe({
       messageType: 'data:ready',
       callback: () => {
         this.onReady();

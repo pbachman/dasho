@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { TranslateService } from '@ngx-translate/core';
 import * as dayjs from 'dayjs';
-import { PubsubService } from '@fsms/angular-pubsub';
+import { Events } from './events.service';
 
 /**
  * Represents the language provider
@@ -20,7 +20,7 @@ export class LanguageService {
    * @param {Storage} storage The storage from @ionic/storage
    */
   constructor(
-    private pubSub: PubsubService,
+    private pubSub: Events,
     private translate: TranslateService,
     private storage: Storage,
   ) {
@@ -39,7 +39,7 @@ export class LanguageService {
    */
   initialLanguage(): void {
     const DEFAULT_LANGUAGE = 'en';
-    const BROWSER_LANG = this.translate.getBrowserLang();
+    const BROWSER_LANG = this.translate.getBrowserLang() || DEFAULT_LANGUAGE;
     const choosenLanguage = BROWSER_LANG.match(/en|de/)
       ? BROWSER_LANG
       : DEFAULT_LANGUAGE;
