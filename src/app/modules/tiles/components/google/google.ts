@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import * as Highcharts from 'highcharts';
+import { Events } from 'src/app/core/services/events.service';
 import { LanguageService } from 'src/app/core/services/language.service';
 import { TileBaseDirective } from '../../models/basetile.model';
 import { Setting } from '../../models/setting.model';
-import { PubsubService } from '@fsms/angular-pubsub';
 
 @Component({
   selector: 'grid-google',
@@ -27,14 +27,14 @@ export class GoogleTileComponent extends TileBaseDirective {
    * @param  {pubSub} NgxPubSubService used to subscribe to the `data:ready` and the `user:language` event
    */
   constructor(
-    private pubSub: PubsubService,
+    private events: Events,
     private languageService: LanguageService,
   ) {
     super();
   }
 
   ngOnInit(): void {
-    this.pubSub.subscribe({
+    this.events.subscribe({
       messageType: 'data:ready',
       callback: (response) => {
         if (response) {
@@ -44,7 +44,7 @@ export class GoogleTileComponent extends TileBaseDirective {
       },
     });
 
-    this.pubSub.subscribe({
+    this.events.subscribe({
       messageType: 'user:language',
       callback: () => {
         setTimeout(() => {

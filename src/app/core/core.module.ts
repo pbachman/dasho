@@ -8,6 +8,7 @@ import { LanguageService } from './services/language.service';
 import { UserService } from './services/user.service';
 import { LoginService } from './services/login.service';
 import { MenuComponent } from './menu/menu.component';
+import { Events } from './services/events.service';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { MenuComponent } from './menu/menu.component';
     DashboardService,
     LanguageService,
     UserService,
+    Events,
     LoginService
   ],
 })

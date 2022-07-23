@@ -6,7 +6,7 @@ import { Setting } from 'src/app/modules/tiles/models/setting.model';
 import { DashboardService } from 'src/app/core/services/dashboard.service';
 import { UserService } from 'src/app/core/services/user.service';
 import { User } from 'src/app/core/models/user.model';
-import { PubsubService } from '@fsms/angular-pubsub';
+import { Events } from 'src/app/core/services/events.service';
 
 declare const Packery: any;
 declare const Draggabilly: any;
@@ -37,16 +37,13 @@ export class MainPage implements OnInit, AfterViewInit {
     private alertCtrl: AlertController,
     private router: Router,
     private menu: MenuController,
-    private pubSub: PubsubService,
+    private events: Events,
   ) {
     this.userService.hasLoggedIn().subscribe((hasLoggedIn: boolean) => {
       if (hasLoggedIn) {
         this.userService.getUser().subscribe((user) => {
           this.currentUser = user;
-          this.pubSub.publish({
-            messageType: 'user:login',
-            payload: user,
-          });
+          this.events.publish('user:login', user);
           this.loadData();
         });
       } else {
@@ -77,7 +74,7 @@ export class MainPage implements OnInit, AfterViewInit {
    * Get the username and the settings from the services
    */
   ngOnInit(): void {
-    this.pubSub.subscribe({
+    this.events.subscribe({
       messageType: 'data:ready',
       callback: (response) => {
         this.dataobject = response.message.payload;
@@ -90,7 +87,7 @@ export class MainPage implements OnInit, AfterViewInit {
       },
     });
 
-    this.pubSub.subscribe({
+    this.events.subscribe({
       messageType: 'data:changed',
       callback: () => {
         console.log('data:changed');
@@ -113,10 +110,7 @@ export class MainPage implements OnInit, AfterViewInit {
             .getData(this.currentUser.username, this.settings)
             .subscribe(
               (response: any) => {
-                this.pubSub.publish({
-                  messageType: 'data:ready',
-                  payload: response.data.settings,
-                });
+                this.events.publish('data:ready', response.data.settings);
 
                 if (!this.isGridInitialized) {
                   this.initGrid();
@@ -213,10 +207,7 @@ export class MainPage implements OnInit, AfterViewInit {
                 this.pckry.appended(element);
                 this.pckry.bindDraggabillyEvents(draggie);
 
-                this.pubSub.publish({
-                  messageType: 'data:ready',
-                  payload: this.dataobject,
-                });
+                this.events.publish('data:ready', this.dataobject);
 
                 this.pckry.layout();
               } else {
@@ -285,14 +276,14 @@ export class MainPage implements OnInit, AfterViewInit {
    * Handle the menu visability and headline. Subscribe to the user events
    */
   private listenToLoginEvents(): void {
-    this.pubSub.subscribe({
+    this.events.subscribe({
       messageType: 'user:login',
       callback: (response) => {
         this.currentUser = response.message.payload;
       },
     });
 
-    this.pubSub.subscribe({
+    this.events.subscribe({
       messageType: 'user:logout',
       callback: () => {
         this.router.navigateByUrl('/login');

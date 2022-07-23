@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TileBaseDirective } from '../../models/basetile.model';
 import { Setting } from '../../models/setting.model';
-import { PubsubService } from '@fsms/angular-pubsub';
+import { Events } from 'src/app/core/services/events.service';
 
 @Component({
   selector: 'grid-news',
@@ -20,12 +20,12 @@ export class NewsTileComponent extends TileBaseDirective {
   /**
    * Create the news tile
    */
-  constructor(private pubSub: PubsubService) {
+  constructor(private events: Events) {
     super();
   }
 
   ngOnInit(): void {
-    this.pubSub.subscribe({ messageType: 'data:ready', callback: (response) => {
+    this.events.subscribe({ messageType: 'data:ready', callback: (response) => {
       if (response) {
         const news = response.message.payload.news;
         if (news && news.articles) {
@@ -40,7 +40,7 @@ export class NewsTileComponent extends TileBaseDirective {
       }
     }});
 
-    this.pubSub.subscribe({ messageType: 'user:language', callback: (response) => {
+    this.events.subscribe({ messageType: 'user:language', callback: (response) => {
       if (response) {
         const store = this.data;
         this.data = {};
