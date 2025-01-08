@@ -27,7 +27,7 @@
     "@ionic/storage-angular": "^3.0.6",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
-    "body-parser": "^1.15.2",
+    "body-parser": "^1.20.3",
     "btoa": "^1.1.2",
     "compression": "^1.7.4",
     "core-js": "^2.5.4",
