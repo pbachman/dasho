@@ -9,16 +9,17 @@ import { Setting } from '../../models/setting.model';
   selector: 'grid-google',
   templateUrl: 'google.html',
   styleUrls: ['google.scss'],
+  standalone: false,
 })
 
 /**
  * Represents a Google tile.
  */
 export class GoogleTileComponent extends TileBaseDirective {
-  @Input() tile: Setting;
-  @Output() notify: EventEmitter<object> = new EventEmitter<object>();
-  data: { finalUrl; categories: { performance: number } };
-  options: object;
+  @Input() override tile: Setting | undefined;
+  @Output() override notify: EventEmitter<object> = new EventEmitter<object>();
+  data: { finalUrl: any; categories: { performance: number; }; } | undefined;
+  options: object | undefined;
   Highcharts: typeof Highcharts = Highcharts;
 
   /**
@@ -36,7 +37,7 @@ export class GoogleTileComponent extends TileBaseDirective {
   ngOnInit(): void {
     this.events.subscribe({
       messageType: 'data:ready',
-      callback: (response) => {
+      callback: (response: any) => {
         if (response) {
           this.data = response.message.payload.googleapi;
         }
@@ -104,7 +105,7 @@ export class GoogleTileComponent extends TileBaseDirective {
         valueSuffix: '%',
         pointFormat:
           '<span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}</span>',
-        positioner(labelWidth) {
+        positioner(labelWidth: number) {
           return {
             x: (this.chart.chartWidth - labelWidth) / 2,
             y: this.chart.plotHeight / 2,

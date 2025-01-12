@@ -7,15 +7,16 @@ import { Events } from 'src/app/core/services/events.service';
   selector: 'grid-wiewarm',
   templateUrl: 'wiewarm.html',
   styleUrls: ['wiewarm.scss'],
+  standalone: false,
 })
 
 /**
  * Represents a Wiewarm.ch tile.
  */
 export class WiewarmTileComponent extends TileBaseDirective {
-  @Input() tile: Setting;
-  @Output() notify: EventEmitter<object> = new EventEmitter<object>();
-  data: object;
+  @Input() override tile: Setting | undefined;
+  @Output() override notify: EventEmitter<object> = new EventEmitter<object>();
+  data?: object;
 
   /**
    * Create the Wiewarm.ch tile
@@ -29,7 +30,7 @@ export class WiewarmTileComponent extends TileBaseDirective {
   ngOnInit(): void {
     this.events.subscribe({
       messageType: 'data:ready',
-      callback: (response) => {
+      callback: (response: any) => {
         if (response) {
           this.data = response.message.payload.wiewarm;
         }

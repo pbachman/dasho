@@ -21,12 +21,12 @@ declare const Draggabilly: any;
  */
 export class MainPage implements OnInit, AfterViewInit {
   pckry: any;
-  settings: Array<Setting>;
-  isGridInitialized: boolean;
-  dataobject: object;
-  error: string;
-  currentUser: User;
-  hasChanged: boolean;
+  settings?: Array<Setting>;
+  isGridInitialized: boolean = false;
+  dataobject?: object;
+  error?: string;
+  currentUser?: User;
+  hasChanged: boolean = false;
 
   /**
    * Create the main page
@@ -76,7 +76,7 @@ export class MainPage implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.events.subscribe({
       messageType: 'data:ready',
-      callback: (response) => {
+      callback: (response: any) => {
         this.dataobject = response.message.payload;
 
         setTimeout(() => {
@@ -102,12 +102,12 @@ export class MainPage implements OnInit, AfterViewInit {
   loadData(): void {
     if (this.currentUser) {
       // get all Settings for the current User
-      this.dashboardService.getSettings(this.currentUser.username).subscribe(
+      this.dashboardService.getSettings(this.currentUser.username as string).subscribe(
         (settings: Array<Setting>) => {
           this.settings = settings;
           // get all Settings Data for the current User
           this.dashboardService
-            .getData(this.currentUser.username, this.settings)
+            .getData(this.currentUser?.username as string, this.settings)
             .subscribe(
               (response: any) => {
                 this.events.publish('data:ready', response.data.settings);
@@ -137,16 +137,18 @@ export class MainPage implements OnInit, AfterViewInit {
   /**
    * Callback if a tile get positioned
    */
-  dragItemPositioned(draggedItem): void {
+  dragItemPositioned(draggedItem: any): void {
     const ITEMS = draggedItem.layout.items;
 
     for (let index = 0; index < ITEMS.length; index++) {
       const ELEMENT = ITEMS[index].element;
       const ID = ELEMENT.getAttribute('data-id');
-      const setting = this.settings.filter((s) => s.id === ID)[0];
-      setting.position = index;
+      const setting = this.settings?.filter((s) => s.id === ID)[0];
+      if (setting) {
+        setting.position = index;
+      }
       this.dashboardService
-        .saveSetting(this.currentUser.username, setting)
+        .saveSetting(this.currentUser?.username as string, setting)
         .subscribe(
           (saved: boolean) => undefined,
           (error: HttpErrorResponse) => this.errorHandling(error),
@@ -168,7 +170,7 @@ export class MainPage implements OnInit, AfterViewInit {
    * Close and hide a tile
    */
   hideTile(eventData: { tile: string; id: number }): void {
-    const setting = this.settings.filter((s) => s.tile === eventData.tile)[0];
+    const setting = this.settings?.filter((s) => s.tile === eventData.tile)[0];
     if (setting) {
       const element = document.querySelector(`[data-id="${setting.id}"]`);
       this.pckry.remove(element);
@@ -177,7 +179,7 @@ export class MainPage implements OnInit, AfterViewInit {
       setTimeout(() => {
         setting.visible = false;
         this.dashboardService
-          .saveSetting(this.currentUser.username, setting)
+          .saveSetting(this.currentUser?.username as string, setting)
           .subscribe(
             (saved: boolean) => undefined,
             (error: HttpErrorResponse) => this.errorHandling(error),
@@ -190,12 +192,12 @@ export class MainPage implements OnInit, AfterViewInit {
    * Show the tile
    */
   showTile(tileid: string): void {
-    const setting = this.settings.filter((s) => s.tile === tileid)[0];
+    const setting = this.settings?.filter((s) => s.tile === tileid)[0];
     if (setting) {
       setting.visible = true;
       setting.position = this.pckry.layoutItems.length;
       this.dashboardService
-        .saveSetting(this.currentUser.username, setting)
+        .saveSetting(this.currentUser?.username as string, setting)
         .subscribe(
           () => {
             setTimeout(() => {
@@ -278,7 +280,7 @@ export class MainPage implements OnInit, AfterViewInit {
   private listenToLoginEvents(): void {
     this.events.subscribe({
       messageType: 'user:login',
-      callback: (response) => {
+      callback: (response: any) => {
         this.currentUser = response.message.payload;
       },
     });

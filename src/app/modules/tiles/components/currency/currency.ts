@@ -8,19 +8,20 @@ import { Setting } from '../../models/setting.model';
   selector: 'grid-currency',
   templateUrl: 'currency.html',
   styleUrls: ['currency.scss'],
+  standalone: false,
 })
 
 /**
  * Represents a currency tile.
  */
 export class CurrencyTileComponent extends TileBaseDirective {
-  @Input() tile: Setting;
-  @Output() notify: EventEmitter<object> = new EventEmitter<object>();
+  @Input() override tile: Setting | undefined;
+  @Output() override notify: EventEmitter<object> = new EventEmitter<object>();
 
   Highcharts: typeof Highcharts = Highcharts;
   options: any;
   data: any;
-  currency: string;
+  currency?: string;
 
   /**
    * Create the currency tile
@@ -32,7 +33,7 @@ export class CurrencyTileComponent extends TileBaseDirective {
   }
 
   ngOnInit(): void {
-    this.events.subscribe({ messageType: 'data:ready', callback: (response) => {
+    this.events.subscribe({ messageType: 'data:ready', callback: (response: any) => {
       if (response) {
         this.data = response.message.payload.fixer;
         this.currency = response.message.payload.fixer ? response.message.payload.fixer.currency : '';
@@ -128,7 +129,7 @@ export class CurrencyTileComponent extends TileBaseDirective {
    * Event handling from a point. Sets a new reference currency
    * @param  {Object} event Object passed from highchart
    */
-  setNewReference(event): void {
+  setNewReference(event: any): void {
     const point = event.context;
     const value = point.y;
 

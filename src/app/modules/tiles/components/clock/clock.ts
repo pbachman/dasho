@@ -21,6 +21,7 @@ HCSoldGauge(Highcharts);
   selector: 'grid-clock',
   templateUrl: 'clock.html',
   styleUrls: ['clock.scss'],
+  standalone: false,
 })
 
 /**
@@ -29,8 +30,8 @@ HCSoldGauge(Highcharts);
 export class ClockTileComponent
   extends TileBaseDirective
   implements OnInit, OnDestroy {
-  @Input() tile: Setting;
-  @Output() notify: EventEmitter<object> = new EventEmitter<object>();
+  @Input() override tile: Setting | undefined;
+  @Output() override notify: EventEmitter<object> = new EventEmitter<object>();
   Highcharts: typeof Highcharts = Highcharts;
   interval: any;
   public options = {
@@ -49,7 +50,7 @@ export class ClockTileComponent
       width: 230,
       events: {
         load() {
-          const chart = this;
+          const chart = this as any;
           this.interval = setInterval(() => {
             if (chart.axes) {
               // not destroyed

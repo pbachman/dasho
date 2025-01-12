@@ -7,15 +7,16 @@ import { Setting } from '../../models/setting.model';
   selector: 'grid-github',
   templateUrl: 'github.html',
   styleUrls: ['github.scss'],
+  standalone: false,
 })
 
 /**
  * Represents a GitHub tile.
  */
 export class GithubTileComponent extends TileBaseDirective {
-  @Input() tile: Setting;
-  @Output() notify: EventEmitter<object> = new EventEmitter<object>();
-  data: object;
+  @Input() override tile: Setting | undefined;
+  @Output() override notify: EventEmitter<object> = new EventEmitter<object>();
+  data: object | undefined;
 
   /**
    * Create the GitHub tile
@@ -27,7 +28,7 @@ export class GithubTileComponent extends TileBaseDirective {
   }
 
   ngOnInit(): void {
-    this.events.subscribe({ messageType: 'data:ready', callback: (response) => {
+    this.events.subscribe({ messageType: 'data:ready', callback: (response: any) => {
       if (response) {
         this.data = response.message.payload.github;
       }

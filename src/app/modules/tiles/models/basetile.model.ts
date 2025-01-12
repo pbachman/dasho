@@ -7,7 +7,7 @@ import { Setting } from './setting.model';
 @Directive()
 export class TileBaseDirective {
 
-  @Input() protected tile: Setting;
+  @Input() protected tile?: Setting;
   @Output() protected notify: EventEmitter<object> = new EventEmitter<object>();
 
   /**
@@ -15,8 +15,8 @@ export class TileBaseDirective {
    */
   onClose(): void {
     this.notify.emit({
-      id: this.tile.id,
-      tile: this.tile.tile
+      id: this.tile?.id,
+      tile: this.tile?.tile
     });
   }
 }

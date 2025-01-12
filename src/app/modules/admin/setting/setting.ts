@@ -12,6 +12,7 @@ import { Events } from 'src/app/core/services/events.service';
 @Component({
   selector: 'page-setting',
   templateUrl: 'setting.html',
+  standalone: false,
 })
 export class SettingPage implements OnInit {
   currentUser: string;

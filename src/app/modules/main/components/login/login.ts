@@ -24,7 +24,7 @@ export class LoginPage {
     password: false,
   };
   showError: boolean;
-  isLoginIn: boolean;
+  isLoginIn: boolean | undefined;
 
   /**
    * Create the login page
@@ -67,7 +67,7 @@ export class LoginPage {
    * Event if the email fields get blurred. Check if the email is invalid
    * @param  {Object} ngModel Model of the email field
    */
-  onEMailBlur(ngModel): void {
+  onEMailBlur(ngModel: any): void {
     const isInvalid = this.userService.isMailInvalid(ngModel.model);
     if (isInvalid) {
       ngModel.control.setErrors({ invalidMail: isInvalid });
@@ -79,7 +79,7 @@ export class LoginPage {
    * Handle if the form gets submitted
    * @param {Object} form The form model
    */
-  loginForm(form): void {
+  loginForm(form: any): void {
     const email = form.form.controls.email;
     if (this.userService.isMailInvalid(email.value)) {
       email.setErrors({ noMail: true });

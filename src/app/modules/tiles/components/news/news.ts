@@ -7,14 +7,15 @@ import { Events } from 'src/app/core/services/events.service';
   selector: 'grid-news',
   templateUrl: 'news.html',
   styleUrls: ['news.scss'],
+  standalone: false,
 })
 
 /**
  * Represents a news tile.
  */
 export class NewsTileComponent extends TileBaseDirective {
-  @Input() tile: Setting;
-  @Output() notify: EventEmitter<object>;
+  @Input() override tile: Setting | undefined;
+  @Output() override notify: EventEmitter<object> | undefined;
   data: any;
 
   /**
@@ -25,11 +26,11 @@ export class NewsTileComponent extends TileBaseDirective {
   }
 
   ngOnInit(): void {
-    this.events.subscribe({ messageType: 'data:ready', callback: (response) => {
+    this.events.subscribe({ messageType: 'data:ready', callback: (response: any) => {
       if (response) {
         const news = response.message.payload.news;
         if (news && news.articles) {
-          news.articles.sort((a, b) => {
+          news.articles.sort((a: any, b: any) => {
             const dateB = new Date(b.publishedAt).getTime();
             const dateA = new Date(a.publishedAt).getTime();
 
@@ -40,7 +41,7 @@ export class NewsTileComponent extends TileBaseDirective {
       }
     }});
 
-    this.events.subscribe({ messageType: 'user:language', callback: (response) => {
+    this.events.subscribe({ messageType: 'user:language', callback: (response: any) => {
       if (response) {
         const store = this.data;
         this.data = {};

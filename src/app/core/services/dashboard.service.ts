@@ -125,7 +125,7 @@ export class DashboardService {
    * @param {Object} setting A Setting Item from the user
    * @return {Promise}
    */
-  saveSetting(username: string, setting: Setting): Observable<boolean> {
+  saveSetting(username: string, setting: Setting | undefined): Observable<boolean> {
     return this.userService.getAccessToken()
       .pipe(mergeMap((token: string) => {
         const httpOptions = {

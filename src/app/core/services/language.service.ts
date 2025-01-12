@@ -9,7 +9,7 @@ import { Events } from './events.service';
  */
 @Injectable()
 export class LanguageService {
-  currentLanguage: string;
+  currentLanguage?: string;
   keys: any = {};
 
   /**
@@ -26,7 +26,7 @@ export class LanguageService {
   ) {
     this.pubSub.subscribe({
       messageType: 'user:language',
-      callback: (response) => {
+      callback: (response: any) => {
         if (response) {
           this.setLanguage(response.message.payload.key);
         }
@@ -48,7 +48,7 @@ export class LanguageService {
     this.translate.setDefaultLang(DEFAULT_LANGUAGE);
     this.translate.use(choosenLanguage);
 
-    this.getLanguage().then((value) => {
+    this.getLanguage().then((value: string) => {
       if (value && value.match(/en|de/) && choosenLanguage !== value) {
         this.setLanguage(value);
       }

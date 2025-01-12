@@ -2,13 +2,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { MainModule } from './modules/main/main.module';
 import { CoreModule } from './core/core.module';
@@ -26,10 +24,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   declarations: [
     AppComponent
   ],
-  entryComponents: [],
   imports: [
     BrowserModule,
-    HttpClientModule,
     FormsModule,
     IonicModule.forRoot(),
     TranslateModule.forRoot({
@@ -46,8 +42,6 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     AppRoutingModule
   ],
   providers: [
-    StatusBar,
-    SplashScreen,
     {
       provide: RouteReuseStrategy, useClass: IonicRouteStrategy
     }

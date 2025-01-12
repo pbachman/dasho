@@ -7,15 +7,16 @@ import { Setting } from '../../models/setting.model';
   selector: 'grid-twitter',
   templateUrl: 'twitter.html',
   styleUrls: ['twitter.scss'],
+  standalone: false,
 })
 
 /**
  * Represents a Twitter tile.
  */
 export class TwitterTileComponent extends TileBaseDirective {
-  @Input() tile: Setting;
-  @Output() notify: EventEmitter<object> = new EventEmitter<object>();
-  data: object;
+  @Input() override tile: Setting | undefined;
+  @Output() override notify: EventEmitter<object> = new EventEmitter<object>();
+  data: object | undefined;
 
   /**
    * Create the twitter userdata tile
@@ -29,7 +30,7 @@ export class TwitterTileComponent extends TileBaseDirective {
   ngOnInit(): void {
     this.events.subscribe({
       messageType: 'data:ready',
-      callback: (response) => {
+      callback: (response: any) => {
         if (response) {
           this.data = response.message.payload.twitter;
         }

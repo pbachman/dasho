@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { TranslateService } from '@ngx-translate/core';
 import { LanguageService } from './core/services/language.service';
 import { UserService } from './core/services/user.service';
@@ -20,15 +18,12 @@ export class AppComponent {
 
   constructor(
     private platform: Platform,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
     private translate: TranslateService,
     private languageService: LanguageService,
     private events: Events,
     private router: Router,
     private userService: UserService
   ) {
-    this.initializeApp();
     this.listenToLoginEvents();
 
     this.menuEnable = false;
@@ -49,13 +44,6 @@ export class AppComponent {
     this.translate.use('en');
   }
 
-  initializeApp() {
-    this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
-    });
-  }
-
   /**
    * Handle the menu visability and headline. Subscribe to the user events
    */
@@ -72,7 +60,7 @@ export class AppComponent {
   /**
    * Handle the menu visability
    */
-  private enableMenu(loggedIn): void {
+  private enableMenu(loggedIn: boolean): void {
     this.menuEnable = loggedIn;
   }
 }

@@ -1,6 +1,6 @@
 export class Tile {
-  _id: string;
-  name: string;
-  baseUrl: string;
-  schema: string;
+  _id?: string;
+  name?: string;
+  baseUrl?: string;
+  schema?: string;
 }

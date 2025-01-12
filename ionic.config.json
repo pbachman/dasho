@@ -1,5 +1,7 @@
 {
-  "name": "dasho2",
-  "integrations": {},
+  "name": "dasho",
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }

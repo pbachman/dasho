@@ -7,14 +7,15 @@ import { Events } from 'src/app/core/services/events.service';
   selector: 'grid-weather',
   templateUrl: 'weather.html',
   styleUrls: ['weather.scss'],
+  standalone: false,
 })
 
 /**
  * Represents a weather tile.
  */
 export class WeatherTileComponent extends TileBaseDirective {
-  @Input() tile: Setting;
-  @Output() notify: EventEmitter<object> = new EventEmitter<object>();
+  @Input() override tile: Setting | undefined;
+  @Output() override notify: EventEmitter<object> = new EventEmitter<object>();
   data: any;
 
   /**
@@ -27,7 +28,7 @@ export class WeatherTileComponent extends TileBaseDirective {
   }
 
   ngOnInit(): void {
-    this.events.subscribe({ messageType: 'data:ready', callback: (response) => {
+    this.events.subscribe({ messageType: 'data:ready', callback: (response: any) => {
       if (response.message.payload.openweather) {
         this.data = response.message.payload.openweather;
       }
