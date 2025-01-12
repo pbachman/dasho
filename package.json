@@ -36,7 +36,7 @@
     "deferred": "^0.7.5",
     "dotenv": "^8.2.0",
     "draggabilly": "^2.2.0",
-    "express": "^4.19.2",
+    "express": "^4.20.0",
     "express-graphql": "^0.7.1",
     "graphql": "^14.0.0",
     "graphql-tag": "^2.0.0",
