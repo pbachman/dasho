@@ -40,7 +40,7 @@ ionic serve
 Backend
 
 ```
-node server
+npm run start
 ```
 
 ## Features (Tiles)
@@ -70,7 +70,7 @@ npm test
 ```
 ## DEMO
 
-You will find a productive Version under **[https://dasho.herokuapp.com](https://dasho.herokuapp.com)**. Login with Username *hi@dasho.co* and Password *test1234*.
+You will find a productive Version under **[https://dasho-ax47.onrender.com](https://dasho-ax47.onrender.com)**. Login with Username *hi@dasho.co* and Password *test1234*.
 
 ## Authors
 
