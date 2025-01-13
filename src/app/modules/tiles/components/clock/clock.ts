@@ -51,7 +51,7 @@ export class ClockTileComponent
       events: {
         load() {
           const chart = this as any;
-          this.interval = setInterval(() => {
+          chart.interval = setInterval(() => {
             if (chart.axes) {
               // not destroyed
               const hour = chart.get('hour');
@@ -191,7 +191,7 @@ export class ClockTileComponent
   }
 
   ngOnDestroy(): void {
-    clearInterval(this.interval);
+    clearInterval((this as any).interval);
   }
 
   /**

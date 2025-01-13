@@ -94,20 +94,20 @@ export class LoginPage {
             ? /**
                * Sets the Token, loads the current Profile and store it locally.
                */
-              this.userService.setsAccessToken(token).subscribe(() => {
-                this.mainService.getUserprofile().subscribe((user) => {
-                  this.userService.setsUserdata(user).subscribe(() => {
-                    this.showError = false;
-                    this.userService.setsUserdata(user);
-                    this.events.publish('user:login', user);
-                    this.router.navigateByUrl('/main');
-                  });
+            this.userService.setsAccessToken(token).subscribe(() => {
+              this.mainService.getUserprofile().subscribe((user: any) => {
+                this.userService.setsUserdata(user).subscribe(() => {
+                  this.showError = false;
+                  this.userService.setsUserdata(user);
+                  this.events.publish('user:login', user);
+                  this.router.navigateByUrl('/main');
                 });
-              })
+              });
+            })
             : this.showErrorDialog(form.form.controls);
           this.isLoginIn = false;
         },
-        (err) => {
+        (err: any) => {
           this.showErrorDialog(form.form.controls);
           this.isLoginIn = false;
         },
@@ -138,7 +138,7 @@ export class LoginPage {
         },
         {
           text: i18n.forgetPassword.send,
-          handler: async (data) => {
+          handler: async (data: any) => {
             if (this.userService.isMailInvalid(data.email)) {
               const alert = await this.alertCtrl.create({
                 header: i18n.forgetPassword.alertInvalidTitle,
@@ -149,35 +149,36 @@ export class LoginPage {
               await alert.present();
 
               return false;
+            } else {
+              this.loginService.forgetPassword(data.email).subscribe(
+                async () => {
+                  const alert = await this.alertCtrl.create({
+                    header: i18n.forgetPassword.alertTitle,
+                    subHeader: i18n.forgetPassword.alertSubTitle,
+                    backdropDismiss: false,
+                    buttons: ['OK'],
+                  });
+                  await alert.present();
+
+                  return true;
+                },
+                async (error: HttpErrorResponse) => {
+                  const alert = await this.alertCtrl.create({
+                    header: 'Error',
+                    subHeader:
+                      error.status === 0
+                        ? 'No Connection to the Backend!'
+                        : error.error,
+                    backdropDismiss: false,
+                    buttons: ['OK'],
+                  });
+                  await alert.present();
+
+                  return false;
+                },
+              );
+              return true;
             }
-
-            this.loginService.forgetPassword(data.email).subscribe(
-              async () => {
-                const alert = await this.alertCtrl.create({
-                  header: i18n.forgetPassword.alertTitle,
-                  subHeader: i18n.forgetPassword.alertSubTitle,
-                  backdropDismiss: false,
-                  buttons: ['OK'],
-                });
-                await alert.present();
-
-                return true;
-              },
-              async (error: HttpErrorResponse) => {
-                const alert = await this.alertCtrl.create({
-                  header: 'Error',
-                  subHeader:
-                    error.status === 0
-                      ? 'No Connection to the Backend!'
-                      : error.error,
-                  backdropDismiss: false,
-                  buttons: ['OK'],
-                });
-                await alert.present();
-
-                return false;
-              },
-            );
           },
         },
       ],
@@ -215,7 +216,7 @@ export class LoginPage {
         },
         {
           text: i18n.signup.send,
-          handler: async (data) => {
+          handler: async (data: any) => {
             if (this.userService.isMailInvalid(data.email)) {
               const invalidEmailAlert = await this.alertCtrl.create({
                 header: i18n.forgetPassword.alertInvalidTitle,
@@ -227,52 +228,55 @@ export class LoginPage {
 
               return false;
             }
-
-            if (
-              data.password.length < 8 ||
-              data.passwordconfirm.length < 8 ||
-              data.password === '' ||
-              data.passwordconfirm === '' ||
-              data.password !== data.passwordconfirm
-            ) {
-              const invalidPasswordAlert = await this.alertCtrl.create({
-                header: i18n.signup.alertInvalidPasswordTitle,
-                subHeader: i18n.signup.alertInvalidPassword,
-                backdropDismiss: false,
-                buttons: ['OK'],
-              });
-              await invalidPasswordAlert.present();
-
-              return false;
-            }
-
-            this.loginService.signUp(data.email, data.password).subscribe(
-              async () => {
-                const infoDialog = await this.alertCtrl.create({
-                  header: i18n.signup.alertTitle,
-                  subHeader: i18n.signup.alertSubTitle,
+            else {
+              if (
+                data.password.length < 8 ||
+                data.passwordconfirm.length < 8 ||
+                data.password === '' ||
+                data.passwordconfirm === '' ||
+                data.password !== data.passwordconfirm
+              ) {
+                const invalidPasswordAlert = await this.alertCtrl.create({
+                  header: i18n.signup.alertInvalidPasswordTitle,
+                  subHeader: i18n.signup.alertInvalidPassword,
                   backdropDismiss: false,
                   buttons: ['OK'],
                 });
-                await infoDialog.present();
-
-                return true;
-              },
-              async (error: HttpErrorResponse) => {
-                const errorDialog = await this.alertCtrl.create({
-                  header: 'Error',
-                  subHeader:
-                    error.status === 0
-                      ? 'No Connection to the Backend!'
-                      : error.error,
-                  backdropDismiss: false,
-                  buttons: ['OK'],
-                });
-                await errorDialog.present();
+                await invalidPasswordAlert.present();
 
                 return false;
-              },
-            );
+              }
+
+              this.loginService.signUp(data.email, data.password).subscribe(
+                async () => {
+                  const infoDialog = await this.alertCtrl.create({
+                    header: i18n.signup.alertTitle,
+                    subHeader: i18n.signup.alertSubTitle,
+                    backdropDismiss: false,
+                    buttons: ['OK'],
+                  });
+                  await infoDialog.present();
+
+                  return true;
+                },
+                async (error: HttpErrorResponse) => {
+                  const errorDialog = await this.alertCtrl.create({
+                    header: 'Error',
+                    subHeader:
+                      error.status === 0
+                        ? 'No Connection to the Backend!'
+                        : error.error,
+                    backdropDismiss: false,
+                    buttons: ['OK'],
+                  });
+                  await errorDialog.present();
+
+                  return false;
+                },
+              );
+
+              return true;
+            }
           },
         },
       ],
@@ -284,7 +288,7 @@ export class LoginPage {
    * Shows the error text and set the fields to pristine
    * @param {Object} controls Object with the fields
    */
-  private showErrorDialog(controls): void {
+  private showErrorDialog(controls: any): void {
     this.showError = true;
     controls.email.markAsPristine();
     controls.password.markAsPristine();

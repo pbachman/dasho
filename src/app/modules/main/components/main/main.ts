@@ -15,6 +15,7 @@ declare const Draggabilly: any;
   selector: 'page-main',
   templateUrl: 'main.html',
   styleUrls: ['./main.scss'],
+  standalone: false,
 })
 /**
  * Represents the main page.
@@ -41,7 +42,7 @@ export class MainPage implements OnInit, AfterViewInit {
   ) {
     this.userService.hasLoggedIn().subscribe((hasLoggedIn: boolean) => {
       if (hasLoggedIn) {
-        this.userService.getUser().subscribe((user) => {
+        this.userService.getUser().subscribe((user: any) => {
           this.currentUser = user;
           this.events.publish('user:login', user);
           this.loadData();
@@ -51,7 +52,7 @@ export class MainPage implements OnInit, AfterViewInit {
       }
     });
 
-    this.router.events.subscribe((val) => {
+    this.router.events.subscribe((val: any) => {
       if (
         val instanceof NavigationEnd &&
         val.url === '/main' &&

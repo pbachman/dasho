@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Setting } from '../../tiles/models/setting.model';
 import { TileService } from './tile.service';
 import { AlertController } from '@ionic/angular';
@@ -7,18 +6,19 @@ import { UserService } from 'src/app/core/services/user.service';
 import { Tile } from '../models/tile.model';
 import { Router } from '@angular/router';
 import { Events } from 'src/app/core/services/events.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'tile-setting',
   templateUrl: 'tile.html',
 })
 export class TilePage implements OnInit {
-  currentUser: string;
-  error: string;
-  tiles: Array<Tile>;
-  settings: Array<Setting>;
-  selectedTile: string;
-  hasChanged: boolean;
+  currentUser?: string;
+  error?: string;
+  tiles?: Array<Tile>;
+  settings: Array<Setting> = [];
+  selectedTile?: string;
+  hasChanged: boolean = false;
 
   constructor(
     private tileService: TileService,

@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { LanguageService } from '../services/language.service';
 import { AlertController, MenuController } from '@ionic/angular';
 import { UserService } from '../services/user.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { DashboardService } from '../services/dashboard.service';
 import { User } from '../models/user.model';
 import { Events } from '../services/events.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'dasho-menu',
@@ -14,7 +14,7 @@ import { Events } from '../services/events.service';
   styleUrls: ['./menu.component.scss'],
 })
 export class MenuComponent implements OnInit {
-  currentUser: User;
+  currentUser?: User;
   settings: any;
 
   constructor(
@@ -28,11 +28,11 @@ export class MenuComponent implements OnInit {
   ) {
     this.pubSub.subscribe({
       messageType: 'user:login',
-      callback: (response) => (this.currentUser = response.message.payload),
+      callback: (response: any) => (this.currentUser = response.message.payload),
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   /**
    * Shows the dialog to change the password
@@ -68,18 +68,17 @@ export class MenuComponent implements OnInit {
         },
         {
           text: i18n.changePassword.change,
-          handler: (data) => {
+          handler: (data: any) => {
             if (
               !data.passwordOld ||
               !data.password ||
               data.password !== data.passwordConfirm
             ) {
               return false;
-            }
-
-            this.dashboardService
+            } else {
+              this.dashboardService
               .changePassword(
-                this.currentUser.username,
+                this.currentUser?.username as string,
                 data.passwordOld,
                 data.password,
                 data.passwordConfirm,
@@ -109,6 +108,8 @@ export class MenuComponent implements OnInit {
                   return false;
                 },
               );
+              return true;
+            }
           },
         },
       ],
@@ -140,7 +141,7 @@ export class MenuComponent implements OnInit {
         },
         {
           text: i18n.invite.send,
-          handler: async (data) => {
+          handler: async (data: any) => {
             if (this.userService.isMailInvalid(data.email)) {
               const alert = await this.alertCtrl.create({
                 header: i18n.forgetPassword.alertInvalidTitle,
@@ -150,39 +151,40 @@ export class MenuComponent implements OnInit {
               });
               await alert.present();
               return false;
+            } else {
+              this.dashboardService
+                .inviteFriends(this.currentUser?.username as string, data.email)
+                .subscribe(
+                  async () => {
+                    const alert = await this.alertCtrl.create({
+                      header: i18n.invite.alertTitle,
+                      subHeader: i18n.invite.alertSubTitle.replace(
+                        '%email%',
+                        data.email,
+                      ),
+                      translucent: true,
+                      backdropDismiss: false,
+                      buttons: ['OK'],
+                    });
+                    await alert.present();
+                    return true;
+                  },
+                  async (error: HttpErrorResponse) => {
+                    const alert = await this.alertCtrl.create({
+                      header: 'Error!',
+                      message:
+                        error.status === 0
+                          ? 'No Connection to the Backend!'
+                          : error.error,
+                      backdropDismiss: false,
+                      buttons: ['OK'],
+                    });
+                    await alert.present();
+                    return false;
+                  },
+                );
+              return true;
             }
-
-            this.dashboardService
-              .inviteFriends(this.currentUser.username, data.email)
-              .subscribe(
-                async () => {
-                  const alert = await this.alertCtrl.create({
-                    header: i18n.invite.alertTitle,
-                    subHeader: i18n.invite.alertSubTitle.replace(
-                      '%email%',
-                      data.email,
-                    ),
-                    translucent: true,
-                    backdropDismiss: false,
-                    buttons: ['OK'],
-                  });
-                  await alert.present();
-                  return true;
-                },
-                async (error: HttpErrorResponse) => {
-                  const alert = await this.alertCtrl.create({
-                    header: 'Error!',
-                    message:
-                      error.status === 0
-                        ? 'No Connection to the Backend!'
-                        : error.error,
-                    backdropDismiss: false,
-                    buttons: ['OK'],
-                  });
-                  await alert.present();
-                  return false;
-                },
-              );
           },
         },
       ],
@@ -195,7 +197,7 @@ export class MenuComponent implements OnInit {
    */
   configureTileSettings(): void {
     this.dashboardService
-      .getSettings(this.currentUser.username)
+      .getSettings(this.currentUser?.username as string)
       .subscribe((settings: any) => {
         this.settings = settings;
         this.menuCtrl.close();
@@ -227,7 +229,7 @@ export class MenuComponent implements OnInit {
     const data = {
       key: this.languageService.currentLanguage,
     };
-    this.pubSub.publish('user:language', data );
+    this.pubSub.publish('user:language', data);
   }
 
   /**

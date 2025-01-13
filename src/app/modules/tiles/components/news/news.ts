@@ -15,7 +15,7 @@ import { Events } from 'src/app/core/services/events.service';
  */
 export class NewsTileComponent extends TileBaseDirective {
   @Input() override tile: Setting | undefined;
-  @Output() override notify: EventEmitter<object> | undefined;
+  @Output() override notify: EventEmitter<object> = new EventEmitter<object>();
   data: any;
 
   /**

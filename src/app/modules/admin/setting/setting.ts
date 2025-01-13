@@ -15,12 +15,12 @@ import { Events } from 'src/app/core/services/events.service';
   standalone: false,
 })
 export class SettingPage implements OnInit {
-  currentUser: string;
-  error: string;
-  tiles: Array<Tile>;
-  settings: Array<Setting>;
-  selectedTile: string;
-  hasChanged: boolean;
+  currentUser?: string;
+  error?: string;
+  tiles: Array<Tile> = [];
+  settings: Array<Setting> = [];
+  selectedTile?: string;
+  hasChanged: boolean = false;
 
   constructor(
     private dashboardService: DashboardService,
@@ -43,12 +43,12 @@ export class SettingPage implements OnInit {
 
   loadSettings(): void {
     // get all Settings for the current User
-    this.dashboardService.getSettings(this.currentUser).subscribe(
+    this.dashboardService.getSettings(this.currentUser as string).subscribe(
       (settings: Array<Setting>) => {
         this.settings = settings;
 
         // get all unassigned tiles.
-        this.settingService.getUnassignedTiles(this.currentUser).subscribe(
+        this.settingService.getUnassignedTiles(this.currentUser as string).subscribe(
           (tiles: Array<Tile>) => {
             this.tiles = tiles;
           },
@@ -61,7 +61,7 @@ export class SettingPage implements OnInit {
 
   addItem(): void {
     this.settingService
-      .addConfigs(this.currentUser, this.selectedTile)
+      .addConfigs(this.currentUser as string, this.selectedTile as string)
       .subscribe(
         async () => {
           const alert = await this.alertCtrl.create({
@@ -86,7 +86,7 @@ export class SettingPage implements OnInit {
 
   saveItem(setting: Setting): void {
     this.hasChanged = true;
-    this.dashboardService.saveSetting(this.currentUser, setting).subscribe(
+    this.dashboardService.saveSetting(this.currentUser as string, setting).subscribe(
       async (saved: boolean) => {
         if (saved) {
           const alert = await this.alertCtrl.create({
@@ -124,7 +124,7 @@ export class SettingPage implements OnInit {
           text: 'Yes',
           handler: () => {
             this.dashboardService
-              .deleteSetting(this.currentUser, setting)
+              .deleteSetting(this.currentUser as string, setting)
               .subscribe(
                 (deleted: boolean) => {
                   if (deleted) {

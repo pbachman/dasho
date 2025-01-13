@@ -17,9 +17,6 @@ import { Events } from './services/events.service';
     IonicModule,
     TranslateModule.forRoot(),
   ],
-  exports: [
-    MenuComponent
-  ],
   declarations: [
     MenuComponent
   ],

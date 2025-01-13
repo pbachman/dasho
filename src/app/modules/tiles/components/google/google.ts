@@ -77,7 +77,7 @@ export class GoogleTileComponent extends TileBaseDirective {
    * @param  {number} usabilityMobile The value for the desktop usability
    * @return {Object} Represents the options for the highchart
    */
-  pageSpeedValues({ performance }): any {
+  pageSpeedValues({ performance }: { performance: number }): any {
     const i18n = this.languageService.getLanguageStrings().tiles.pagespeed;
 
     return {
@@ -105,7 +105,7 @@ export class GoogleTileComponent extends TileBaseDirective {
         valueSuffix: '%',
         pointFormat:
           '<span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}</span>',
-        positioner(labelWidth: number) {
+        positioner(this: Highcharts.Tooltip, labelWidth: number): { x: number; y: number } {
           return {
             x: (this.chart.chartWidth - labelWidth) / 2,
             y: this.chart.plotHeight / 2,
