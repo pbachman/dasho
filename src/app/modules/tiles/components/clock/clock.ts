@@ -7,15 +7,11 @@ import {
   OnDestroy,
 } from '@angular/core';
 import * as dayjs from 'dayjs';
-import ChartModuleMore from 'highcharts/highcharts-more';
 import * as Highcharts from 'highcharts';
-import HCSoldGauge from 'highcharts/modules/solid-gauge';
 import { TileBaseDirective } from '../../models/basetile.model';
 import { Setting } from '../../models/setting.model';
 import { Events } from 'src/app/core/services/events.service';
 
-ChartModuleMore(Highcharts);
-HCSoldGauge(Highcharts);
 
 @Component({
   selector: 'grid-clock',
@@ -179,6 +175,12 @@ export class ClockTileComponent
   }
 
   ngOnInit(): void {
+    // load Highcharts modules dynamically (ESM) to avoid top-level call issues
+    Promise.all([
+      import('highcharts/esm/highcharts-more').then(m => (m && (m as any).default ? (m as any).default : m)(Highcharts)),
+      import('highcharts/esm/modules/solid-gauge').then(m => (m && (m as any).default ? (m as any).default : m)(Highcharts)),
+    ]).catch(() => {});
+
     this.setMathBounce();
 
     this.events.subscribe({
