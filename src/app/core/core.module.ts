@@ -15,7 +15,7 @@ import { Events } from './services/events.service';
     CommonModule,
     FormsModule,
     IonicModule,
-    TranslateModule.forRoot(),
+    TranslateModule,
   ],
   exports: [
     MenuComponent

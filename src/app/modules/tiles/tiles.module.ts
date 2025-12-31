@@ -21,7 +21,7 @@ import { CoreModule } from 'src/app/core/core.module';
     FormsModule,
     IonicModule,
     HighchartsChartModule,
-    TranslateModule.forRoot(),
+    TranslateModule.forChild(),
   ],
   exports: [
     ClockTileComponent,

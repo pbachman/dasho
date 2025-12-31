@@ -10,7 +10,7 @@ Simple and customizable Dashboard, made with Ionic, angular, Node.JS and GraphQL
 
 ### Prerequisites
 
-- Node >= 12.0
+- Node >= 22.0
 
 ### Used external Libraries
 
