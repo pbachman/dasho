@@ -14,7 +14,7 @@
   },
   "private": false,
   "dependencies": {
-    "@angular/common": "^19.2.16",
+    "@angular/common": "^14.0.0",
     "@angular/core": "^14.0.0",
     "@angular/forms": "^14.0.0",
     "@angular/platform-browser": "^14.0.0",
@@ -27,6 +27,7 @@
     "@ionic/storage-angular": "^3.0.6",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
+    "@nx/angular": "17.0.6",
     "body-parser": "^1.15.2",
     "btoa": "^1.1.2",
     "compression": "^1.7.4",
@@ -60,14 +61,15 @@
     "@angular-eslint/eslint-plugin": "~13.0.1",
     "@angular-eslint/eslint-plugin-template": "~13.0.1",
     "@angular-eslint/template-parser": "~13.0.1",
-    "@angular/cli": "^14.0.0",
+    "@angular/cli": "14.0.0",
     "@angular/compiler": "^14.0.0",
     "@angular/compiler-cli": "^14.0.0",
     "@angular/language-service": "^14.0.0",
     "@ionic/angular-toolkit": "^6.0.0",
+    "@nx/workspace": "17.0.6",
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "^12.11.1",
+    "@types/node": "18.16.9",
     "@typescript-eslint/eslint-plugin": "5.3.0",
     "@typescript-eslint/parser": "5.3.0",
     "eslint": "^7.6.0",
@@ -82,14 +84,11 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "mocha": "^7.1.1",
+    "nx": "17.0.6",
     "protractor": "~7.0.0",
     "supertest": "^3.3.0",
     "ts-node": "~8.3.0",
     "typescript": "~4.7.3"
   },
-  "engines": {
-    "node": "16.x"
-  },
-  "type": "commonjs",
   "description": "dasho project"
 }

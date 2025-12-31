@@ -13,6 +13,7 @@ log.txt
 npm-debug.log*
 *.db
 
+.nx/
 .env
 .idea/
 .ionic/
