@@ -5,7 +5,7 @@
       <form #form="ngForm" (ngSubmit)="loginForm(form)" novalidate>
         <ion-list>
           <ion-item class="login-select-language">
-            <ion-label translate>general.language</ion-label>
+            <ion-label>{{ 'general.language' | translate }}</ion-label>
             <ion-select name="language" [(ngModel)]="languageService.currentLanguage" (ionChange)="changeLanguage()" okText="{{'general.ok' | translate}}" cancelText="{{'general.cancel' | translate}}">
               <ion-select-option value="de">Deutsch</ion-select-option>
               <ion-select-option value="en">English</ion-select-option>
@@ -14,14 +14,14 @@
 
           <ion-item class="login-box-input">
             <ion-label stacked [color]="formErrors.username ? 'danger': 'primary'">
-              <span translate *ngIf="!formErrors.username">general.emailAddress</span>
-              <span translate *ngIf="formErrors.username">login.mailerror</span>
+              <span *ngIf="!formErrors.username">{{ 'general.emailAddress' | translate }}</span>
+              <span *ngIf="formErrors.username">{{ 'login.mailerror' | translate }}</span>
             </ion-label>
             <ion-input id="email" clearInput="true" (ionBlur)="onEMailBlur(email)" [placeholder]="'general.emailExample' | translate" name="email" [(ngModel)]="user.username" #email="ngModel" type="email" spellcheck="false" autocapitalize="off" required></ion-input>
           </ion-item>
 
           <ion-item class="login-box-input">
-            <ion-label stacked [color]="formErrors.password ? 'danger': 'primary'" translate>general.password</ion-label>
+            <ion-label stacked [color]="formErrors.password ? 'danger': 'primary'">{{ 'general.password' | translate }}</ion-label>
             <ion-input id="password" clearOnEdit="true" [placeholder]="'general.password' | translate" name="password" [(ngModel)]="user.password" type="password" required></ion-input>
           </ion-item>
 

@@ -21,7 +21,7 @@ import { LoginPage } from './components/login/login';
       { path: 'main', component: MainPage },
       { path: 'login', component: LoginPage },
     ]),
-    TranslateModule.forRoot(),
+    TranslateModule,
   ],
   declarations: [
     MainPage,
